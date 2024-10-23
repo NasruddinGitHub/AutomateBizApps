@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+	<!-- <RunConfiguration>
+		<EnvironmentVariables>
+			<HEADED>1</HEADED>
+			<BrowserName>chromium</BrowserName>
+		</EnvironmentVariables>
+	</RunConfiguration>
+	-->
+	<!-- General Test run parameters -->
+	<TestRunParameters>
+		<Parameter name="Email" value="RovilNigam@amitest01.onmicrosoft.com" />
+		<Parameter name="Password" value="test@123" />
+		<Parameter name="Url" value="https://orgc48a661d.crm8.dynamics.com/" />
+		<!-- chrome,msedge(edge browser should be given as msedge),firefox -->
+		<Parameter name="BrowserType" value="msedge" />
+		<Parameter name="MfaSecretKey" value="" />
+		<Parameter name="AzureKey" value="" />
+		<Parameter name="SessionId" value="" />
+		<Parameter name="EndpointName" value="" />
+		<Parameter name="APIKey" value="" />
+		<Parameter name="DeploymentName" value="" />
+		<Parameter name="APIVersion" value="" />
+	</TestRunParameters>
+</RunSettings>
