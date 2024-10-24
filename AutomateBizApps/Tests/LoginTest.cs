@@ -26,24 +26,31 @@ namespace AutomateBizApps.Tests
 
             CeApp ceApp = new CeApp(page);
             await ceApp.LoginModule.Login(email, password);
-            await ceApp.ApplicationLandingPageModule.OpenApp("Sales Hub");
-            await ceApp.SiteMapPanel.OpenSubArea("My Work", "Sales accelerator");
+            await ceApp.ApplicationLandingPageModule.OpenApp("Sales trial");
+            await ceApp.SiteMapPanel.OpenSubArea("Learn", "All Fields");
             await ceApp.Complementary.OpenOrCloseTab("Copilot");
-            // await ceApp.CommandBar.ClickCommand("New");
-            await page.Locator("//span[text()='Up next']").HoverAsync();
-            ILocator fakeElement = page.Locator("//div[text()='Map is disabled for this organization.']");
-            await ceApp.Entity.ScrollUsingMouseUntilElementIsVisible(fakeElement, 0, 100, 20);
-            //LookupItem lookupItem = new LookupItem { Name = "Primary Contact", Value = "Alex" };
-            //await ceApp.Entity.SetValue(lookupItem);
-            //await ceApp.Entity.SetValue("Account Name", "NasruddinAccount");
-            //OptionSet customColumn = new OptionSet { Name = "CustomColumn", Value = "Yes" };
-            //await ceApp.Entity.SetValue(customColumn);
-            //OptionSet customColumn1 = new OptionSet { Name = "CustomColumn", Value = "No" };
-            //await ceApp.Entity.SetValue(customColumn1);
-            //OptionSet optionSetColumn = new OptionSet { Name = "OptionSetColumn", Value = "India" };
-            //await ceApp.Entity.SetValue(optionSetColumn);
-            //OptionSet optionSetColumn1 = new OptionSet { Name = "OptionSetColumn", Value = "China" };
-            //await ceApp.Entity.SetValue(optionSetColumn1);
+            await ceApp.CommandBar.ClickCommand("New");
+            await ceApp.Entity.SetValue("New column", "Setting the value");
+            await ceApp.Entity.SetValue("Plain Text", "Setting the value");
+            await ceApp.Entity.SetValue("Text Area", "Setting the value");
+            // await ceApp.Entity.SetValue("Rich Text", "Setting the value"); // This needs to be handled
+            await ceApp.Entity.SetValue("Phone Number", "23432432432434");
+            await ceApp.Entity.SetValue("Ticker Symbol", "13212");
+            await ceApp.Entity.SetValue("URL", "https://www.google.com/");
+            await ceApp.Entity.SetValue("Multi Line Plain Text", "Multi Line Plain Text");
+            // await ceApp.Entity.SetValue("Multi Line Rich Text", "Multi Line Rich Text");
+            await ceApp.Entity.SetValue("Decimal", "132.232");
+            await ceApp.Entity.SetValue("Float", "132.232213213");
+            await ceApp.Entity.SetValue("Whole Number", "2132321");
+            LookupItem lookupItem = new LookupItem { Name = "Lookup", Value = "Account" };
+            await ceApp.Entity.SetValue(lookupItem);
+            LookupItem lookupItem1 = new LookupItem { Name = "Customer", Value = "Account", Index = 1 };
+            await ceApp.Entity.SetValue(lookupItem1);
+
+            OptionSet optionSet = new OptionSet { Name = "SingleSelectChoice", Value = "India" };
+            await ceApp.Entity.SetValue(optionSet);
+
+
         }
 
     }
