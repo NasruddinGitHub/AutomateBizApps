@@ -58,10 +58,18 @@ namespace AutomateBizApps.Modules
                 return;
             }
             var textareaTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::textarea");
-            bool isTextareaTagElementDisplayed = await IsVisibleAsyncWithWaiting(textareaTagLocator, 0);
+            bool isTextareaTagElementDisplayed = await IsVisibleAsyncWithWaiting(textareaTagLocator, 0, 1000);
             if (isTextareaTagElementDisplayed)
             {
                 await FillAsync(textareaTagLocator, input);
+                isValueSet = true;
+                return;
+            }
+            var richTextLocator = LocatorWithXpath(completeFieldLocator, "descendant::p");
+            bool isRichTextLocatorDisplayed = await IsVisibleAsyncWithWaiting(richTextLocator, 0, 1000);
+            if (isRichTextLocatorDisplayed)
+            {
+                await FillAsync(richTextLocator, input);
                 isValueSet = true;
                 return;
             }
@@ -101,13 +109,19 @@ namespace AutomateBizApps.Modules
 
             }
             var textareaTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::textarea");
-            bool isTextareaTagElementDisplayed = await IsVisibleAsyncWithWaiting(textareaTagLocator, 0);
+            bool isTextareaTagElementDisplayed = await IsVisibleAsyncWithWaiting(textareaTagLocator, 0, 1000);
             if (isTextareaTagElementDisplayed)
             {
                 isValueGotten = true;
                 value = await InputValueAsync(textareaTagLocator);
             }
-
+            var richTextLocator = LocatorWithXpath(completeFieldLocator, "descendant::p");
+            bool richTextLocatorDisplayed = await IsVisibleAsyncWithWaiting(richTextLocator, 0, 1000);
+            if (richTextLocatorDisplayed)
+            {
+                isValueGotten = true;
+                value = await InputValueAsync(richTextLocator);
+            }
             if (!isValueGotten)
             {
                 throw new PlaywrightException(fieldName + " Element is not found");
