@@ -37,9 +37,19 @@ namespace AutomateBizApps.Modules
 
         public async Task SetValue(string fieldName, string input)
         {
+            await SetValue(fieldName, input, false);
+        }
+
+        public async Task SetValue(string fieldName, string input, bool dynamicallyLoaded, string? anySelectorInScroller=null, int maxNumberOfScrolls=0)
+        {
             bool isValueSet = false;
-            var locator = GetFieldWithXpath(fieldName);
-            var inputTagLocator = LocatorWithXpath(locator, "descendant::input");
+            var completeFieldLocator = GetFieldWithXpath(fieldName);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(Locator(anySelectorInScroller));
+                await ScrollUsingMouseUntilElementIsVisible(completeFieldLocator, 0, 100, maxNumberOfScrolls);
+            }
+            var inputTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::input");
             bool isInputTagElementDisplayed = await IsVisibleAsyncWithWaiting(inputTagLocator, 0);
             if (isInputTagElementDisplayed)
             {
@@ -47,7 +57,7 @@ namespace AutomateBizApps.Modules
                 isValueSet = true;
                 return;
             }
-            var textareaTagLocator = LocatorWithXpath(locator, "descendant::textarea");
+            var textareaTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::textarea");
             bool isTextareaTagElementDisplayed = await IsVisibleAsyncWithWaiting(textareaTagLocator, 0);
             if (isTextareaTagElementDisplayed)
             {
@@ -58,8 +68,13 @@ namespace AutomateBizApps.Modules
 
             if (!isValueSet)
             {
-                throw new PlaywrightException(fieldName+" Element is not found");
+                throw new PlaywrightException($"{fieldName} element is not found");
             }
+        }
+
+        public async Task ClearValue(string fieldName, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            await SetValue(fieldName, string.Empty, dynamicallyLoaded, anySelectorInScroller, maxNumberOfScrolls);
         }
 
         public async Task ClearValue(string fieldName)
@@ -67,12 +82,17 @@ namespace AutomateBizApps.Modules
             await SetValue(fieldName, string.Empty);
         }
 
-        public async Task<string> GetValue(string fieldName)
+        public async Task<string> GetValue(string fieldName, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             bool isValueGotten = false;
             string value = null;
-            var locator = GetFieldWithXpath(fieldName);
-            var inputTagLocator = LocatorWithXpath(locator, "descendant::input");
+            var completeFieldLocator = GetFieldWithXpath(fieldName);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(Locator(anySelectorInScroller));
+                await ScrollUsingMouseUntilElementIsVisible(completeFieldLocator, 0, 100, maxNumberOfScrolls);
+            }
+            var inputTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::input");
             bool isInputTagElementDisplayed = await IsVisibleAsyncWithWaiting(inputTagLocator, 0);
             if (isInputTagElementDisplayed)
             {
@@ -80,7 +100,7 @@ namespace AutomateBizApps.Modules
                 value =  await InputValueAsync(inputTagLocator);
 
             }
-            var textareaTagLocator = LocatorWithXpath(locator, "descendant::textarea");
+            var textareaTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::textarea");
             bool isTextareaTagElementDisplayed = await IsVisibleAsyncWithWaiting(textareaTagLocator, 0);
             if (isTextareaTagElementDisplayed)
             {
@@ -95,39 +115,109 @@ namespace AutomateBizApps.Modules
             return value;
         }
 
-        public async Task SetValue(LookupItem lookupItem)
+        public async Task<string> GetValue(string fieldName)
+        {
+            return await GetValue(fieldName, false);
+        }
+
+        public async Task SetValue(LookupItem lookupItem, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             string field = lookupItem.Name;
             int index = lookupItem.Index;
             string value = lookupItem.Value;
-            //await HoverAsync(Locator("//h2[text()='ACCOUNT INFORMATION']"));
-            //await ScrollUsingMouseUntilElementIsVisible(field, 0, 100, 10);
-            await SetValue(field, value);
+            await SetValue(field, value, dynamicallyLoaded, anySelectorInScroller, maxNumberOfScrolls);
             ILocator locator = LocatorWithXpath(LocatorWithXpath(CommonLocators.LookupResults), "li");
             await SelectOption(locator, index);
         }
 
-        public async Task SetValue(OptionSet optionSet)
+        public async Task SetValue(LookupItem lookupItem)
+        {
+            await SetValue(lookupItem, false);
+        }
+
+        public async Task ClearValue(LookupItem lookupItem)
+        {
+            await ClearValue(lookupItem, false);
+        }
+
+        public async Task ClearValue(LookupItem lookupItem, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            string field = lookupItem.Name;
+            ILocator locator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", field)), CommonLocators.CloseIconLookupValue);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(Locator(anySelectorInScroller));
+                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+            }
+            await ClickAsync(locator);
+        }
+
+        public async Task<string?> GetValue(LookupItem lookupItem, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            string field = lookupItem.Name;
+            ILocator locator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", field)), CommonLocators.LookupValue);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(Locator(anySelectorInScroller));
+                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+            }
+            return await TextContentAsync(locator);
+        }
+
+        public async Task<string?> GetValue(LookupItem lookupItem)
+        {
+            return await GetValue(lookupItem, false);
+        }
+
+        public async Task SetValue(OptionSet optionSet, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             string name = optionSet.Name;
             string value = optionSet.Value;
             ILocator dropdownOpenerLocator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", name)), CommonLocators.DropdownOpener);
             ILocator dropdownValuesLocator = Locator(CommonLocators.DropdownValues);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(Locator(anySelectorInScroller));
+                await ScrollUsingMouseUntilElementIsVisible(dropdownOpenerLocator, 0, 100, maxNumberOfScrolls);
+            }
             await SelectDropdownOption(dropdownOpenerLocator, dropdownValuesLocator, value);
         }
 
-        public async Task ClearValue(LookupItem lookupItem)
+        public async Task SetValue(OptionSet optionSet)
         {
-            string field = lookupItem.Name;
-            ILocator locator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", field)), CommonLocators.CloseIconLookupValue);
-            await ClickAsync(locator);
+            await SetValue(optionSet, false);
         }
 
-        public async Task<string> GetValue(LookupItem lookupItem)
+        public async Task<string> GetCurrentlySelectedValue(OptionSet optionSet, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
-            string field = lookupItem.Name;
-            ILocator locator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", field)), CommonLocators.LookupValue);
-            return await TextContentAsync(locator);
+            string name = optionSet.Name;
+            string value = optionSet.Value;
+            ILocator dropdownLocator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", name)), CommonLocators.DropdownOpener);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(Locator(anySelectorInScroller));
+                await ScrollUsingMouseUntilElementIsVisible(dropdownLocator, 0, 100, maxNumberOfScrolls);
+            }
+            return await TextContentAsync(dropdownLocator);
+        }
+
+        public async Task<string> GetCurrentlySelectedValue(OptionSet optionSet)
+        {
+            return await GetCurrentlySelectedValue(optionSet, false);
+        }
+
+        public async Task<List<string>> GetAllAvailableChoices(OptionSet optionSet, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            string name = optionSet.Name;
+            string value = optionSet.Value;
+            ILocator dropdownLocator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", name)), CommonLocators.DropdownOpener);
+            ILocator dropdownValuesLocator = Locator(CommonLocators.DropdownValues);
+            return await GetAllAvailableChoices(dropdownLocator, dropdownValuesLocator, dynamicallyLoaded, anySelectorInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task<List<string>> GetAllAvailableChoices(OptionSet optionSet)
+        {
+            return await GetAllAvailableChoices(optionSet, false);
         }
 
         public async Task ClickButton(string buttonName)
