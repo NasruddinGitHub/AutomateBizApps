@@ -120,6 +120,11 @@ namespace AutomateBizApps.ObjectRepository
             public static string LookupValue = "descendant::div[contains(@id,'selected_tag_text')]";
             public static string DropdownOpener = "descendant::button[@role='combobox']";
             public static string DropdownValues = "//div[@role='listbox']/descendant::div[@role='option']";
+            public static string MultiSelectOptionSetOpener = "descendant::div[contains(@class,'msos-caret-container')]";
+            public static string MultiSelectOptions = "//div[@class='msos-selection-container']/descendant::label/descendant::div[contains(@class,'msos-optionitem-text')]";
+            public static string RemoveOptionInMultiSelectOptionSet = "descendant::span[contains(@class,'selected') and text()='[Name]']/following-sibling::button[contains(@class,'msos-quick-delete')]";
+            public static string SelectedOptionsTextInMultiSelectOptionSet = "descendant::div[@class='msos-viewmode-text']";
+            public static string SelectedOptionsValueContainer = "descendant::div[contains(@class,'msos-container')]";
         }
 
         public static class EntityLocators

@@ -73,7 +73,7 @@ namespace AutomateBizApps.Modules
             await ClickAsync(areaChangerItemElement);
         }
 
-        public async Task<List<string?>> GetChangeAreaItems()
+        public async Task<List<string>> GetChangeAreaItems()
         {
             var areaChangerElement = Locator(SiteMapPanelLocators.AreaChanger);
             await ClickAsync(areaChangerElement);
