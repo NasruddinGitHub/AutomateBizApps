@@ -14,7 +14,7 @@
 		<Parameter name="Url" value="https://orgc48a661d.crm8.dynamics.com/" />
 		<!-- chrome,msedge(edge browser should be given as msedge),firefox -->
 		<Parameter name="BrowserType" value="msedge" />
-		<Parameter name="MfaSecretKey" value="" />
+		<Parameter name="MfaSecretKey" value="zb65by5qlbjm67pv" />
 		<Parameter name="AzureKey" value="" />
 		<Parameter name="SessionId" value="" />
 		<Parameter name="EndpointName" value="" />

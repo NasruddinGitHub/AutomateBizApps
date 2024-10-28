@@ -1,4 +1,5 @@
-﻿using AutomateBizApps.Pages;
+﻿using AutomateBizApps.ObjectRepository;
+using AutomateBizApps.Pages;
 using AutomateCe.Controls;
 using Microsoft.Playwright;
 using System;
@@ -58,10 +59,18 @@ namespace AutomateBizApps.Modules
                 return;
             }
             var textareaTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::textarea");
-            bool isTextareaTagElementDisplayed = await IsVisibleAsyncWithWaiting(textareaTagLocator, 0);
+            bool isTextareaTagElementDisplayed = await IsVisibleAsyncWithWaiting(textareaTagLocator, 0, 1000);
             if (isTextareaTagElementDisplayed)
             {
                 await FillAsync(textareaTagLocator, input);
+                isValueSet = true;
+                return;
+            }
+            var richTextLocator = LocatorWithXpath(completeFieldLocator, "descendant::p");
+            bool isRichTextLocatorDisplayed = await IsVisibleAsyncWithWaiting(richTextLocator, 0, 1000);
+            if (isRichTextLocatorDisplayed)
+            {
+                await FillAsync(richTextLocator, input);
                 isValueSet = true;
                 return;
             }
@@ -101,13 +110,19 @@ namespace AutomateBizApps.Modules
 
             }
             var textareaTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::textarea");
-            bool isTextareaTagElementDisplayed = await IsVisibleAsyncWithWaiting(textareaTagLocator, 0);
+            bool isTextareaTagElementDisplayed = await IsVisibleAsyncWithWaiting(textareaTagLocator, 0, 1000);
             if (isTextareaTagElementDisplayed)
             {
                 isValueGotten = true;
                 value = await InputValueAsync(textareaTagLocator);
             }
-
+            var richTextLocator = LocatorWithXpath(completeFieldLocator, "descendant::p");
+            bool richTextLocatorDisplayed = await IsVisibleAsyncWithWaiting(richTextLocator, 0, 1000);
+            if (richTextLocatorDisplayed)
+            {
+                isValueGotten = true;
+                value = await InputValueAsync(richTextLocator);
+            }
             if (!isValueGotten)
             {
                 throw new PlaywrightException(fieldName + " Element is not found");
@@ -218,6 +233,71 @@ namespace AutomateBizApps.Modules
         public async Task<List<string>> GetAllAvailableChoices(OptionSet optionSet)
         {
             return await GetAllAvailableChoices(optionSet, false);
+        }
+
+        // This method does not work if the value(s) already selected. We will have to write new function.
+        public async Task SetValue(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            string field = multiSelectOptionSet.Name;
+            string[] values = multiSelectOptionSet.Values;
+            ILocator dropdownOptionsOpenerLocator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", field)), CommonLocators.MultiSelectOptionSetOpener);
+            ILocator dropdownValues = Locator(CommonLocators.MultiSelectOptions);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(Locator(anySelectorInScroller));
+                await ScrollUsingMouseUntilElementIsVisible(dropdownOptionsOpenerLocator, 0, 100, maxNumberOfScrolls);
+            }
+            await SelectMultiSelectOptions(dropdownOptionsOpenerLocator, dropdownValues, values);
+            await ClickAsync(dropdownOptionsOpenerLocator);
+        }
+
+        public async Task SetValue(MultiSelectOptionSet multiSelectOptionSet)
+        {
+            await SetValue(multiSelectOptionSet, false);
+        }
+
+        public async Task ClearValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            string field = multiSelectOptionSet.Name;
+            string[] values = multiSelectOptionSet.Values;
+            ILocator fieldContainer = LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", field));
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(Locator(anySelectorInScroller));
+                await ScrollUsingMouseUntilElementIsVisible(fieldContainer, 0, 100, maxNumberOfScrolls);
+            }
+            
+            await HoverAsync(LocatorWithXpath(fieldContainer, CommonLocators.SelectedOptionsValueContainer), new LocatorHoverOptions { Force = true});
+            foreach (string value in values)
+            {
+                ILocator dropdownOptionRemoveLocator = LocatorWithXpath(fieldContainer, CommonLocators.RemoveOptionInMultiSelectOptionSet.Replace("[Name]", value));
+                await ClickAsync(dropdownOptionRemoveLocator);
+            }
+            
+        }
+        public async Task ClearValues(MultiSelectOptionSet multiSelectOptionSet)
+        {
+            await ClearValues(multiSelectOptionSet, false);
+        }
+
+        public async Task<List<string>> GetValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            string field = multiSelectOptionSet.Name;
+            ILocator fieldContainer = LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", field));
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(Locator(anySelectorInScroller));
+                await ScrollUsingMouseUntilElementIsVisible(fieldContainer, 0, 100, maxNumberOfScrolls);
+            }
+
+            string allValues = await TextContentAsync(LocatorWithXpath(fieldContainer, CommonLocators.SelectedOptionsTextInMultiSelectOptionSet));
+            string[] splittedValues = allValues.Split(",");
+            List<string> outputValues = new List<string>();
+            foreach (string value in splittedValues)
+            {
+                outputValues.Add(value.Trim());
+            }
+            return outputValues;
         }
 
         public async Task ClickButton(string buttonName)

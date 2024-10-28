@@ -157,7 +157,7 @@ namespace AutomateBizApps.Pages
         
         public async Task HoverAsync(ILocator locator, LocatorHoverOptions? options = default)
         {
-            await locator.HoverAsync(options);
+            await locator.Nth(0).HoverAsync(options);
         }
 
         public async Task HoverAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorHoverOptions? options = default)
@@ -673,6 +673,35 @@ namespace AutomateBizApps.Pages
             }
         }
 
+        public async Task SelectOptions(ILocator optionsLocator, string[] optionsToSelect)
+        {
+            await SelectOptions(optionsLocator, optionsToSelect, false);
+        }
+
+        public async Task SelectOptions(ILocator optionsLocator, string[] optionsToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(Locator(anySelectorInScroller));
+                await ScrollUsingMouseUntilElementIsVisible(optionsLocator, 0, 100, maxNumberOfScrolls);
+            }
+            await ToBeVisibleAsync(optionsLocator, 0);
+            var allElementsCount = await CountAsync(optionsLocator);
+
+            for(int i = 0; i < optionsToSelect.Length; i++)
+            {
+                for(int j = 0; j < allElementsCount; j++)
+                {
+                    string? textFromUi = await TextContentAsync(optionsLocator.Nth(j));
+                    if (string.Equals(optionsToSelect[i], textFromUi, StringComparison.OrdinalIgnoreCase))
+                    {
+                        await ClickAsync(optionsLocator.Nth(j));
+                        break;
+                    }
+                }
+            }
+        }
+
         public async Task SelectOption(ILocator optionsLocator, int index)
         {
             await SelectOption(optionsLocator, index, false);
@@ -723,6 +752,23 @@ namespace AutomateBizApps.Pages
             var dropdownOptionsLocator = dropdownOptions;
             await ToBeVisibleAsync(dropdownOptionsLocator, 0);
             await SelectOption(dropdownOptions, option);
+        }
+
+        public async Task SelectMultiSelectOptions(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string[] options, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(Locator(anySelectorInScroller));
+                await ScrollUsingMouseUntilElementIsVisible(dropdownOptionsOpener, 0, 100, maxNumberOfScrolls);
+            }
+            await ClickAsync(dropdownOptionsOpener);
+            await ToBeVisibleAsync(dropdownOptions, 0);
+            await SelectOptions(dropdownOptions, options);
+        }
+        
+        public async Task SelectMultiSelectOptions(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string[] options)
+        {
+            await SelectMultiSelectOptions(dropdownOptionsOpener, dropdownOptions, options, false);
         }
 
         public async Task<List<string>> GetAllAvailableChoices(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
