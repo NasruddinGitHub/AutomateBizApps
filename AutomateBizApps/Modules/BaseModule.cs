@@ -84,9 +84,14 @@ namespace AutomateBizApps.Pages
             return await locator.GetAttributeAsync(name, options);
         }
 
+        public IFrameLocator FrameLocator(string frameSelector)
+        {
+           return _page.FrameLocator(frameSelector);
+        }
+
         public ILocator SwitchToFrameAndLocate(string frameSelector, string locatorSelector, FrameLocatorLocatorOptions? options = default)
         {
-            return _page.FrameLocator(frameSelector).Locator(locatorSelector, options);
+            return FrameLocator(frameSelector).Locator(locatorSelector, options);
         }
 
         public IFrame? Frame(string selector)
@@ -362,9 +367,14 @@ namespace AutomateBizApps.Pages
             await locator.SelectOptionAsync(values, options);
         }
 
-        public async Task ScreenshotAsync(ILocator locator, LocatorScreenshotOptions? options = default)
+        public async Task<byte[]> ElementScreenshotAsync(ILocator locator, LocatorScreenshotOptions? options = default)
         {
-            await locator.ScreenshotAsync(options);
+            return await locator.ScreenshotAsync(options);
+        }
+
+        public async Task<byte[]> PageScreenshotAsync(PageScreenshotOptions? options = default)
+        {
+            return await _page.ScreenshotAsync(options);
         }
 
         public async Task ScreenshotAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorScreenshotOptions? options = default)
