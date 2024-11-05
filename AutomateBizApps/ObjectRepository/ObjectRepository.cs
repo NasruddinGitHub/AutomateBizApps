@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutomateBizApps.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,7 +58,7 @@ namespace AutomateBizApps.ObjectRepository
         }
 
         public static class CommandBarLocators
-        {
+        { 
             public static string CommandItem = "//button//span[text()='[Name]']";
             public static string AllShownCommands = "//ul[@data-id='CommandBar' and contains(@aria-label,'Commands')]/child::li[not(contains(@id,'Overflow'))]/descendant::button[not(contains(@aria-describedby,'flyoutButton'))]";
             public static string MoreCommandsEllipsis = "//button[@aria-label='More commands for Account']";
@@ -129,7 +130,11 @@ namespace AutomateBizApps.ObjectRepository
 
         public static class EntityLocators
         {
-            // public static string 
+            public static string Tab = "//ul[contains(@id,'tablist')]/li[text()='[Name]']";
+            public static string AllShownTabs = "//ul[contains(@id,'tablist')]/li[contains(@id,'tab') and not(contains(@id,'related'))]";
+            public static string RelatedTab = "//div[contains(@id,'container_related_tab') and text()='Related']";
+            public static string AllRelatedTabs = "//div[@id='relatedEntityContainer']/descendant::div[@role='menuitem']/descendant::span[contains(@class,'fui-MenuItem') and contains(@class,'content')]";
+            public static string RelatedTabs = "//div[@id='relatedEntityContainer']/descendant::div[@role='menuitem']/descendant::span[contains(@class,'fui-MenuItem') and text()='[Name]']";
         }
     }
 
