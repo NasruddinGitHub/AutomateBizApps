@@ -86,12 +86,22 @@ namespace AutomateBizApps.Pages
 
         public IFrameLocator FrameLocator(string frameSelector)
         {
-           return _page.FrameLocator(frameSelector);
+            return _page.FrameLocator(frameSelector);
         }
 
         public ILocator SwitchToFrameAndLocate(string frameSelector, string locatorSelector, FrameLocatorLocatorOptions? options = default)
         {
             return FrameLocator(frameSelector).Locator(locatorSelector, options);
+        }
+
+        public ILocator SwitchToFrameAndLocate(IFrameLocator frameLocator, string locatorSelector, FrameLocatorLocatorOptions? options = default)
+        {
+            return frameLocator.Locator(locatorSelector, options);
+        }
+
+        public ILocator SwitchToFrameAndLocate(IFrame frame, string locatorSelector, FrameLocatorOptions? options = default)
+        {
+            return frame.Locator(locatorSelector, options);
         }
 
         public IFrame? Frame(string selector)
@@ -159,7 +169,7 @@ namespace AutomateBizApps.Pages
         {
             return await locator.CountAsync();
         }
-        
+
         public async Task HoverAsync(ILocator locator, LocatorHoverOptions? options = default)
         {
             await locator.Nth(0).HoverAsync(options);
@@ -441,7 +451,7 @@ namespace AutomateBizApps.Pages
             }
             return await locator.TextContentAsync(options);
         }
-    
+
         // This will not wait until first element is visible
         public async Task<List<string>> GetAllElementsText(ILocator locator)
         {
@@ -524,6 +534,21 @@ namespace AutomateBizApps.Pages
             try
             {
                 await Expect(locator.Nth(index)).ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
+                return true;
+            }
+            catch (PlaywrightException ex)
+            {
+                // Console.WriteLine(ex.ToString()+" Timeout exception is thrown.");
+                // Log something
+            }
+            return false;
+        }
+
+        public async Task<bool> IsNotVisibleAsyncWithWaiting(ILocator locator, int index, int visibleTimeout = 5000)
+        {
+            try
+            {
+                await Expect(locator.Nth(index)).Not.ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
                 return true;
             }
             catch (PlaywrightException ex)
@@ -698,9 +723,9 @@ namespace AutomateBizApps.Pages
             await ToBeVisibleAsync(optionsLocator, 0);
             var allElementsCount = await CountAsync(optionsLocator);
 
-            for(int i = 0; i < optionsToSelect.Length; i++)
+            for (int i = 0; i < optionsToSelect.Length; i++)
             {
-                for(int j = 0; j < allElementsCount; j++)
+                for (int j = 0; j < allElementsCount; j++)
                 {
                     string? textFromUi = await TextContentAsync(optionsLocator.Nth(j));
                     if (string.Equals(optionsToSelect[i], textFromUi, StringComparison.OrdinalIgnoreCase))
@@ -775,7 +800,7 @@ namespace AutomateBizApps.Pages
             await ToBeVisibleAsync(dropdownOptions, 0);
             await SelectOptions(dropdownOptions, options);
         }
-        
+
         public async Task SelectMultiSelectOptions(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string[] options)
         {
             await SelectMultiSelectOptions(dropdownOptionsOpener, dropdownOptions, options, false);
@@ -885,6 +910,37 @@ namespace AutomateBizApps.Pages
                 Console.WriteLine($"Scrolled {i}st time for the {selector}");
                 if (i >= maxScrollTimes)
                     throw new PlaywrightException($"{selector} is not shown even after scroll for {maxScrollTimes} times");
+            }
+        }
+
+        public async Task<ILocator> GetLocatorWhenInFramesNotInFrames(string frameSelector, string elementSelector)
+        {
+            bool isFrameNotShown = await IsNotVisibleAsyncWithWaiting(Locator(frameSelector), 0);
+            if (isFrameNotShown)
+            {
+                return Locator(elementSelector);
+            }
+            return SwitchToFrameAndLocate(frameSelector, elementSelector);
+        }
+
+        public async Task<ILocator> GetLocatorWhenInFramesNotInFrames(string frameSelector, string elementSelector, int timeToCheckIfFrameExists)
+        {
+            bool isFrameNotShown = await IsNotVisibleAsyncWithWaiting(Locator(frameSelector), 0, timeToCheckIfFrameExists);
+            if (isFrameNotShown)
+            {
+                return Locator(elementSelector);
+            }
+            return SwitchToFrameAndLocate(frameSelector, elementSelector);
+        }
+
+        public async Task WaitUntilAppIsNotIdle()
+        {
+            if (!await _page.EvaluateAsync<bool>("window.UCWorkBlockTracker.isAppIdle()"))
+            {
+                // Let's log something
+                Thread.Sleep(500);
+                await WaitUntilAppIsNotIdle();
+                
             }
         }
     }

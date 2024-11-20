@@ -126,6 +126,7 @@ namespace AutomateBizApps.ObjectRepository
             public static string RemoveOptionInMultiSelectOptionSet = "descendant::span[contains(@class,'selected') and text()='[Name]']/following-sibling::button[contains(@class,'msos-quick-delete')]";
             public static string SelectedOptionsTextInMultiSelectOptionSet = "descendant::div[@class='msos-viewmode-text']";
             public static string SelectedOptionsValueContainer = "descendant::div[contains(@class,'msos-container')]";
+            public static string FocusedViewFrame = "//iframe[@id='FormControlIframe_ID']";
         }
 
         public static class EntityLocators
