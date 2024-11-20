@@ -133,7 +133,7 @@ namespace AutomateBizApps.ObjectRepository
         {
             public static string Tab = "//ul[contains(@id,'tablist')]/li[text()='[Name]']";
             public static string AllShownTabs = "//ul[contains(@id,'tablist')]/li[contains(@id,'tab') and not(contains(@id,'related'))]";
-            public static string RelatedTab = "//div[contains(@id,'container_related_tab') and text()='Related']";
+            public static string RelatedTab = "//div[contains(@id,'button_more_tab') or (contains(@id,'container_related_tab') and text()='Related')]";
             public static string AllRelatedTabs = "//div[@id='relatedEntityContainer']/descendant::div[@role='menuitem']/descendant::span[contains(@class,'fui-MenuItem') and contains(@class,'content')]";
             public static string RelatedTabs = "//div[@id='relatedEntityContainer']/descendant::div[@role='menuitem']/descendant::span[contains(@class,'fui-MenuItem') and text()='[Name]']";
         }
