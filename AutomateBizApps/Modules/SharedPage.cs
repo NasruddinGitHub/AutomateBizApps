@@ -19,7 +19,6 @@ namespace AutomateBizApps.Modules
         {
             this._page = page;
         }
-
         public async Task WaitUntilSpinnerNotDisplayed()
         {
             var spinnerLocator = Locator(GridLocators.Spinner);
@@ -88,7 +87,7 @@ namespace AutomateBizApps.Modules
 
         public async Task ClearValue(string fieldName)
         {
-            await SetValue(fieldName, string.Empty);
+            await ClearValue(fieldName, false);
         }
 
         public async Task<string> GetValue(string fieldName, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)

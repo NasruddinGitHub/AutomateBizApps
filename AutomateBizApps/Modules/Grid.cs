@@ -52,16 +52,14 @@ namespace AutomateBizApps.Modules
         public async Task SwitchView(string viewName)
         {
             await ClickViewOpener();
-            var viewNameLocator = Locator(GridLocators.ViewName.Replace("[Name]", viewName));
-            await ClickAsync(viewNameLocator);
-            await WaitUntilSpinnerNotDisplayed();
+            await SelectView(viewName);
         }
 
         public async Task SelectView(string viewName)
         {
             var viewNameLocator = Locator(GridLocators.ViewName.Replace("[Name]", viewName));
             await ClickAsync(viewNameLocator);
-            await WaitUntilSpinnerNotDisplayed();
+            await WaitUntilAppIsIdle();
         }
 
         public async Task<string?> GetCurrentlySelectedView()
@@ -69,7 +67,6 @@ namespace AutomateBizApps.Modules
             var viewOpenerLocator = Locator(GridLocators.CurrentlySelectedViewName);
             return await TextContentAsync(viewOpenerLocator);
         }
-
 
         public async Task<string?> GetDefaultViewName()
         {

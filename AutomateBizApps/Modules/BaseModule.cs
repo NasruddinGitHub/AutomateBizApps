@@ -933,13 +933,13 @@ namespace AutomateBizApps.Pages
             return SwitchToFrameAndLocate(frameSelector, elementSelector);
         }
 
-        public async Task WaitUntilAppIsNotIdle()
+        public async Task WaitUntilAppIsIdle()
         {
             if (!await _page.EvaluateAsync<bool>("window.UCWorkBlockTracker.isAppIdle()"))
             {
                 // Let's log something
                 Thread.Sleep(500);
-                await WaitUntilAppIsNotIdle();
+                await WaitUntilAppIsIdle();
                 
             }
         }

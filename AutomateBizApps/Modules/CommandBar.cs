@@ -25,7 +25,7 @@ namespace AutomateBizApps.Modules
             try
             {
                 await ClickAsync(commandLocator, new LocatorClickOptions { Timeout = 7000 });
-                await WaitUntilAppIsNotIdle();
+                await WaitUntilAppIsIdle();
             }
             catch (TimeoutException ex)
             {

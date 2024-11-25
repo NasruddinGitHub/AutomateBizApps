@@ -28,8 +28,8 @@ namespace AutomateCe.Modules
             }
             catch (TimeoutException ex)
             {
-                await ClickRelatedTab();
-                await ClickRelatedTabs(tabName);
+                await ClickRelatedTab(timeToCheckIfFrameExists);
+                await ClickRelatedTabs(tabName, timeToCheckIfFrameExists);
             }
         }
 
@@ -63,6 +63,11 @@ namespace AutomateCe.Modules
             await ClickAsync(relatedTabLocator);
             var allRelatedTabsLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.AllRelatedTabs, timeToCheckIfFrameExists);
             return await GetAllElementsTextAfterWaiting(allRelatedTabsLocator);
+        }
+
+        public async Task SetValue(string fieldName, string input)
+        {
+
         }
     }
 }

@@ -61,7 +61,7 @@ namespace AutomateBizApps.ObjectRepository
         { 
             public static string CommandItem = "//button//span[text()='[Name]']";
             public static string AllShownCommands = "//ul[@data-id='CommandBar' and contains(@aria-label,'Commands')]/child::li[not(contains(@id,'Overflow'))]/descendant::button[not(contains(@aria-describedby,'flyoutButton'))]";
-            public static string MoreCommandsEllipsis = "//button[@aria-label='More commands for Account']";
+            public static string MoreCommandsEllipsis = "//button[contains(@aria-label,'More commands for')]";
             public static string AllMoreCommands = "//ul[contains(@id,'MenuSectionItemsOverflowButton')]/li/descendant::button[1]";
             public static string OpenInNewWindow = "//*[@aria-label='Open in new window']";
             public static string RecordSetNavigator = "//*[@aria-label='Record set navigator']";
