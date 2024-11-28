@@ -1,4 +1,6 @@
-﻿using Microsoft.Playwright;
+﻿using AutomateCe.Controls;
+using AutomateCe.Enums;
+using Microsoft.Playwright;
 using OtpNet;
 using System;
 using System.Collections.Generic;
@@ -94,6 +96,11 @@ namespace AutomateBizApps.Pages
             return FrameLocator(frameSelector).Locator(locatorSelector, options);
         }
 
+        public ILocator SwitchToFrameAndLocateWithXpath(string frameSelector, string locatorSelector, FrameLocatorLocatorOptions? options = default)
+        {
+            return FrameLocator(frameSelector).Locator($"xpath={locatorSelector}", options);
+        }
+
         public ILocator SwitchToFrameAndLocate(IFrameLocator frameLocator, string locatorSelector, FrameLocatorLocatorOptions? options = default)
         {
             return frameLocator.Locator(locatorSelector, options);
@@ -102,6 +109,11 @@ namespace AutomateBizApps.Pages
         public ILocator SwitchToFrameAndLocate(IFrame frame, string locatorSelector, FrameLocatorOptions? options = default)
         {
             return frame.Locator(locatorSelector, options);
+        }
+
+        public ILocator SwitchToFrameAndLocateWithXpath(ILocator frameSelector, string locatorSelector, LocatorLocatorOptions? options = default)
+        {
+            return frameSelector.Locator($"xpath={locatorSelector}", options);
         }
 
         public IFrame? Frame(string selector)
@@ -918,9 +930,9 @@ namespace AutomateBizApps.Pages
             bool isFrameNotShown = await IsNotVisibleAsyncWithWaiting(Locator(frameSelector), 0);
             if (isFrameNotShown)
             {
-                return Locator(elementSelector);
+                return LocatorWithXpath(elementSelector);
             }
-            return SwitchToFrameAndLocate(frameSelector, elementSelector);
+            return SwitchToFrameAndLocateWithXpath(frameSelector, elementSelector);
         }
 
         public async Task<ILocator> GetLocatorWhenInFramesNotInFrames(string frameSelector, string elementSelector, int timeToCheckIfFrameExists)
@@ -928,9 +940,9 @@ namespace AutomateBizApps.Pages
             bool isFrameNotShown = await IsNotVisibleAsyncWithWaiting(Locator(frameSelector), 0, timeToCheckIfFrameExists);
             if (isFrameNotShown)
             {
-                return Locator(elementSelector);
+                return LocatorWithXpath(elementSelector);
             }
-            return SwitchToFrameAndLocate(frameSelector, elementSelector);
+            return SwitchToFrameAndLocateWithXpath(frameSelector, elementSelector);
         }
 
         public async Task WaitUntilAppIsIdle()
@@ -943,6 +955,7 @@ namespace AutomateBizApps.Pages
                 
             }
         }
+
     }
 
 }

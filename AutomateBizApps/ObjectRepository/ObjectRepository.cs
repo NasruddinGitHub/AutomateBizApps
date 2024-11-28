@@ -131,6 +131,7 @@ namespace AutomateBizApps.ObjectRepository
 
         public static class EntityLocators
         {
+            public static string FormContainer = "//*[@data-id='editFormRoot']";
             public static string Tab = "//ul[contains(@id,'tablist')]/li[text()='[Name]']";
             public static string AllShownTabs = "//ul[contains(@id,'tablist')]/li[contains(@id,'tab') and not(contains(@id,'related'))]";
             public static string RelatedTab = "//div[contains(@id,'button_more_tab') or (contains(@id,'container_related_tab') and text()='Related')]";

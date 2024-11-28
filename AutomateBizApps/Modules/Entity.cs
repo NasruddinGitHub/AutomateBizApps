@@ -1,5 +1,7 @@
 ﻿using AutomateBizApps.Modules;
+using AutomateCe.Enums;
 using Microsoft.Playwright;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,9 +67,34 @@ namespace AutomateCe.Modules
             return await GetAllElementsTextAfterWaiting(allRelatedTabsLocator);
         }
 
-        public async Task SetValue(string fieldName, string input)
+        public async Task SetValue(string fieldName, string value, int timeToCheckIfFrameExists=1000)
         {
+            await SetValue(fieldName, value, FormContextType.Entity, timeToCheckIfFrameExists);  
+        }
 
+        public async Task SetValue(string fieldName, string value, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            await SetValue(fieldName, value, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task ClearValue(string fieldName, int timeToCheckIfFrameExists = 1000)
+        {
+            await SetValue(fieldName, string.Empty, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task ClearValue(string fieldName, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            await SetValue(fieldName, string.Empty, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task<string> GetValue(string fieldName, int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetValue(fieldName, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task<string> GetValue(string fieldName, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            return await GetValue(fieldName, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
     }
 }
