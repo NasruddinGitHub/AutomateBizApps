@@ -217,5 +217,36 @@ namespace AutomateCe.Modules
         {
             return await isFieldOptional(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
+        
+        public async Task<string> GetFormHeaderTitle()
+        {
+            string title = await TextContentAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormHeaderTitle));
+            return title.Split("-")[0].Trim();
+        }
+
+        public async Task<string> GetEntityName()
+        {
+            return await TextContentAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.EntityName));
+        }
+
+        public async Task<string> GetSelectedFormName()
+        {
+            return await TextContentAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormSelector));
+        }
+
+        public async Task SelectForm(string formName)
+        {
+            ILocator formSelectionOpener = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormSelector);
+            await ClickAsync(formSelectionOpener);
+            await SelectOption(formSelectionOpener, formName);
+        }
+
+        public async Task<List<string>> GetAllFormNames()
+        {
+            ILocator formSelectionOpener = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormSelector);
+            await ClickAsync(formSelectionOpener);
+            ILocator allForms = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormSelectorItems);
+            return await GetAllElementsText(allForms);
+        }
     }
 }

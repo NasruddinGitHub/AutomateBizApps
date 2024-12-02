@@ -141,6 +141,10 @@ namespace AutomateBizApps.ObjectRepository
             public static string RelatedTab = "//div[contains(@id,'button_more_tab') or (contains(@id,'container_related_tab') and text()='Related')]";
             public static string AllRelatedTabs = "//div[@id='relatedEntityContainer']/descendant::div[@role='menuitem']/descendant::span[contains(@class,'fui-MenuItem') and contains(@class,'content')]";
             public static string RelatedTabs = "//div[@id='relatedEntityContainer']/descendant::div[@role='menuitem']/descendant::span[contains(@class,'fui-MenuItem') and text()='[Name]']";
+            public static string FormHeaderTitle = "//h1[contains(@id,'formHeaderTitle')]";
+            public static string EntityName = "//span[@data-id='entity_name_span']";
+            public static string FormSelector = "//button[@data-id='form-selector']";
+            public static string FormSelectorItems = "//div[@data-id='form-selector-flyout']/descendant::div[contains(@data-id,'form-selector-item-form-selector')]";
         }
 
         public static class QuickCreateLocators
