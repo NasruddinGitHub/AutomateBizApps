@@ -58,7 +58,7 @@ namespace AutomateBizApps.ObjectRepository
         }
 
         public static class CommandBarLocators
-        { 
+        {
             public static string CommandItem = "//button//span[text()='[Name]']";
             public static string AllShownCommands = "//ul[@data-id='CommandBar' and contains(@aria-label,'Commands')]/child::li[not(contains(@id,'Overflow'))]/descendant::button[not(contains(@aria-describedby,'flyoutButton'))]";
             public static string MoreCommandsEllipsis = "//button[contains(@aria-label,'More commands for')]";
@@ -127,17 +127,50 @@ namespace AutomateBizApps.ObjectRepository
             public static string SelectedOptionsTextInMultiSelectOptionSet = "descendant::div[@class='msos-viewmode-text']";
             public static string SelectedOptionsValueContainer = "descendant::div[contains(@class,'msos-container')]";
             public static string FocusedViewFrame = "//iframe[@id='FormControlIframe_ID']";
+            public static string BusinessRequiredIcon = ".//span[contains(@data-id,'required-icon') and text()='*']";
+            public static string BusinessRecommendedIcon = "//span[contains(@data-id,'required-icon') and text()='+']";
+            public static string OptionalIcon = ".//span[contains(@data-id,'required-icon')]";
+
         }
 
         public static class EntityLocators
         {
+            public static string FormContainer = "//*[@data-id='editFormRoot']";
             public static string Tab = "//ul[contains(@id,'tablist')]/li[text()='[Name]']";
             public static string AllShownTabs = "//ul[contains(@id,'tablist')]/li[contains(@id,'tab') and not(contains(@id,'related'))]";
             public static string RelatedTab = "//div[contains(@id,'button_more_tab') or (contains(@id,'container_related_tab') and text()='Related')]";
             public static string AllRelatedTabs = "//div[@id='relatedEntityContainer']/descendant::div[@role='menuitem']/descendant::span[contains(@class,'fui-MenuItem') and contains(@class,'content')]";
             public static string RelatedTabs = "//div[@id='relatedEntityContainer']/descendant::div[@role='menuitem']/descendant::span[contains(@class,'fui-MenuItem') and text()='[Name]']";
         }
+
+        public static class QuickCreateLocators
+        {
+            public static string FormContainer = "//section[contains(@data-id,'quickCreateRoot')]";
+        }
+
+        public static class BusinessProcessFlowLocators
+        {
+            public static string FormContainer = "//div[contains(@id, 'ProcessStageControl-processHeaderStageFlyoutInnerContainer')]";
+            public static string StageName = "//div[contains(@id,'processHeaderStageName') and text()='[Name]']";
+            public static string NextStage = "//label[text()='Next Stage']";
+            public static string PreviousStage = "//button[contains(@id,'previousButtonContainer') and @title='Back']";
+            public static string SetActive = "//button[contains(@data-id,'setActiveButton')]";
+            public static string Close = "//button[contains(@id,'stageContentClose')]";
+            public static string Heading = "//div[contains(@id,'processStageStageNameContainer')]/child::div[@role='heading']";
+            public static string Pin = "//button[contains(@id,'stageDockModeButton')]";
+            public static string StageNames = "//ul[@aria-label='Business Process Flow']/li/descendant::div[contains(@id,'processHeaderStageName')]";
+            public static string SelectedStageName = "//ul[contains(@id,'headerStageContainer')]/li[@data-selected-stage='true']/descendant::div[contains(@id,'processHeaderStageName')]";
+            public static string Finish = "//label[text()='Finish']";
+        }
+
+        public static class DialogLocators
+        {
+            public static string FormContainer = "//div[contains(@role, 'dialog')]";
+        }
+
+        public static class HeaderLocators
+        {
+            public static string FormContainer = ".//div[@data-id='headerFieldsFlyout']";
+        }
     }
-
-
 }

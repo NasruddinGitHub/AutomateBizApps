@@ -26,6 +26,10 @@ namespace AutomateBizApps.Modules
 
         public Entity Entity => this.GetElement<Entity>(_page);
 
+        public QuickCreate QuickCreate => this.GetElement<QuickCreate>(_page);
+
+        public BusinessProcessFlow BusinessProcessFlow => this.GetElement<BusinessProcessFlow>(_page);
+
         public CeApp(IPage page)
         {
             this._page = page;

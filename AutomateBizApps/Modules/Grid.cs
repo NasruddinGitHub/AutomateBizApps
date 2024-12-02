@@ -1,4 +1,5 @@
 ﻿using AutomateBizApps.Pages;
+using AutomateCe.Enums;
 using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using Newtonsoft.Json.Linq;
@@ -98,7 +99,7 @@ namespace AutomateBizApps.Modules
         {
             await ClickViewOpener();
             await ClickSaveAsNewView();
-            await SetValue("Name", viewName);
+            await SetValue("Name", viewName, FormContextType.Dialog);
             await ClickButton("Save");
         }
 
@@ -106,8 +107,8 @@ namespace AutomateBizApps.Modules
         {
             await ClickViewOpener();
             await ClickSaveAsNewView();
-            await SetValue("Name", viewName);
-            await SetValue("Description", viewDescription);
+            await SetValue("Name", viewName, FormContextType.Dialog);
+            await SetValue("Description", viewDescription, FormContextType.Dialog);
             await ClickButton("Save");
         }
 

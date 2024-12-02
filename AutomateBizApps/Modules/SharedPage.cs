@@ -1,12 +1,15 @@
 ﻿using AutomateBizApps.ObjectRepository;
 using AutomateBizApps.Pages;
 using AutomateCe.Controls;
+using AutomateCe.Enums;
+using AutomateCe.Modules;
 using Microsoft.Playwright;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using static AutomateBizApps.ObjectRepository.ObjectRepository;
 
 namespace AutomateBizApps.Modules
@@ -19,34 +22,38 @@ namespace AutomateBizApps.Modules
         {
             this._page = page;
         }
-        public async Task WaitUntilSpinnerNotDisplayed()
+        protected async Task WaitUntilSpinnerNotDisplayed()
         {
             var spinnerLocator = Locator(GridLocators.Spinner);
             await WaitUntilElementNotVisbleIfVisible(spinnerLocator, 3000, 5000);
         }
 
-        public ILocator GetFieldWithXpath(string fieldName)
+        protected ILocator GetFieldWithXpath(string fieldName)
         {
             return LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", fieldName));
         }
 
-        public ILocator GetField(string fieldName)
+        protected ILocator GetField(string fieldName)
         {
             return Locator(CommonLocators.FieldContainer.Replace("[Name]", fieldName));
         }
-
-        public async Task SetValue(string fieldName, string input)
+        protected async Task ClickButton(string buttonName)
         {
-            await SetValue(fieldName, input, false);
+            await ClickAsync(Locator(CommonLocators.Button.Replace("[Name]", buttonName)));
         }
 
-        public async Task SetValue(string fieldName, string input, bool dynamicallyLoaded, string? anySelectorInScroller=null, int maxNumberOfScrolls=0)
+        protected async Task SetValue(string fieldName, string input, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            await SetValue(fieldName, input, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task SetValue(string fieldName, string input, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             bool isValueSet = false;
-            var completeFieldLocator = GetFieldWithXpath(fieldName);
+            var completeFieldLocator = await ValidateFormContext(formContextType, fieldName, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(Locator(anySelectorInScroller));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(completeFieldLocator, 0, 100, maxNumberOfScrolls);
             }
             var inputTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::input");
@@ -80,24 +87,19 @@ namespace AutomateBizApps.Modules
             }
         }
 
-        public async Task ClearValue(string fieldName, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<string> GetValue(string fieldName, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            await SetValue(fieldName, string.Empty, dynamicallyLoaded, anySelectorInScroller, maxNumberOfScrolls);
+            return await GetValue(fieldName, false, formContextType, timeToCheckIfFrameExists);
         }
 
-        public async Task ClearValue(string fieldName)
-        {
-            await ClearValue(fieldName, false);
-        }
-
-        public async Task<string> GetValue(string fieldName, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<string> GetValue(string fieldName, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             bool isValueGotten = false;
             string value = null;
-            var completeFieldLocator = GetFieldWithXpath(fieldName);
+            var completeFieldLocator = await ValidateFormContext(formContextType, fieldName, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(Locator(anySelectorInScroller));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(completeFieldLocator, 0, 100, maxNumberOfScrolls);
             }
             var inputTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::input");
@@ -105,8 +107,7 @@ namespace AutomateBizApps.Modules
             if (isInputTagElementDisplayed)
             {
                 isValueGotten = true;
-                value =  await InputValueAsync(inputTagLocator);
-
+                value = await InputValueAsync(inputTagLocator);
             }
             var textareaTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::textarea");
             bool isTextareaTagElementDisplayed = await IsVisibleAsyncWithWaiting(textareaTagLocator, 0, 1000);
@@ -129,163 +130,170 @@ namespace AutomateBizApps.Modules
             return value;
         }
 
-        public async Task<string> GetValue(string fieldName)
+        protected async Task SetValue(LookupItem lookupItem, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetValue(fieldName, false);
+            await SetValue(lookupItem, false, formContextType, timeToCheckIfFrameExists);
         }
 
-        public async Task SetValue(LookupItem lookupItem, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SetValue(LookupItem lookupItem, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             string field = lookupItem.Name;
             int index = lookupItem.Index;
             string value = lookupItem.Value;
-            await SetValue(field, value, dynamicallyLoaded, anySelectorInScroller, maxNumberOfScrolls);
-            ILocator locator = LocatorWithXpath(LocatorWithXpath(CommonLocators.LookupResults), "li");
-            await SelectOption(locator, index);
+            await SetValue(field, value, dynamicallyLoaded, formContextType, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            ILocator lookUpItemsLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.LookupResults);
+            lookUpItemsLocator = LocatorWithXpath(lookUpItemsLocator, "li");
+            await SelectOption(lookUpItemsLocator, index);
         }
 
-        public async Task SetValue(LookupItem lookupItem)
+        protected async Task ClearValue(LookupItem lookupItem, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            await SetValue(lookupItem, false);
+            await ClearValue(lookupItem, false, formContextType, timeToCheckIfFrameExists);
         }
 
-        public async Task ClearValue(LookupItem lookupItem)
-        {
-            await ClearValue(lookupItem, false);
-        }
-
-        public async Task ClearValue(LookupItem lookupItem, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task ClearValue(LookupItem lookupItem, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             string field = lookupItem.Name;
-            ILocator locator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", field)), CommonLocators.CloseIconLookupValue);
+            ILocator completeFieldLocator = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
+            ILocator locator = LocatorWithXpath(completeFieldLocator, CommonLocators.CloseIconLookupValue);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(Locator(anySelectorInScroller));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
             await ClickAsync(locator);
         }
 
-        public async Task<string?> GetValue(LookupItem lookupItem, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<string> GetValue(LookupItem lookupItem, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetValue(lookupItem, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<string> GetValue(LookupItem lookupItem, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             string field = lookupItem.Name;
-            ILocator locator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", field)), CommonLocators.LookupValue);
+            ILocator completeFieldLocator = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
+            ILocator locator = LocatorWithXpath(completeFieldLocator, CommonLocators.LookupValue);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(Locator(anySelectorInScroller));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
             return await TextContentAsync(locator);
         }
 
-        public async Task<string?> GetValue(LookupItem lookupItem)
+        protected async Task SetValue(OptionSet optionSet, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetValue(lookupItem, false);
+            await SetValue(optionSet, false, formContextType, timeToCheckIfFrameExists);
         }
 
-        public async Task SetValue(OptionSet optionSet, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SetValue(OptionSet optionSet, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             string name = optionSet.Name;
             string value = optionSet.Value;
-            ILocator dropdownOpenerLocator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", name)), CommonLocators.DropdownOpener);
-            ILocator dropdownValuesLocator = Locator(CommonLocators.DropdownValues);
+            ILocator completeFieldLocator = await ValidateFormContext(formContextType, name, timeToCheckIfFrameExists);
+            ILocator dropdownOpenerLocator = LocatorWithXpath(completeFieldLocator, CommonLocators.DropdownOpener);
+            ILocator dropdownValuesLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.DropdownValues);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(Locator(anySelectorInScroller));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(dropdownOpenerLocator, 0, 100, maxNumberOfScrolls);
             }
             await SelectDropdownOption(dropdownOpenerLocator, dropdownValuesLocator, value);
         }
 
-        public async Task SetValue(OptionSet optionSet)
+        protected async Task<string> GetValue(OptionSet optionSet, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            await SetValue(optionSet, false);
+            return await GetValue(optionSet, false, formContextType, timeToCheckIfFrameExists);
         }
 
-        public async Task<string> GetCurrentlySelectedValue(OptionSet optionSet, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<string> GetValue(OptionSet optionSet, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             string name = optionSet.Name;
             string value = optionSet.Value;
-            ILocator dropdownLocator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", name)), CommonLocators.DropdownOpener);
+            ILocator completeFieldLocator = await ValidateFormContext(formContextType, name, timeToCheckIfFrameExists);
+            ILocator dropdownLocator = LocatorWithXpath(completeFieldLocator, CommonLocators.DropdownOpener);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(Locator(anySelectorInScroller));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(dropdownLocator, 0, 100, maxNumberOfScrolls);
             }
             return await TextContentAsync(dropdownLocator);
         }
 
-        public async Task<string> GetCurrentlySelectedValue(OptionSet optionSet)
+        protected async Task<List<string>> GetAllAvailableValues(OptionSet optionSet, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetCurrentlySelectedValue(optionSet, false);
+            return await GetAllAvailableValues(optionSet, false, formContextType, timeToCheckIfFrameExists);
         }
 
-        public async Task<List<string>> GetAllAvailableChoices(OptionSet optionSet, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<List<string>> GetAllAvailableValues(OptionSet optionSet, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             string name = optionSet.Name;
             string value = optionSet.Value;
-            ILocator dropdownLocator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", name)), CommonLocators.DropdownOpener);
-            ILocator dropdownValuesLocator = Locator(CommonLocators.DropdownValues);
+            ILocator completeFieldLocator = await ValidateFormContext(formContextType, name, timeToCheckIfFrameExists);
+            ILocator dropdownLocator = LocatorWithXpath(completeFieldLocator, CommonLocators.DropdownOpener);
+            ILocator dropdownValuesLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.DropdownValues);
             return await GetAllAvailableChoices(dropdownLocator, dropdownValuesLocator, dynamicallyLoaded, anySelectorInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<List<string>> GetAllAvailableChoices(OptionSet optionSet)
+        protected async Task SetValue(MultiSelectOptionSet multiSelectOptionSet, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetAllAvailableChoices(optionSet, false);
+            await SetValue(multiSelectOptionSet, false, formContextType, timeToCheckIfFrameExists);
         }
 
         // This method does not work if the value(s) already selected. We will have to write new function.
-        public async Task SetValue(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SetValue(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             string field = multiSelectOptionSet.Name;
             string[] values = multiSelectOptionSet.Values;
-            ILocator dropdownOptionsOpenerLocator = LocatorWithXpath(LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", field)), CommonLocators.MultiSelectOptionSetOpener);
-            ILocator dropdownValues = Locator(CommonLocators.MultiSelectOptions);
+            ILocator completeFieldLocator = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
+            ILocator dropdownOptionsOpenerLocator = LocatorWithXpath(completeFieldLocator, CommonLocators.MultiSelectOptionSetOpener);
+            ILocator dropdownValues = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.MultiSelectOptions);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(Locator(anySelectorInScroller));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(dropdownOptionsOpenerLocator, 0, 100, maxNumberOfScrolls);
             }
             await SelectMultiSelectOptions(dropdownOptionsOpenerLocator, dropdownValues, values);
             await ClickAsync(dropdownOptionsOpenerLocator);
         }
 
-        public async Task SetValue(MultiSelectOptionSet multiSelectOptionSet)
+        protected async Task ClearValues(MultiSelectOptionSet multiSelectOptionSet, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            await SetValue(multiSelectOptionSet, false);
+            await ClearValues(multiSelectOptionSet, false, formContextType, timeToCheckIfFrameExists);
         }
 
-        public async Task ClearValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task ClearValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             string field = multiSelectOptionSet.Name;
             string[] values = multiSelectOptionSet.Values;
-            ILocator fieldContainer = LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", field));
+            ILocator completeFieldLocator = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(fieldContainer, 0, 100, maxNumberOfScrolls);
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
+                await ScrollUsingMouseUntilElementIsVisible(completeFieldLocator, 0, 100, maxNumberOfScrolls);
             }
-            
-            await HoverAsync(LocatorWithXpath(fieldContainer, CommonLocators.SelectedOptionsValueContainer), new LocatorHoverOptions { Force = true});
+
+            await HoverAsync(LocatorWithXpath(completeFieldLocator, CommonLocators.SelectedOptionsValueContainer), new LocatorHoverOptions { Force = true });
             foreach (string value in values)
             {
-                ILocator dropdownOptionRemoveLocator = LocatorWithXpath(fieldContainer, CommonLocators.RemoveOptionInMultiSelectOptionSet.Replace("[Name]", value));
+                ILocator dropdownOptionRemoveLocator = LocatorWithXpath(completeFieldLocator, CommonLocators.RemoveOptionInMultiSelectOptionSet.Replace("[Name]", value));
                 await ClickAsync(dropdownOptionRemoveLocator);
             }
-            
-        }
-        public async Task ClearValues(MultiSelectOptionSet multiSelectOptionSet)
-        {
-            await ClearValues(multiSelectOptionSet, false);
         }
 
-        public async Task<List<string>> GetValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<List<string>> GetSelectedValues(MultiSelectOptionSet multiSelectOptionSet, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetSelectedValues(multiSelectOptionSet, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<List<string>> GetSelectedValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             string field = multiSelectOptionSet.Name;
-            ILocator fieldContainer = LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", field));
+            ILocator fieldContainer = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(Locator(anySelectorInScroller));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(fieldContainer, 0, 100, maxNumberOfScrolls);
             }
 
@@ -299,9 +307,80 @@ namespace AutomateBizApps.Modules
             return outputValues;
         }
 
-        public async Task ClickButton(string buttonName)
+        private async Task<int> GetFieldRequirement(string field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            await ClickAsync(Locator(CommonLocators.Button.Replace("[Name]", buttonName)));
+            ILocator fieldContainer = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
+                await ScrollUsingMouseUntilElementIsVisible(fieldContainer, 0, 100, maxNumberOfScrolls);
+            }
+            return int.Parse(await GetAttributeAsync(fieldContainer, "data-fieldrequirement"));
+        }
+
+        protected async Task<bool> isFieldBusinessRequired(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await isFieldBusinessRequired(field, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<bool> isFieldBusinessRequired(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            
+            int fieldRequirement = await GetFieldRequirement(field, dynamicallyLoaded, formContextType, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return fieldRequirement == 2;
+        }
+
+        protected async Task<bool> isFieldBusinessRecommended(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await isFieldBusinessRecommended(field, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<bool> isFieldBusinessRecommended(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            int fieldRequirement = await GetFieldRequirement(field, dynamicallyLoaded, formContextType, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return fieldRequirement == 3;
+        }
+
+        protected async Task<bool> isFieldOptional(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await isFieldOptional(field, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<bool> isFieldOptional(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            int fieldRequirement = await GetFieldRequirement(field, dynamicallyLoaded, formContextType, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return fieldRequirement == 0;
+        }
+
+        protected async Task<ILocator> ValidateFormContext(FormContextType formContextType, string field, int timeToCheckIfFrameExists)
+        {
+            ILocator fieldLocator = null;
+            if (formContextType == FormContextType.QuickCreate)
+            {
+                ILocator formContainerLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, QuickCreateLocators.FormContainer, timeToCheckIfFrameExists);
+                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainer.Replace("[Name]", field));
+            }
+            else if (formContextType == FormContextType.Entity)
+            {
+                ILocator formContainerLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormContainer, timeToCheckIfFrameExists);
+                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainer.Replace("[Name]", field));
+            }
+            else if (formContextType == FormContextType.BusinessProcessFlow)
+            {
+                ILocator formContainerLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, BusinessProcessFlowLocators.FormContainer, timeToCheckIfFrameExists);
+                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainer.Replace("[Name]", field));
+            }
+            else if (formContextType == FormContextType.Header)
+            {
+                ILocator formContainerLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, HeaderLocators.FormContainer, timeToCheckIfFrameExists);
+                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainer.Replace("[Name]", field));
+            }
+            else if (formContextType == FormContextType.Dialog)
+            {
+                ILocator formContainerLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, DialogLocators.FormContainer, timeToCheckIfFrameExists);
+                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainer.Replace("[Name]", field));
+            }
+            return fieldLocator;
         }
     }
 }
