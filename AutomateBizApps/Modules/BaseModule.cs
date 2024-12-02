@@ -9,6 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static AutomateBizApps.ObjectRepository.ObjectRepository;
 
 namespace AutomateBizApps.Pages
 {
@@ -76,12 +77,12 @@ namespace AutomateBizApps.Pages
             return locator.Locator(selector, options);
         }
 
-        public async Task<string?> GetAttributeAsync(string selector, string name, PageGetAttributeOptions? options = default)
+        public async Task<string> GetAttributeAsync(string selector, string name, PageGetAttributeOptions? options = default)
         {
             return await _page.GetAttributeAsync(selector, name, options);
         }
 
-        public async Task<string?> GetAttributeAsync(ILocator locator, string name, LocatorGetAttributeOptions? options = default)
+        public async Task<string> GetAttributeAsync(ILocator locator, string name, LocatorGetAttributeOptions? options = default)
         {
             return await locator.GetAttributeAsync(name, options);
         }
@@ -134,6 +135,7 @@ namespace AutomateBizApps.Pages
         public async Task ClickAsync(ILocator locatorToClick, LocatorClickOptions? options = default)
         {
             await locatorToClick.ClickAsync(options);
+            await WaitUntilAppIsIdle();
         }
 
         public async Task ClickAsync(ILocator locatorToClick, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorClickOptions? options = default)
@@ -144,12 +146,14 @@ namespace AutomateBizApps.Pages
                 await ScrollUsingMouseUntilElementIsVisible(locatorToClick, 0, 100, maxNumberOfScrolls);
             }
             await locatorToClick.ClickAsync(options);
+            await WaitUntilAppIsIdle();
         }
 
         // Need to add scrollables overloads
         public async Task DoubleClickAsync(ILocator locator, LocatorDblClickOptions? options = default)
         {
             await locator.DblClickAsync(options);
+            await WaitUntilAppIsIdle();
         }
 
         public async Task DoubleClickAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorDblClickOptions? options = default)
@@ -160,11 +164,13 @@ namespace AutomateBizApps.Pages
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
             await locator.DblClickAsync(options);
+            await WaitUntilAppIsIdle();
         }
 
         public async Task CheckAsync(ILocator locator, LocatorCheckOptions? options = default)
         {
             await locator.CheckAsync(options);
+            await WaitUntilAppIsIdle();
         }
 
         public async Task CheckAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorCheckOptions? options = default)
@@ -175,6 +181,7 @@ namespace AutomateBizApps.Pages
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
             await locator.CheckAsync(options);
+            await WaitUntilAppIsIdle();
         }
 
         public async Task<int> CountAsync(ILocator locator)
@@ -252,6 +259,7 @@ namespace AutomateBizApps.Pages
         public async Task UncheckAsync(ILocator locator, LocatorUncheckOptions? options = default)
         {
             await locator.UncheckAsync(options);
+            await WaitUntilAppIsIdle();
         }
 
         public async Task UncheckAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorUncheckOptions? options = default)
@@ -262,6 +270,7 @@ namespace AutomateBizApps.Pages
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
             await locator.UncheckAsync(options);
+            await WaitUntilAppIsIdle();
         }
 
         public async Task TypeAsync(ILocator locator, string text, LocatorTypeOptions? options = default)
@@ -449,7 +458,7 @@ namespace AutomateBizApps.Pages
             await locator.HighlightAsync();
         }
 
-        public async Task<string?> TextContentAsync(ILocator locator, LocatorTextContentOptions? options = default)
+        public async Task<string> TextContentAsync(ILocator locator, LocatorTextContentOptions? options = default)
         {
             return await locator.TextContentAsync(options);
         }
@@ -818,11 +827,11 @@ namespace AutomateBizApps.Pages
             await SelectMultiSelectOptions(dropdownOptionsOpener, dropdownOptions, options, false);
         }
 
-        public async Task<List<string>> GetAllAvailableChoices(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<List<string>> GetAllAvailableChoices(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
-                await HoverAsync(Locator(anySelectorInScroller));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(dropdownOptionsOpener, 0, 100, maxNumberOfScrolls);
             }
             await ClickAsync(dropdownOptionsOpener);
@@ -947,12 +956,18 @@ namespace AutomateBizApps.Pages
 
         public async Task WaitUntilAppIsIdle()
         {
-            if (!await _page.EvaluateAsync<bool>("window.UCWorkBlockTracker.isAppIdle()"))
+            try
             {
-                // Let's log something
-                Thread.Sleep(500);
-                await WaitUntilAppIsIdle();
-                
+                if (!await _page.EvaluateAsync<bool>("window.UCWorkBlockTracker.isAppIdle()"))
+                {
+                    // Let's log something
+                    Thread.Sleep(500);
+                    await WaitUntilAppIsIdle();
+
+                }
+            } catch(Exception e)
+            {
+                // Ignore this exception
             }
         }
 
