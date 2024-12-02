@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static AutomateBizApps.ObjectRepository.ObjectRepository;
 
 namespace AutomateCe.Modules
 {
@@ -168,6 +169,32 @@ namespace AutomateCe.Modules
         public async Task<bool> isFieldOptional(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await isFieldOptional(field, dynamicallyLoaded, FormContextType.QuickCreate, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task Cancel()
+        {
+            await ClickButton("Cancel");
+        }
+
+        public async Task Close()
+        {
+            await ClickAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, QuickCreateLocators.Close));
+        }
+
+        public async Task Save()
+        {
+            await ClickButton("Save");
+        }
+
+        public async Task SaveAndClose()
+        {
+            await ClickButton("Save and Close");
+        }
+
+        public async Task SaveAndCreateNew()
+        {
+            await ClickAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, QuickCreateLocators.SaveAndNewBtnOpener));
+            await ClickButton("Save & Create New");
         }
     }
 }

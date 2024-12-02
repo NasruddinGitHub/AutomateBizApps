@@ -39,7 +39,7 @@ namespace AutomateBizApps.Modules
         }
         protected async Task ClickButton(string buttonName)
         {
-            await ClickAsync(Locator(CommonLocators.Button.Replace("[Name]", buttonName)));
+            await ClickAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.Button.Replace("[Name]", buttonName)));
         }
 
         protected async Task SetValue(string fieldName, string input, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)

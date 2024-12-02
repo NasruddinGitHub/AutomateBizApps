@@ -115,7 +115,7 @@ namespace AutomateBizApps.ObjectRepository
         public static class CommonLocators
         {
             public static string FieldContainer = "//label[text()='[Name]']/ancestor::div[contains(@data-id,'FieldSectionItemContainer')]";
-            public static string Button = "//button[text()='[Name]']";
+            public static string Button = "//*[text()='[Name]']";
             public static string LookupResults = "//ul[@aria-label='Lookup results']";
             public static string CloseIconLookupValue = "descendant::button[contains(@aria-label,'Delete')]";
             public static string LookupValue = "descendant::div[contains(@id,'selected_tag_text')]";
@@ -146,6 +146,8 @@ namespace AutomateBizApps.ObjectRepository
         public static class QuickCreateLocators
         {
             public static string FormContainer = "//section[contains(@data-id,'quickCreateRoot')]";
+            public static string SaveAndNewBtnOpener = "//button[@id='quickCreateSaveAndNewBtn']";
+            public static string Close = "//button[contains(@id,'quickFormCloseBtn')]";
         }
 
         public static class BusinessProcessFlowLocators
