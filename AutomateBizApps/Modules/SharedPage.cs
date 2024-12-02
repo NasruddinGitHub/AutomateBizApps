@@ -352,6 +352,22 @@ namespace AutomateBizApps.Modules
             return fieldRequirement == 0;
         }
 
+        protected async Task<bool> isFieldLocked(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await isFieldLocked(field, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<bool> isFieldLocked(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            ILocator fieldContainer = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
+                await ScrollUsingMouseUntilElementIsVisible(fieldContainer, 0, 100, maxNumberOfScrolls);
+            }
+            return await IsVisibleAsyncWithWaiting(LocatorWithXpath(fieldContainer, CommonLocators.LockedIcon), 0);
+        }
+
         protected async Task<ILocator> ValidateFormContext(FormContextType formContextType, string field, int timeToCheckIfFrameExists)
         {
             ILocator fieldLocator = null;

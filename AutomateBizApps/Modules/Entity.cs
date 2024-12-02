@@ -217,7 +217,17 @@ namespace AutomateCe.Modules
         {
             return await isFieldOptional(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
-        
+
+        protected async Task<bool> isFieldLocked(String field, int timeToCheckIfFrameExists = 1000)
+        {
+            return await isFieldLocked(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<bool> isFieldLocked(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            return await isFieldLocked(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
         public async Task<string> GetFormHeaderTitle()
         {
             string title = await TextContentAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormHeaderTitle));

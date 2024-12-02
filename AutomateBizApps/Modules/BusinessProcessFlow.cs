@@ -171,6 +171,16 @@ namespace AutomateCe.Modules
             return await isFieldOptional(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
+        protected async Task<bool> isFieldLocked(String field, int timeToCheckIfFrameExists = 1000)
+        {
+            return await isFieldLocked(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<bool> isFieldLocked(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            return await isFieldLocked(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+        }
+
         public async Task SelectStage(string stageName)
         {
             await ClickAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, BusinessProcessFlowLocators.StageName.Replace("[Name]", stageName)));

@@ -128,9 +128,9 @@ namespace AutomateBizApps.ObjectRepository
             public static string SelectedOptionsValueContainer = "descendant::div[contains(@class,'msos-container')]";
             public static string FocusedViewFrame = "//iframe[@id='FormControlIframe_ID']";
             public static string BusinessRequiredIcon = ".//span[contains(@data-id,'required-icon') and text()='*']";
-            public static string BusinessRecommendedIcon = "//span[contains(@data-id,'required-icon') and text()='+']";
+            public static string BusinessRecommendedIcon = ".//span[contains(@data-id,'required-icon') and text()='+']";
             public static string OptionalIcon = ".//span[contains(@data-id,'required-icon')]";
-
+            public static string LockedIcon = ".//div[contains(@data-id,'FieldSectionItemContainer')]/descendant::div[contains(@data-id,'locked-iconWrapper')]";
         }
 
         public static class EntityLocators

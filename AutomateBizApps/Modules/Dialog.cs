@@ -169,5 +169,15 @@ namespace AutomateCe.Modules
         {
             return await isFieldOptional(field, dynamicallyLoaded, FormContextType.Dialog, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
+
+        protected async Task<bool> isFieldLocked(String field, int timeToCheckIfFrameExists = 1000)
+        {
+            return await isFieldLocked(field, false, FormContextType.Dialog, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<bool> isFieldLocked(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            return await isFieldLocked(field, dynamicallyLoaded, FormContextType.Dialog, timeToCheckIfFrameExists);
+        }
     }
 }
