@@ -25,120 +25,120 @@ namespace AutomateBizApps.Pages
             this._page = page;
         }
 
-        public ILocator GetByAltText(string text)
+        protected ILocator GetByAltText(string text)
         {
             return _page.GetByAltText(text);
         }
 
-        public ILocator GetByLabel(string text)
+        protected ILocator GetByLabel(string text)
         {
             return _page.GetByLabel(text);
         }
 
-        public ILocator GetByPlaceholder(string text)
+        protected ILocator GetByPlaceholder(string text)
         {
             return _page.GetByPlaceholder(text);
         }
 
-        public ILocator GetByRole(AriaRole ariaRole, PageGetByRoleOptions? options = default)
+        protected ILocator GetByRole(AriaRole ariaRole, PageGetByRoleOptions? options = default)
         {
             return _page.GetByRole(ariaRole, options);
         }
 
-        public ILocator GetByTestId(string testId)
+        protected ILocator GetByTestId(string testId)
         {
             return _page.GetByTestId(testId);
         }
-        public ILocator GetByText(string text, PageGetByTextOptions? options = default)
+        protected ILocator GetByText(string text, PageGetByTextOptions? options = default)
         {
             return _page.GetByText(text, options);
         }
-        public ILocator GetByTitle(string text, PageGetByTitleOptions? options = default)
+        protected ILocator GetByTitle(string text, PageGetByTitleOptions? options = default)
         {
             return _page.GetByTitle(text, options);
         }
-        public ILocator Locator(string selector, PageLocatorOptions? options = default)
+        protected ILocator Locator(string selector, PageLocatorOptions? options = default)
         {
             return _page.Locator(selector, options);
         }
 
-        public ILocator LocatorWithXpath(string selector, PageLocatorOptions? options = default)
+        protected ILocator LocatorWithXpath(string selector, PageLocatorOptions? options = default)
         {
             return _page.Locator($"xpath={selector}", options);
         }
 
-        public ILocator LocatorWithXpath(ILocator locator, string selector, LocatorLocatorOptions? options = default)
+        protected ILocator LocatorWithXpath(ILocator locator, string selector, LocatorLocatorOptions? options = default)
         {
             return locator.Locator($"xpath={selector}", options);
         }
 
-        public ILocator Locator(ILocator locator, string selector, LocatorLocatorOptions? options = default)
+        protected ILocator Locator(ILocator locator, string selector, LocatorLocatorOptions? options = default)
         {
             return locator.Locator(selector, options);
         }
 
-        public async Task<string> GetAttributeAsync(string selector, string name, PageGetAttributeOptions? options = default)
+        protected async Task<string> GetAttributeAsync(string selector, string name, PageGetAttributeOptions? options = default)
         {
             return await _page.GetAttributeAsync(selector, name, options);
         }
 
-        public async Task<string> GetAttributeAsync(ILocator locator, string name, LocatorGetAttributeOptions? options = default)
+        protected async Task<string> GetAttributeAsync(ILocator locator, string name, LocatorGetAttributeOptions? options = default)
         {
             return await locator.GetAttributeAsync(name, options);
         }
 
-        public IFrameLocator FrameLocator(string frameSelector)
+        protected IFrameLocator FrameLocator(string frameSelector)
         {
             return _page.FrameLocator(frameSelector);
         }
 
-        public ILocator SwitchToFrameAndLocate(string frameSelector, string locatorSelector, FrameLocatorLocatorOptions? options = default)
+        protected ILocator SwitchToFrameAndLocate(string frameSelector, string locatorSelector, FrameLocatorLocatorOptions? options = default)
         {
             return FrameLocator(frameSelector).Locator(locatorSelector, options);
         }
 
-        public ILocator SwitchToFrameAndLocateWithXpath(string frameSelector, string locatorSelector, FrameLocatorLocatorOptions? options = default)
+        protected ILocator SwitchToFrameAndLocateWithXpath(string frameSelector, string locatorSelector, FrameLocatorLocatorOptions? options = default)
         {
             return FrameLocator(frameSelector).Locator($"xpath={locatorSelector}", options);
         }
 
-        public ILocator SwitchToFrameAndLocate(IFrameLocator frameLocator, string locatorSelector, FrameLocatorLocatorOptions? options = default)
+        protected ILocator SwitchToFrameAndLocate(IFrameLocator frameLocator, string locatorSelector, FrameLocatorLocatorOptions? options = default)
         {
             return frameLocator.Locator(locatorSelector, options);
         }
 
-        public ILocator SwitchToFrameAndLocate(IFrame frame, string locatorSelector, FrameLocatorOptions? options = default)
+        protected ILocator SwitchToFrameAndLocate(IFrame frame, string locatorSelector, FrameLocatorOptions? options = default)
         {
             return frame.Locator(locatorSelector, options);
         }
 
-        public ILocator SwitchToFrameAndLocateWithXpath(ILocator frameSelector, string locatorSelector, LocatorLocatorOptions? options = default)
+        protected ILocator SwitchToFrameAndLocateWithXpath(ILocator frameSelector, string locatorSelector, LocatorLocatorOptions? options = default)
         {
             return frameSelector.Locator($"xpath={locatorSelector}", options);
         }
 
-        public IFrame? Frame(string selector)
+        protected IFrame? Frame(string selector)
         {
             return _page.Frame(selector);
         }
 
-        public IFrame? FrameByUrl(string url)
+        protected IFrame? FrameByUrl(string url)
         {
             return _page.FrameByUrl(url);
         }
 
-        public IFrame? FrameByUrl(Regex url)
+        protected IFrame? FrameByUrl(Regex url)
         {
             return _page.FrameByUrl(url);
         }
 
-        public async Task ClickAsync(ILocator locatorToClick, LocatorClickOptions? options = default)
+        protected async Task ClickAsync(ILocator locatorToClick, LocatorClickOptions? options = default)
         {
             await locatorToClick.ClickAsync(options);
             await WaitUntilAppIsIdle();
         }
 
-        public async Task ClickAsync(ILocator locatorToClick, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorClickOptions? options = default)
+        protected async Task ClickAsync(ILocator locatorToClick, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorClickOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -150,13 +150,13 @@ namespace AutomateBizApps.Pages
         }
 
         // Need to add scrollables overloads
-        public async Task DoubleClickAsync(ILocator locator, LocatorDblClickOptions? options = default)
+        protected async Task DoubleClickAsync(ILocator locator, LocatorDblClickOptions? options = default)
         {
             await locator.DblClickAsync(options);
             await WaitUntilAppIsIdle();
         }
 
-        public async Task DoubleClickAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorDblClickOptions? options = default)
+        protected async Task DoubleClickAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorDblClickOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -167,13 +167,13 @@ namespace AutomateBizApps.Pages
             await WaitUntilAppIsIdle();
         }
 
-        public async Task CheckAsync(ILocator locator, LocatorCheckOptions? options = default)
+        protected async Task CheckAsync(ILocator locator, LocatorCheckOptions? options = default)
         {
             await locator.CheckAsync(options);
             await WaitUntilAppIsIdle();
         }
 
-        public async Task CheckAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorCheckOptions? options = default)
+        protected async Task CheckAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorCheckOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -184,17 +184,17 @@ namespace AutomateBizApps.Pages
             await WaitUntilAppIsIdle();
         }
 
-        public async Task<int> CountAsync(ILocator locator)
+        protected async Task<int> CountAsync(ILocator locator)
         {
             return await locator.CountAsync();
         }
 
-        public async Task HoverAsync(ILocator locator, LocatorHoverOptions? options = default)
+        protected async Task HoverAsync(ILocator locator, LocatorHoverOptions? options = default)
         {
             await locator.Nth(0).HoverAsync(options);
         }
 
-        public async Task HoverAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorHoverOptions? options = default)
+        protected async Task HoverAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorHoverOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -204,13 +204,13 @@ namespace AutomateBizApps.Pages
             await locator.HoverAsync(options);
         }
 
-        public async Task HoverAndClickAsync(ILocator locator, LocatorHoverOptions? options1 = default, LocatorClickOptions? options2 = default)
+        protected async Task HoverAndClickAsync(ILocator locator, LocatorHoverOptions? options1 = default, LocatorClickOptions? options2 = default)
         {
             await locator.HoverAsync(options1);
             await ClickAsync(locator, options2);
         }
 
-        public async Task HoverAndClickAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorHoverOptions? options1 = default, LocatorClickOptions? options2 = default)
+        protected async Task HoverAndClickAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorHoverOptions? options1 = default, LocatorClickOptions? options2 = default)
         {
             if (dynamicallyLoaded)
             {
@@ -221,12 +221,12 @@ namespace AutomateBizApps.Pages
             await ClickAsync(locator, options2);
         }
 
-        public async Task FillAsync(ILocator locator, string value, LocatorFillOptions? options = default)
+        protected async Task FillAsync(ILocator locator, string value, LocatorFillOptions? options = default)
         {
             await locator.FillAsync(value, options);
         }
 
-        public async Task FillAsync(ILocator locator, string value, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorFillOptions? options = default)
+        protected async Task FillAsync(ILocator locator, string value, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorFillOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -236,33 +236,33 @@ namespace AutomateBizApps.Pages
             await locator.FillAsync(value, options);
         }
 
-        public IPage Page(ILocator locator)
+        protected IPage Page(ILocator locator)
         {
             return locator.Page;
         }
 
-        //public async Task<ILocator> First(ILocator locator)
+        //protected async Task<ILocator> First(ILocator locator)
         //{
         //    return locator.First;
         //}
 
-        //public async Task<ILocator> Last(ILocator locator)
+        //protected async Task<ILocator> Last(ILocator locator)
         //{
         //    return locator.Last;
         //}
 
-        public ILocator Nth(ILocator locator, int index)
+        protected ILocator Nth(ILocator locator, int index)
         {
             return locator.Nth(index);
         }
 
-        public async Task UncheckAsync(ILocator locator, LocatorUncheckOptions? options = default)
+        protected async Task UncheckAsync(ILocator locator, LocatorUncheckOptions? options = default)
         {
             await locator.UncheckAsync(options);
             await WaitUntilAppIsIdle();
         }
 
-        public async Task UncheckAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorUncheckOptions? options = default)
+        protected async Task UncheckAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorUncheckOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -273,12 +273,12 @@ namespace AutomateBizApps.Pages
             await WaitUntilAppIsIdle();
         }
 
-        public async Task TypeAsync(ILocator locator, string text, LocatorTypeOptions? options = default)
+        protected async Task TypeAsync(ILocator locator, string text, LocatorTypeOptions? options = default)
         {
             await locator.TypeAsync(text, options);
         }
 
-        public async Task TypeAsync(ILocator locator, string text, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorTypeOptions? options = default)
+        protected async Task TypeAsync(ILocator locator, string text, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorTypeOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -288,12 +288,12 @@ namespace AutomateBizApps.Pages
             await locator.TypeAsync(text, options);
         }
 
-        public async Task<bool> IsCheckedAsync(ILocator locator, LocatorIsCheckedOptions? options = default)
+        protected async Task<bool> IsCheckedAsync(ILocator locator, LocatorIsCheckedOptions? options = default)
         {
             return await locator.IsCheckedAsync(options);
         }
 
-        public async Task<bool> IsCheckedAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsCheckedOptions? options = default)
+        protected async Task<bool> IsCheckedAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsCheckedOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -303,12 +303,12 @@ namespace AutomateBizApps.Pages
             return await locator.IsCheckedAsync(options);
         }
 
-        public async Task<bool> IsDisabledAsync(ILocator locator, LocatorIsDisabledOptions? options = default)
+        protected async Task<bool> IsDisabledAsync(ILocator locator, LocatorIsDisabledOptions? options = default)
         {
             return await locator.IsDisabledAsync(options);
         }
 
-        public async Task<bool> IsDisabledAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsDisabledOptions? options = default)
+        protected async Task<bool> IsDisabledAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsDisabledOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -318,12 +318,12 @@ namespace AutomateBizApps.Pages
             return await locator.IsDisabledAsync(options);
         }
 
-        public async Task<bool> IsEditableAsync(ILocator locator, LocatorIsEditableOptions? options = default)
+        protected async Task<bool> IsEditableAsync(ILocator locator, LocatorIsEditableOptions? options = default)
         {
             return await locator.IsEditableAsync(options);
         }
 
-        public async Task<bool> IsEditableAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsEditableOptions? options = default)
+        protected async Task<bool> IsEditableAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsEditableOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -333,12 +333,12 @@ namespace AutomateBizApps.Pages
             return await locator.IsEditableAsync(options);
         }
 
-        public async Task<bool> IsEnabledAsync(ILocator locator, LocatorIsEnabledOptions? options = default)
+        protected async Task<bool> IsEnabledAsync(ILocator locator, LocatorIsEnabledOptions? options = default)
         {
             return await locator.IsEnabledAsync(options);
         }
 
-        public async Task<bool> IsEnabledAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsEnabledOptions? options = default)
+        protected async Task<bool> IsEnabledAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsEnabledOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -348,12 +348,12 @@ namespace AutomateBizApps.Pages
             return await locator.IsEnabledAsync(options);
         }
 
-        public async Task<bool> IsHiddenAsync(ILocator locator, LocatorIsHiddenOptions? options = default)
+        protected async Task<bool> IsHiddenAsync(ILocator locator, LocatorIsHiddenOptions? options = default)
         {
             return await locator.IsHiddenAsync(options);
         }
 
-        public async Task<bool> IsHiddenAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsHiddenOptions? options = default)
+        protected async Task<bool> IsHiddenAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsHiddenOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -363,12 +363,12 @@ namespace AutomateBizApps.Pages
             return await locator.IsHiddenAsync(options);
         }
 
-        public async Task<bool> IsVisibleAsync(ILocator locator, LocatorIsVisibleOptions? options = default)
+        protected async Task<bool> IsVisibleAsync(ILocator locator, LocatorIsVisibleOptions? options = default)
         {
             return await locator.IsVisibleAsync(options);
         }
 
-        public async Task<bool> IsVisibleAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsVisibleOptions? options = default)
+        protected async Task<bool> IsVisibleAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsVisibleOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -378,17 +378,17 @@ namespace AutomateBizApps.Pages
             return await locator.IsVisibleAsync(options);
         }
 
-        public async Task ScrollIntoViewIfNeededAsync(ILocator locator, LocatorScrollIntoViewIfNeededOptions? options = default)
+        protected async Task ScrollIntoViewIfNeededAsync(ILocator locator, LocatorScrollIntoViewIfNeededOptions? options = default)
         {
             await locator.ScrollIntoViewIfNeededAsync(options);
         }
 
-        public async Task SelectOptionAsync(ILocator locator, string values, LocatorSelectOptionOptions? options = default)
+        protected async Task SelectOptionAsync(ILocator locator, string values, LocatorSelectOptionOptions? options = default)
         {
             await locator.SelectOptionAsync(values, options);
         }
 
-        public async Task SelectOptionAsync(ILocator locator, string values, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorSelectOptionOptions? options = default)
+        protected async Task SelectOptionAsync(ILocator locator, string values, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorSelectOptionOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -398,17 +398,17 @@ namespace AutomateBizApps.Pages
             await locator.SelectOptionAsync(values, options);
         }
 
-        public async Task<byte[]> ElementScreenshotAsync(ILocator locator, LocatorScreenshotOptions? options = default)
+        protected async Task<byte[]> ElementScreenshotAsync(ILocator locator, LocatorScreenshotOptions? options = default)
         {
             return await locator.ScreenshotAsync(options);
         }
 
-        public async Task<byte[]> PageScreenshotAsync(PageScreenshotOptions? options = default)
+        protected async Task<byte[]> PageScreenshotAsync(PageScreenshotOptions? options = default)
         {
             return await _page.ScreenshotAsync(options);
         }
 
-        public async Task ScreenshotAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorScreenshotOptions? options = default)
+        protected async Task ScreenshotAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorScreenshotOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -418,17 +418,17 @@ namespace AutomateBizApps.Pages
             await locator.ScreenshotAsync(options);
         }
 
-        public async Task WaitForAsync(ILocator locator, LocatorWaitForOptions? options = default)
+        protected async Task WaitForAsync(ILocator locator, LocatorWaitForOptions? options = default)
         {
             await locator.WaitForAsync(options);
         }
 
-        public async Task<string> InputValueAsync(ILocator locator, LocatorInputValueOptions? options = default)
+        protected async Task<string> InputValueAsync(ILocator locator, LocatorInputValueOptions? options = default)
         {
             return await InputValueAsync(locator, false, null, 0, options);
         }
 
-        public async Task<string> InputValueAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorInputValueOptions? options = default)
+        protected async Task<string> InputValueAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorInputValueOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -438,17 +438,17 @@ namespace AutomateBizApps.Pages
             return await locator.InputValueAsync(options);
         }
 
-        public ILocator Filter(ILocator locator, LocatorFilterOptions? options = default)
+        protected ILocator Filter(ILocator locator, LocatorFilterOptions? options = default)
         {
             return locator.Filter(options);
         }
 
-        public async Task HighlightAsync(ILocator locator)
+        protected async Task HighlightAsync(ILocator locator)
         {
             await locator.HighlightAsync();
         }
 
-        public async Task HighlightAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task HighlightAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
@@ -458,12 +458,12 @@ namespace AutomateBizApps.Pages
             await locator.HighlightAsync();
         }
 
-        public async Task<string> TextContentAsync(ILocator locator, LocatorTextContentOptions? options = default)
+        protected async Task<string> TextContentAsync(ILocator locator, LocatorTextContentOptions? options = default)
         {
             return await locator.TextContentAsync(options);
         }
 
-        public async Task<string?> TextContentAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorTextContentOptions? options = default)
+        protected async Task<string?> TextContentAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorTextContentOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -474,7 +474,7 @@ namespace AutomateBizApps.Pages
         }
 
         // This will not wait until first element is visible
-        public async Task<List<string>> GetAllElementsText(ILocator locator)
+        protected async Task<List<string>> GetAllElementsText(ILocator locator)
         {
             var allElementsText = new List<string?>();
             var allElementsCount = await CountAsync(locator);
@@ -486,7 +486,7 @@ namespace AutomateBizApps.Pages
         }
 
         // This will wait until first element is visible
-        public async Task<List<string>> GetAllElementsTextAfterWaiting(ILocator locator, int waitTime = 10000)
+        protected async Task<List<string>> GetAllElementsTextAfterWaiting(ILocator locator, int waitTime = 10000)
         {
             var allElementsText = new List<string?>();
             await ToBeVisibleAsync(locator, 0, waitTime);
@@ -498,7 +498,7 @@ namespace AutomateBizApps.Pages
             return allElementsText;
         }
 
-        public async Task<List<string>> GetAllElementsTextAfterWaiting(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, int waitTime = 10000)
+        protected async Task<List<string>> GetAllElementsTextAfterWaiting(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, int waitTime = 10000)
         {
             var allElementsText = new List<string?>();
             if (dynamicallyLoaded)
@@ -515,17 +515,17 @@ namespace AutomateBizApps.Pages
             return allElementsText;
         }
 
-        public void ThinkTime(int milliseconds)
+        protected void ThinkTime(int milliseconds)
         {
             Thread.Sleep(milliseconds);
         }
 
-        public async Task ToBeVisibleAsync(ILocator locator, int index, int visibleTimeout = 5000)
+        protected async Task ToBeVisibleAsync(ILocator locator, int index, int visibleTimeout = 5000)
         {
             await Expect(locator.Nth(index)).ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
         }
 
-        public async Task ToBeVisibleAsync(ILocator locator, int index, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, int visibleTimeout = 5000)
+        protected async Task ToBeVisibleAsync(ILocator locator, int index, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, int visibleTimeout = 5000)
         {
             if (dynamicallyLoaded)
             {
@@ -535,12 +535,12 @@ namespace AutomateBizApps.Pages
             await Expect(locator.Nth(index)).ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
         }
 
-        public async Task ToBeNotVisibleAsync(ILocator locator, int index, int visibleTimeout = 5000)
+        protected async Task ToBeNotVisibleAsync(ILocator locator, int index, int visibleTimeout = 5000)
         {
             await Expect(locator.Nth(index)).Not.ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
         }
 
-        public async Task ToBeNotVisibleAsync(ILocator locator, int index, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, int visibleTimeout = 5000)
+        protected async Task ToBeNotVisibleAsync(ILocator locator, int index, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, int visibleTimeout = 5000)
         {
             if (dynamicallyLoaded)
             {
@@ -550,7 +550,7 @@ namespace AutomateBizApps.Pages
             await Expect(locator.Nth(index)).Not.ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
         }
 
-        public async Task<bool> IsVisibleAsyncWithWaiting(ILocator locator, int index, int visibleTimeout = 5000)
+        protected async Task<bool> IsVisibleAsyncWithWaiting(ILocator locator, int index, int visibleTimeout = 5000)
         {
             try
             {
@@ -565,7 +565,7 @@ namespace AutomateBizApps.Pages
             return false;
         }
 
-        public async Task<bool> IsNotVisibleAsyncWithWaiting(ILocator locator, int index, int visibleTimeout = 5000)
+        protected async Task<bool> IsNotVisibleAsyncWithWaiting(ILocator locator, int index, int visibleTimeout = 5000)
         {
             try
             {
@@ -580,7 +580,7 @@ namespace AutomateBizApps.Pages
             return false;
         }
 
-        public async Task<bool> IsVisibleAsyncWithWaiting(ILocator locator, int index, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, int visibleTimeout = 5000)
+        protected async Task<bool> IsVisibleAsyncWithWaiting(ILocator locator, int index, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, int visibleTimeout = 5000)
         {
             try
             {
@@ -600,12 +600,12 @@ namespace AutomateBizApps.Pages
             return false;
         }
 
-        public async Task WaitUntilElementNotVisbleIfVisible(ILocator locator, int waitTimeToVisble, int waitTimeNotToVisble)
+        protected async Task WaitUntilElementNotVisbleIfVisible(ILocator locator, int waitTimeToVisble, int waitTimeNotToVisble)
         {
             await WaitUntilElementNotVisbleIfVisible(locator, waitTimeToVisble, waitTimeNotToVisble, false);
         }
 
-        public async Task WaitUntilElementNotVisbleIfVisible(ILocator locator, int waitTimeToVisble, int waitTimeNotToVisble, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task WaitUntilElementNotVisbleIfVisible(ILocator locator, int waitTimeToVisble, int waitTimeNotToVisble, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             try
             {
@@ -624,22 +624,22 @@ namespace AutomateBizApps.Pages
             }
         }
 
-        public async Task GoBackAsync(PageGoBackOptions pageGoBackOptions)
+        protected async Task GoBackAsync(PageGoBackOptions pageGoBackOptions)
         {
             await _page.GoBackAsync(pageGoBackOptions);
         }
 
-        public async Task GoForwardAsync(PageGoForwardOptions pageGoForwardOptions)
+        protected async Task GoForwardAsync(PageGoForwardOptions pageGoForwardOptions)
         {
             await _page.GoForwardAsync(pageGoForwardOptions);
         }
 
-        public async Task ReloadAsync(PageReloadOptions pageReloadOptions)
+        protected async Task ReloadAsync(PageReloadOptions pageReloadOptions)
         {
             await _page.ReloadAsync(pageReloadOptions);
         }
 
-        public string GetTotp(string mfaKey)
+        protected string GetTotp(string mfaKey)
         {
             byte[] base32Bytes = Base32Encoding.ToBytes(mfaKey);
 
@@ -647,43 +647,43 @@ namespace AutomateBizApps.Pages
             return totp.ComputeTotp();
         }
 
-        public async Task KeyBoardDownAsync(string key)
+        protected async Task KeyBoardDownAsync(string key)
         {
             await _page.Keyboard.DownAsync(key);
         }
 
-        public async Task KeyBoardUpAsync(string key)
+        protected async Task KeyBoardUpAsync(string key)
         {
             await _page.Keyboard.UpAsync(key);
         }
 
-        public async Task KeyboardTypeAsync(string key, KeyboardTypeOptions? options = default)
+        protected async Task KeyboardTypeAsync(string key, KeyboardTypeOptions? options = default)
         {
             await _page.Keyboard.TypeAsync(key, options);
         }
 
-        public async Task KeyboardPressAsync(string key, KeyboardPressOptions? options = default)
+        protected async Task KeyboardPressAsync(string key, KeyboardPressOptions? options = default)
         {
             await _page.Keyboard.PressAsync(key, options);
         }
 
-        public async Task KeyboardInsertTextAsync(string key)
+        protected async Task KeyboardInsertTextAsync(string key)
         {
             await _page.Keyboard.InsertTextAsync(key);
         }
 
-        public async Task PressKeyboardKeyAsync(string key, int noOfTimes, KeyboardPressOptions? options = default)
+        protected async Task PressKeyboardKeyAsync(string key, int noOfTimes, KeyboardPressOptions? options = default)
         {
             for (int i = 0; i < noOfTimes; i++)
                 await _page.Keyboard.PressAsync(key, options);
         }
 
-        public async Task SelectOption(string options, string optionToSelect)
+        protected async Task SelectOption(string options, string optionToSelect)
         {
             await SelectOption(options, optionToSelect, false);
         }
 
-        public async Task SelectOption(string options, string optionToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectOption(string options, string optionToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             var optionsLocator = Locator(options);
             if (dynamicallyLoaded)
@@ -704,12 +704,12 @@ namespace AutomateBizApps.Pages
             }
         }
 
-        public async Task SelectOption(ILocator optionsLocator, string optionToSelect)
+        protected async Task SelectOption(ILocator optionsLocator, string optionToSelect)
         {
             await SelectOption(optionsLocator, optionToSelect, false);
         }
 
-        public async Task SelectOption(ILocator optionsLocator, string optionToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectOption(ILocator optionsLocator, string optionToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
@@ -729,12 +729,12 @@ namespace AutomateBizApps.Pages
             }
         }
 
-        public async Task SelectOptions(ILocator optionsLocator, string[] optionsToSelect)
+        protected async Task SelectOptions(ILocator optionsLocator, string[] optionsToSelect)
         {
             await SelectOptions(optionsLocator, optionsToSelect, false);
         }
 
-        public async Task SelectOptions(ILocator optionsLocator, string[] optionsToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectOptions(ILocator optionsLocator, string[] optionsToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
@@ -758,12 +758,12 @@ namespace AutomateBizApps.Pages
             }
         }
 
-        public async Task SelectOption(ILocator optionsLocator, int index)
+        protected async Task SelectOption(ILocator optionsLocator, int index)
         {
             await SelectOption(optionsLocator, index, false);
         }
 
-        public async Task SelectOption(ILocator optionsLocator, int index, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectOption(ILocator optionsLocator, int index, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
@@ -782,22 +782,22 @@ namespace AutomateBizApps.Pages
             }
         }
 
-        public async Task SelectDropdownOption(string dropdownOptionsOpener, string dropdownOptions, string option)
+        protected async Task SelectDropdownOption(string dropdownOptionsOpener, string dropdownOptions, string option)
         {
             await SelectDropdownOption(dropdownOptionsOpener, dropdownOptions, option, false);
         }
 
-        public async Task SelectDropdownOption(string dropdownOptionsOpener, string dropdownOptions, string option, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectDropdownOption(string dropdownOptionsOpener, string dropdownOptions, string option, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             await SelectDropdownOption(Locator(dropdownOptionsOpener), Locator(dropdownOptions), option, dynamicallyLoaded);
         }
 
-        public async Task SelectDropdownOption(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string option)
+        protected async Task SelectDropdownOption(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string option)
         {
             await SelectDropdownOption(dropdownOptionsOpener, dropdownOptions, option, false);
         }
 
-        public async Task SelectDropdownOption(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string option, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectDropdownOption(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string option, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
@@ -810,7 +810,7 @@ namespace AutomateBizApps.Pages
             await SelectOption(dropdownOptions, option);
         }
 
-        public async Task SelectMultiSelectOptions(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string[] options, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectMultiSelectOptions(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string[] options, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
@@ -822,12 +822,12 @@ namespace AutomateBizApps.Pages
             await SelectOptions(dropdownOptions, options);
         }
 
-        public async Task SelectMultiSelectOptions(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string[] options)
+        protected async Task SelectMultiSelectOptions(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string[] options)
         {
             await SelectMultiSelectOptions(dropdownOptionsOpener, dropdownOptions, options, false);
         }
 
-        public async Task<List<string>> GetAllAvailableChoices(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<List<string>> GetAllAvailableChoices(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
@@ -838,12 +838,12 @@ namespace AutomateBizApps.Pages
             return await GetAllElementsTextAfterWaiting(dropdownOptions);
         }
 
-        public async Task<List<string>> GetAllAvailableChoices(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded)
+        protected async Task<List<string>> GetAllAvailableChoices(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded)
         {
             return await GetAllAvailableChoices(dropdownOptionsOpener, dropdownOptions, false);
         }
 
-        public async Task ClearAsnyc(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorClearOptions? options = default)
+        protected async Task ClearAsnyc(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorClearOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
@@ -853,62 +853,62 @@ namespace AutomateBizApps.Pages
             await locator.ClearAsync(options);
         }
 
-        public async Task ClearAsnyc(ILocator locator, LocatorClearOptions? options = default)
+        protected async Task ClearAsnyc(ILocator locator, LocatorClearOptions? options = default)
         {
             await ClearAsnyc(locator, false, null, 0, options);
         }
 
-        public async Task ClearAsnyc(string selector, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorClearOptions? options = default)
+        protected async Task ClearAsnyc(string selector, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorClearOptions? options = default)
         {
             await ClearAsnyc(Locator(selector), dynamicallyLoaded, anySelectorInScroller, maxNumberOfScrolls, options);
         }
 
-        public async Task ClearAsnyc(string selector, LocatorClearOptions? options = default)
+        protected async Task ClearAsnyc(string selector, LocatorClearOptions? options = default)
         {
             await ClearAsnyc(Locator(selector), false, null, 0, options);
         }
 
-        public async Task WaitForLoadStateAsync(LoadState? state = default, PageWaitForLoadStateOptions? options = default)
+        protected async Task WaitForLoadStateAsync(LoadState? state = default, PageWaitForLoadStateOptions? options = default)
         {
             await _page.WaitForLoadStateAsync(state, options);
         }
 
-        public async Task WaitForSelectorAsync(string selector, PageWaitForSelectorOptions? options = default)
+        protected async Task WaitForSelectorAsync(string selector, PageWaitForSelectorOptions? options = default)
         {
             await _page.WaitForSelectorAsync(selector, options);
         }
 
-        public async Task MouseDblClickAsync(float x, float y, MouseDblClickOptions? options = default)
+        protected async Task MouseDblClickAsync(float x, float y, MouseDblClickOptions? options = default)
         {
             await _page.Mouse.DblClickAsync(x, y, options);
         }
 
-        public async Task MouseDownAsync(MouseDownOptions? options = default)
+        protected async Task MouseDownAsync(MouseDownOptions? options = default)
         {
             await _page.Mouse.DownAsync(options);
         }
 
-        public async Task MouseMoveAsync(float x, float y, MouseMoveOptions? options = default)
+        protected async Task MouseMoveAsync(float x, float y, MouseMoveOptions? options = default)
         {
             await _page.Mouse.MoveAsync(x, y, options);
         }
 
-        public async Task MouseUpAsync(MouseUpOptions? options = default)
+        protected async Task MouseUpAsync(MouseUpOptions? options = default)
         {
             await _page.Mouse.UpAsync(options);
         }
 
-        public async Task MouseClickAsync(float x, float y, MouseClickOptions? options = default)
+        protected async Task MouseClickAsync(float x, float y, MouseClickOptions? options = default)
         {
             await _page.Mouse.ClickAsync(x, y, options);
         }
 
-        public async Task MouseWheelAsync(float deltaX, float deltaY)
+        protected async Task MouseWheelAsync(float deltaX, float deltaY)
         {
             await _page.Mouse.WheelAsync(deltaX, deltaY);
         }
 
-        public async Task ScrollUsingMouseUntilElementIsVisible(ILocator locator, float deltaX, float deltaY, int maxScrollTimes)
+        protected async Task ScrollUsingMouseUntilElementIsVisible(ILocator locator, float deltaX, float deltaY, int maxScrollTimes)
         {
             int i = 0;
             while (!await IsVisibleAsync(locator))
@@ -921,7 +921,7 @@ namespace AutomateBizApps.Pages
             }
         }
 
-        public async Task ScrollUsingMouseUntilElementIsVisible(string selector, float deltaX, float deltaY, int maxScrollTimes)
+        protected async Task ScrollUsingMouseUntilElementIsVisible(string selector, float deltaX, float deltaY, int maxScrollTimes)
         {
             int i = 0;
             while (!await IsVisibleAsync(Locator(selector)))
@@ -934,7 +934,7 @@ namespace AutomateBizApps.Pages
             }
         }
 
-        public async Task<ILocator> GetLocatorWhenInFramesNotInFrames(string frameSelector, string elementSelector)
+        protected async Task<ILocator> GetLocatorWhenInFramesNotInFrames(string frameSelector, string elementSelector)
         {
             bool isFrameNotShown = await IsNotVisibleAsyncWithWaiting(Locator(frameSelector), 0);
             if (isFrameNotShown)
@@ -944,7 +944,7 @@ namespace AutomateBizApps.Pages
             return SwitchToFrameAndLocateWithXpath(frameSelector, elementSelector);
         }
 
-        public async Task<ILocator> GetLocatorWhenInFramesNotInFrames(string frameSelector, string elementSelector, int timeToCheckIfFrameExists)
+        protected async Task<ILocator> GetLocatorWhenInFramesNotInFrames(string frameSelector, string elementSelector, int timeToCheckIfFrameExists)
         {
             bool isFrameNotShown = await IsNotVisibleAsyncWithWaiting(Locator(frameSelector), 0, timeToCheckIfFrameExists);
             if (isFrameNotShown)
@@ -954,7 +954,7 @@ namespace AutomateBizApps.Pages
             return SwitchToFrameAndLocateWithXpath(frameSelector, elementSelector);
         }
 
-        public async Task WaitUntilAppIsIdle()
+        protected async Task WaitUntilAppIsIdle()
         {
             try
             {

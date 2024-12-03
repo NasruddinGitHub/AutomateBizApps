@@ -102,7 +102,7 @@ namespace AutomateBizApps.ObjectRepository
             public static string ColumnWidthDownArrow = "//span[contains(@class,'arrowButtonsContainer')]/button[contains(@class,'DownButton')]";
             public static string RowSelector = "//input[@aria-label='select or deselect the row']/parent::div[contains(@class,'ms-Checkbox')]";
             public static string Row = "//div[@class='ag-center-cols-container']/div[@row-index='[Index]']";
-            public static string RowLink = "descendant::a[@role='link' and @aria-label='[Name]']";
+            public static string RowLink = ".//a[@role='link' and @aria-label='[Name]']";
             public static string RowCells = "div[contains(@class,'editable-cell')]";
             public static string HeaderSortUp = "//div[contains(@class,'TooltipHost') and text()='[Name]']/ancestor::div[@data-testid='columnHeader']/descendant::*[@data-icon-name='SortUp']";
             public static string HeaderSortDown = "//div[contains(@class,'TooltipHost') and text()='[Name]']/ancestor::div[@data-testid='columnHeader']/descendant::*[@data-icon-name='SortDown']";

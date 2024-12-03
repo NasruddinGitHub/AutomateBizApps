@@ -241,6 +241,12 @@ namespace AutomateBizApps.Modules
             await ClickAsync(rowLinkLocator);
         }
 
+        public async Task OpenRecord(string recordName)
+        {
+            var rowLinkLocator = Locator(GridLocators.RowLink.Replace("[Name]", recordName));
+            await ClickAsync(rowLinkLocator);
+        }
+
         public async Task<List<string>> GetAllDisplayedColumnNames()
         {
             var allHeaderCellsLocator = Locator(GridLocators.AllHeaderCells);
