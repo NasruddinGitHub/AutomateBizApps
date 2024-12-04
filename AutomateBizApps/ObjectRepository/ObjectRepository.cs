@@ -178,5 +178,11 @@ namespace AutomateBizApps.ObjectRepository
         {
             public static string FormContainer = ".//div[@data-id='headerFieldsFlyout']";
         }
+
+        public static class ProcessCrossEntityFlyoutLocators
+        {
+            public static string Header = "//div[contains(@id, 'processCrossEntityFlyoutTitleLabel')]";
+            public static string ProcessCrossEntityItems = "//div[contains(@id, 'processCrossEntityFlyoutItems')]/descendant::li[contains(@id,'processCrossEntityItemContainer')]/descendant::label[contains(@id,'processCrossEntityItem')]";
+        }
     }
 }

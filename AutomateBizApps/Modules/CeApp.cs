@@ -28,6 +28,8 @@ namespace AutomateBizApps.Modules
 
         public QuickCreate QuickCreate => this.GetElement<QuickCreate>(_page);
 
+        public ProcessCrossEntityFlyout ProcessCrossEntityFlyout => this.GetElement<ProcessCrossEntityFlyout>(_page);
+
         public BusinessProcessFlow BusinessProcessFlow => this.GetElement<BusinessProcessFlow>(_page);
 
         public CeApp(IPage page)

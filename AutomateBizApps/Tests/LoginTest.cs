@@ -28,22 +28,20 @@ namespace AutomateBizApps.Tests
 
             CeApp ceApp = new CeApp(page);
             await ceApp.LoginModule.Login(email, password, mfaKey);
-            await ceApp.ApplicationLandingPageModule.OpenApp("Field Service");
-            await ceApp.SiteMapPanel.OpenSubArea("Service Delivery", "Cases");
+            await ceApp.ApplicationLandingPageModule.OpenApp("Sales Hub");
+            await ceApp.SiteMapPanel.OpenSubArea("Customers", "Accounts");
             await ceApp.Complementary.OpenOrCloseTab("Copilot");
-            await ceApp.Grid.OpenRecord(0, "asds");
-            await ceApp.BusinessProcessFlow.SelectStage("Identify");
-            await ceApp.BusinessProcessFlow.Pin();
-
-            LookupItem customerLookupItem = new LookupItem { Name = "Find Customer", Value = "Coho Winery (sample)", Index = 0 };
-            await ceApp.BusinessProcessFlow.ClearValue(customerLookupItem);
-            await ceApp.BusinessProcessFlow.SetValue(customerLookupItem);
-            LookupItem contactLookupItem = new LookupItem { Name = "Find Contact", Value = "Thomas Andersen", Index = 0 };
-            await ceApp.BusinessProcessFlow.SetValue(contactLookupItem);
-            await ceApp.BusinessProcessFlow.NextStage();
-            Console.WriteLine(await ceApp.BusinessProcessFlow.Header());
-            await ceApp.BusinessProcessFlow.PreviousStage();
-            await ceApp.BusinessProcessFlow.Close();
+            await ceApp.Grid.OpenRecord(0, "A. Datum Corporation (sample)");
+            Console.WriteLine(await ceApp.Entity.GetFormHeaderTitle());
+            Console.WriteLine(await ceApp.ProcessCrossEntityFlyout.GetHeader());
+            List<string> items = await ceApp.ProcessCrossEntityFlyout.GetItems();
+            foreach (string item in items)
+            {
+                Console.WriteLine(item);
+            }
+            await ceApp.ProcessCrossEntityFlyout.Close();
+            await ceApp.ProcessCrossEntityFlyout.Create();
+            await ceApp.ProcessCrossEntityFlyout.SelectItem("asdasd");
         }
     }
 }
