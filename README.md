@@ -15,5 +15,8 @@ Note:- If we do not do step 3, we will get below error.
 Update the PowerShell 7+ if you face 'pwsh is not recognized'.
 <img width="686" alt="image" src="https://github.com/user-attachments/assets/2b213fac-1347-40f3-8963-d87f45ee7c8c">
 
+4) Configure runSettings using file tab in visual stuio
+<img width="295" alt="image" src="https://github.com/user-attachments/assets/9fcdff18-3de0-40e9-8698-bf788d8d77e8">
+
 
 
