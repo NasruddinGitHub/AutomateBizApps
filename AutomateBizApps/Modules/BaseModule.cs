@@ -132,8 +132,20 @@ namespace AutomateBizApps.Pages
             return _page.FrameByUrl(url);
         }
 
+        protected async Task EvaluateAsync(ILocator locatorToClick, string expression, object? arg = default, LocatorEvaluateOptions? options = default)
+        {
+            await locatorToClick.EvaluateAsync(expression);
+        }
+
+        protected async Task HightlightElementAsync(ILocator locatorToClick)
+        {
+            await EvaluateAsync(locatorToClick, "el => el.style.border = '3px solid red'");
+            await EvaluateAsync(locatorToClick, "el => el.style.backgroundColor = 'yellow'");
+        }
+
         protected async Task ClickAsync(ILocator locatorToClick, LocatorClickOptions? options = default)
         {
+            await HightlightElementAsync(locatorToClick);
             await locatorToClick.ClickAsync(options);
             await WaitUntilAppIsIdle();
         }
@@ -145,6 +157,7 @@ namespace AutomateBizApps.Pages
                 await HoverAsync(Locator(anySelectorInScroller));
                 await ScrollUsingMouseUntilElementIsVisible(locatorToClick, 0, 100, maxNumberOfScrolls);
             }
+            await HightlightElementAsync(locatorToClick);
             await locatorToClick.ClickAsync(options);
             await WaitUntilAppIsIdle();
         }
@@ -152,6 +165,7 @@ namespace AutomateBizApps.Pages
         // Need to add scrollables overloads
         protected async Task DoubleClickAsync(ILocator locator, LocatorDblClickOptions? options = default)
         {
+            await HightlightElementAsync(locator);
             await locator.DblClickAsync(options);
             await WaitUntilAppIsIdle();
         }
@@ -163,12 +177,14 @@ namespace AutomateBizApps.Pages
                 await HoverAsync(Locator(anySelectorInScroller));
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
+            await HightlightElementAsync(locator);
             await locator.DblClickAsync(options);
             await WaitUntilAppIsIdle();
         }
 
         protected async Task CheckAsync(ILocator locator, LocatorCheckOptions? options = default)
         {
+            await HightlightElementAsync(locator);
             await locator.CheckAsync(options);
             await WaitUntilAppIsIdle();
         }
@@ -180,6 +196,7 @@ namespace AutomateBizApps.Pages
                 await HoverAsync(Locator(anySelectorInScroller));
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
+            await HightlightElementAsync(locator);
             await locator.CheckAsync(options);
             await WaitUntilAppIsIdle();
         }
@@ -191,6 +208,7 @@ namespace AutomateBizApps.Pages
 
         protected async Task HoverAsync(ILocator locator, LocatorHoverOptions? options = default)
         {
+            await HightlightElementAsync(locator);
             await locator.Nth(0).HoverAsync(options);
         }
 
@@ -201,11 +219,13 @@ namespace AutomateBizApps.Pages
                 await HoverAsync(Locator(anySelectorInScroller));
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
+            await HightlightElementAsync(locator);
             await locator.HoverAsync(options);
         }
 
         protected async Task HoverAndClickAsync(ILocator locator, LocatorHoverOptions? options1 = default, LocatorClickOptions? options2 = default)
         {
+            await HightlightElementAsync(locator);
             await locator.HoverAsync(options1);
             await ClickAsync(locator, options2);
         }
@@ -217,6 +237,7 @@ namespace AutomateBizApps.Pages
                 await HoverAsync(Locator(anySelectorInScroller));
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
+            await HightlightElementAsync(locator);
             await locator.HoverAsync(options1);
             await ClickAsync(locator, options2);
         }
@@ -258,6 +279,7 @@ namespace AutomateBizApps.Pages
 
         protected async Task UncheckAsync(ILocator locator, LocatorUncheckOptions? options = default)
         {
+            await HightlightElementAsync(locator);
             await locator.UncheckAsync(options);
             await WaitUntilAppIsIdle();
         }
@@ -269,6 +291,7 @@ namespace AutomateBizApps.Pages
                 await HoverAsync(Locator(anySelectorInScroller));
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
+            await HightlightElementAsync(locator);
             await locator.UncheckAsync(options);
             await WaitUntilAppIsIdle();
         }

@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Output\TestExecutionRecordingVideo\" />
     <Folder Include="Output\TestExecutionReports\" />
     <Folder Include="Output\Screenshots\" />
   </ItemGroup>

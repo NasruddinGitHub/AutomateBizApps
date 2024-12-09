@@ -18,6 +18,7 @@ namespace AutomateBizApps.Constants
         public static readonly string ScreenshotsForPassedTests = "ScreenshotsForPassedTests";
         public static readonly string ExecutionReportsFolderPath = "ExecutionReportsFolderPath";
         public static readonly string ScreenshotsFolderPath = "ScreenshotsFolderPath";
+        public static readonly string RecordingVideosDir = "RecordingVideosDir";
 
     }
 }

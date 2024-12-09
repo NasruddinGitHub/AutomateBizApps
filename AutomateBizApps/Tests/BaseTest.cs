@@ -2,6 +2,7 @@
 using AutomateBizApps.Enums;
 using AutomateBizApps.Pages;
 using AutomateBizApps.Settings;
+using AutomateBizApps.Utils;
 using AutomateCe.Utils;
 using AventStack.ExtentReports;
 using AventStack.ExtentReports.Model;
@@ -28,12 +29,13 @@ namespace AutomateBizApps.Tests
 
         private string _timestamp;
 
+        private IBrowserContext _browserContext;
+
         [OneTimeSetUp]
         public void InitializeExtentReport()
         {
             String timestamp = DateUtil.GetTimeStamp("yyyyMMddHHmmss");
-            string executingPath = Assembly.GetExecutingAssembly().Location;
-            string projectRoot = Directory.GetParent(executingPath).Parent.Parent.Parent.FullName;
+            string projectRoot = TestContextUtil.GetProjectRootDir();
             string executionReportFolderPath = Path.Combine(projectRoot, TestContext.Parameters[Property.ExecutionReportsFolderPath]);
             string extentFilePath = Path.Combine(executionReportFolderPath, "Test_Execution_Report" + timestamp + ".html");
             _extentReports = ReportUtil.GetInstance(extentFilePath);
@@ -50,9 +52,8 @@ namespace AutomateBizApps.Tests
             }
             browser = await OpenBrowser(browserName);
 
-            IBrowserContext browserContext = await browser.NewContextAsync(TestSettings.browserNewContextOptions).ConfigureAwait(false);
-
-            page = await browserContext.NewPageAsync().ConfigureAwait(false);
+            _browserContext = await browser.NewContextAsync(TestSettings.browserNewContextOptions).ConfigureAwait(false);
+            page = await _browserContext.NewPageAsync().ConfigureAwait(false);
             Console.WriteLine(browserName);
         }
 
@@ -68,14 +69,14 @@ namespace AutomateBizApps.Tests
         public async Task CloseBrowserInstance()
         {
             await page.CloseAsync();
+            await _browserContext.CloseAsync();
             await browser.CloseAsync();
         }
 
         [TearDown]
         public async Task AfterTest()
         {
-            string executingPath = Assembly.GetExecutingAssembly().Location;
-            string projectRoot = Directory.GetParent(executingPath).Parent.Parent.Parent.FullName;
+            string projectRoot = TestContextUtil.GetProjectRootDir();
             string screenshotsFolderPath = Path.Combine(projectRoot, TestContext.Parameters[Property.ScreenshotsFolderPath]);
             string testCaseName = TestContext.CurrentContext.Test.Name;
             string screenshotPath = Path.Combine(screenshotsFolderPath, testCaseName + _timestamp + ".png");

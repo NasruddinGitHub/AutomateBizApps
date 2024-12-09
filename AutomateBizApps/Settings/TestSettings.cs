@@ -1,4 +1,5 @@
 ﻿using AutomateBizApps.Constants;
+using AutomateCe.Utils;
 using Microsoft.Playwright;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,9 @@ namespace AutomateBizApps.Settings
 
         public static BrowserNewContextOptions browserNewContextOptions = new BrowserNewContextOptions
         {
-            ViewportSize = ViewportSize.NoViewport
+
+            ViewportSize = ViewportSize.NoViewport,
+            RecordVideoDir = TestContextUtil.GetVideoRecordingDir()
         };
     }
 }

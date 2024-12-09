@@ -27,5 +27,7 @@
 		<!-- Provide path from project's root directory -->
 		<Parameter name="ExecutionReportsFolderPath" value="Output\TestExecutionReports" />
 		<Parameter name="ScreenshotsFolderPath" value="Output\Screenshots" />
+		<!-- Use recording wisely. Provide path from project's root directory. Keep it empty if recording not needed -->
+		<Parameter name="RecordingVideosDir" value="" />
 	</TestRunParameters>
 </RunSettings>
