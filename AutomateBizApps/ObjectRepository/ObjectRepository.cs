@@ -145,6 +145,8 @@ namespace AutomateBizApps.ObjectRepository
             public static string EntityName = "//span[@data-id='entity_name_span']";
             public static string FormSelector = "//button[@data-id='form-selector']";
             public static string FormSelectorItems = "//div[@data-id='form-selector-flyout']/descendant::div[contains(@data-id,'form-selector-item-form-selector')]";
+            public static string HeaderControlValue = "//div[contains(@id,'headerControlsList')]/descendant::div[text()='[Name]']/preceding-sibling::div";
+            public static string HeaderFieldsExpand = "//button[contains(@id,'headerFieldsExpandButton')]";
         }
 
         public static class QuickCreateLocators

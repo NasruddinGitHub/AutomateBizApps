@@ -1,46 +1,113 @@
 ﻿using AutomateBizApps.Constants;
 using AutomateBizApps.Enums;
+using AutomateBizApps.Pages;
 using AutomateBizApps.Settings;
+using AutomateCe.Utils;
+using AventStack.ExtentReports;
+using AventStack.ExtentReports.Model;
 using Microsoft.Playwright;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollection;
 using PlayWrightMVP.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AutomateBizApps.Tests
 {
-    [TestFixture]
+    
     public class BaseTest : PageTest
     {
         public IBrowser browser;
 
         protected IPage page;
 
+        private ExtentReports _extentReports;
+
+        private string _timestamp;
+
+        [OneTimeSetUp]
+        public void InitializeExtentReport()
+        {
+            String timestamp = DateUtil.GetTimeStamp("yyyyMMddHHmmss");
+            string executingPath = Assembly.GetExecutingAssembly().Location;
+            string projectRoot = Directory.GetParent(executingPath).Parent.Parent.Parent.FullName;
+            string executionReportFolderPath = Path.Combine(projectRoot, TestContext.Parameters[Property.ExecutionReportsFolderPath]);
+            string extentFilePath = Path.Combine(executionReportFolderPath, "Test_Execution_Report" + timestamp + ".html");
+            _extentReports = ReportUtil.GetInstance(extentFilePath);
+        }
+
         [SetUp]
         public async Task OpenBrowser()
         {
-            string? browserParam = TestContext.Parameters[Property.BrowserType];
-            browser = await OpenBrowser(browserParam);
+            _timestamp = DateUtil.GetTimeStamp("yyyyMMddHHmmss");
+            string? browserName = (string?)TestContext.CurrentContext.Test.Properties.Get("browser");
+            if (browserName == null)
+            {
+                browserName = TestContext.Parameters[Property.BrowserType];
+            }
+            browser = await OpenBrowser(browserName);
 
             IBrowserContext browserContext = await browser.NewContextAsync(TestSettings.browserNewContextOptions).ConfigureAwait(false);
 
             page = await browserContext.NewPageAsync().ConfigureAwait(false);
+            Console.WriteLine(browserName);
         }
 
         [SetUp]
         public async Task GoToUrl()
         {
-            string? url = TestContext.Parameters["Url"];
+            string? url = TestContext.Parameters[Property.Url];
             await page.GotoAsync(url);
+            
         }
 
         [TearDown]
         public async Task CloseBrowserInstance()
         {
-           await page.CloseAsync();
-           await browser.CloseAsync();
+            await page.CloseAsync();
+            await browser.CloseAsync();
+        }
+
+        [TearDown]
+        public async Task AfterTest()
+        {
+            string executingPath = Assembly.GetExecutingAssembly().Location;
+            string projectRoot = Directory.GetParent(executingPath).Parent.Parent.Parent.FullName;
+            string screenshotsFolderPath = Path.Combine(projectRoot, TestContext.Parameters[Property.ScreenshotsFolderPath]);
+            string testCaseName = TestContext.CurrentContext.Test.Name;
+            string screenshotPath = Path.Combine(screenshotsFolderPath, testCaseName + _timestamp + ".png");
+            await new BaseModule(page).PageScreenshotAsync(screenshotPath);
+            var status = TestContext.CurrentContext.Result.Outcome.Status;
+            if (status == NUnit.Framework.Interfaces.TestStatus.Failed)
+            {
+                ReportUtil.FailTest("Test failed");
+                bool needScreenshotForFailedTests = bool.Parse(TestContext.Parameters[Property.ScreenshotsForFailedTests]);
+                if (needScreenshotForFailedTests)
+                    ReportUtil.AddScreenCaptureFromPath(screenshotPath);
+            }
+            else if (status == NUnit.Framework.Interfaces.TestStatus.Skipped)
+            {
+                ReportUtil.SkipTest("Test skipped");
+            }
+            else if (status == NUnit.Framework.Interfaces.TestStatus.Passed)
+            {
+                ReportUtil.PassTest("Test passed");
+                bool needScreenshotForPassedTests = bool.Parse(TestContext.Parameters[Property.ScreenshotsForPassedTests]);
+                if (needScreenshotForPassedTests)
+                    ReportUtil.AddScreenCaptureFromPath(screenshotPath);
+            }
+        }
+
+        [OneTimeTearDown]
+        public void SaveReport()
+        {
+            if (_extentReports != null)
+            {
+                _extentReports.Flush();
+            }
         }
 
         public async Task<IBrowser> OpenBrowser(string browser)

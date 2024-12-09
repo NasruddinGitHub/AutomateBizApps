@@ -14,6 +14,10 @@ namespace AutomateBizApps.Constants
         public static readonly string Password = "Password";
         public static readonly string MfaKey = "MfaSecretKey";
         public static readonly string BrowserType = "BrowserType";
-        
+        public static readonly string ScreenshotsForFailedTests = "ScreenshotsForFailedTests";
+        public static readonly string ScreenshotsForPassedTests = "ScreenshotsForPassedTests";
+        public static readonly string ExecutionReportsFolderPath = "ExecutionReportsFolderPath";
+        public static readonly string ScreenshotsFolderPath = "ScreenshotsFolderPath";
+
     }
 }

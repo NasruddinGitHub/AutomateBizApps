@@ -21,5 +21,11 @@
 		<Parameter name="APIKey" value="" />
 		<Parameter name="DeploymentName" value="" />
 		<Parameter name="APIVersion" value="" />
+		<Parameter name="ExecutionReportsPath" value="false" />
+		<Parameter name="ScreenshotsForFailedTests" value="true" />
+		<Parameter name="ScreenshotsForPassedTests" value="true" />
+		<!-- Provide path from project's root directory -->
+		<Parameter name="ExecutionReportsFolderPath" value="Output\TestExecutionReports" />
+		<Parameter name="ScreenshotsFolderPath" value="Output\Screenshots" />
 	</TestRunParameters>
 </RunSettings>

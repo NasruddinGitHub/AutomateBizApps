@@ -398,24 +398,29 @@ namespace AutomateBizApps.Pages
             await locator.SelectOptionAsync(values, options);
         }
 
-        protected async Task<byte[]> ElementScreenshotAsync(ILocator locator, LocatorScreenshotOptions? options = default)
+        public async Task<byte[]> ElementScreenshotAsync(ILocator locator, LocatorScreenshotOptions? options = default)
         {
             return await locator.ScreenshotAsync(options);
         }
 
-        protected async Task<byte[]> PageScreenshotAsync(PageScreenshotOptions? options = default)
+        public async Task<byte[]> PageScreenshotAsync(PageScreenshotOptions? options = default)
         {
             return await _page.ScreenshotAsync(options);
         }
 
-        protected async Task ScreenshotAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorScreenshotOptions? options = default)
+        public async Task<byte[]> PageScreenshotAsync(string path)
+        {
+            return await _page.ScreenshotAsync(new PageScreenshotOptions { Path = path});
+        }
+
+        protected async Task<byte[]> ScreenshotAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorScreenshotOptions? options = default)
         {
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
-            await locator.ScreenshotAsync(options);
+            return await locator.ScreenshotAsync(options);
         }
 
         protected async Task WaitForAsync(ILocator locator, LocatorWaitForOptions? options = default)
@@ -873,6 +878,16 @@ namespace AutomateBizApps.Pages
             await _page.WaitForLoadStateAsync(state, options);
         }
 
+        protected async Task WaitUntilDomContentLoaded()
+        {
+            await _page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+        }
+
+        protected async Task WaitUntilLoaded()
+        {
+            await _page.WaitForLoadStateAsync(LoadState.Load);
+        }
+
         protected async Task WaitForSelectorAsync(string selector, PageWaitForSelectorOptions? options = default)
         {
             await _page.WaitForSelectorAsync(selector, options);
@@ -958,6 +973,8 @@ namespace AutomateBizApps.Pages
         {
             try
             {
+                // To statically wait after click, if not below command may return true
+                Thread.Sleep(1000);
                 if (!await _page.EvaluateAsync<bool>("window.UCWorkBlockTracker.isAppIdle()"))
                 {
                     // Let's log something
