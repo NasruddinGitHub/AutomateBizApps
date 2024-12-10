@@ -21,13 +21,14 @@
 		<Parameter name="APIKey" value="" />
 		<Parameter name="DeploymentName" value="" />
 		<Parameter name="APIVersion" value="" />
+		<Parameter name="HeadlessMode" value="true" />
 		<Parameter name="ExecutionReportsPath" value="false" />
 		<Parameter name="ScreenshotsForFailedTests" value="true" />
 		<Parameter name="ScreenshotsForPassedTests" value="true" />
 		<!-- Provide path from project's root directory -->
 		<Parameter name="ExecutionReportsFolderPath" value="Output\TestExecutionReports" />
 		<Parameter name="ScreenshotsFolderPath" value="Output\Screenshots" />
-		<!-- Use recording wisely. Provide path from project's root directory. Keep it empty if recording not needed -->
+		<!-- Use recording wisely. Provide path from project's root directory keep it empty if recording not needed -->
 		<Parameter name="RecordingVideosDir" value="" />
 	</TestRunParameters>
 </RunSettings>

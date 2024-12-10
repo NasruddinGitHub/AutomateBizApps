@@ -25,5 +25,22 @@ namespace AutomateCe.Utils
             }
             return Path.Combine(GetProjectRootDir(), givenPath);
         }
+
+        public static string GetParameter(String parameter)
+        {
+            return TestContext.Parameters[parameter];
+        }
+
+        public static string GetBrowser()
+        {
+            string? browserName = (string?)TestContext.CurrentContext.Test.Properties.Get("browser");
+            if (browserName == null)
+            {
+                browserName = TestContext.Parameters[Property.BrowserType];
+            }
+            return browserName;
+        }
+
+
     }
 }

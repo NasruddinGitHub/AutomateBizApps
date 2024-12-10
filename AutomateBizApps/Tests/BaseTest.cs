@@ -45,16 +45,10 @@ namespace AutomateBizApps.Tests
         public async Task OpenBrowser()
         {
             _timestamp = DateUtil.GetTimeStamp("yyyyMMddHHmmss");
-            string? browserName = (string?)TestContext.CurrentContext.Test.Properties.Get("browser");
-            if (browserName == null)
-            {
-                browserName = TestContext.Parameters[Property.BrowserType];
-            }
-            browser = await OpenBrowser(browserName);
+            browser = await OpenBrowser(TestContextUtil.GetBrowser());
 
             _browserContext = await browser.NewContextAsync(TestSettings.browserNewContextOptions).ConfigureAwait(false);
             page = await _browserContext.NewPageAsync().ConfigureAwait(false);
-            Console.WriteLine(browserName);
         }
 
         [SetUp]
