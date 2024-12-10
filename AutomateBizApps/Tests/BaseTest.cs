@@ -47,7 +47,7 @@ namespace AutomateBizApps.Tests
             _timestamp = DateUtil.GetTimeStamp("yyyyMMddHHmmss");
             browser = await OpenBrowser(TestContextUtil.GetBrowser());
 
-            _browserContext = await browser.NewContextAsync(TestSettings.browserNewContextOptions).ConfigureAwait(false);
+            _browserContext = await browser.NewContextAsync(TestSettings.BrowserNewContextOptions()).ConfigureAwait(false);
             page = await _browserContext.NewPageAsync().ConfigureAwait(false);
         }
 
@@ -111,9 +111,9 @@ namespace AutomateBizApps.Tests
             {
                 case "msedge":
                 case "chrome":
-                    return await Playwright.Chromium.LaunchAsync(TestSettings.browsertypeLaunchOptions);
+                    return await Playwright.Chromium.LaunchAsync(TestSettings.BrowserTypeLaunchOptions());
                 case "firefox":
-                    return await Playwright.Firefox.LaunchAsync(TestSettings.browsertypeLaunchOptions);
+                    return await Playwright.Firefox.LaunchAsync(TestSettings.BrowserTypeLaunchOptions());
                 default:
                     throw new ArgumentException("Invalid browser name is given. Given browser is " + browser);
             }

@@ -11,19 +11,24 @@ namespace AutomateBizApps.Settings
 {
     public static class TestSettings
     {
-       public static readonly string? Browser = TestContextUtil.GetBrowser();
 
-        public static BrowserTypeLaunchOptions browsertypeLaunchOptions = new BrowserTypeLaunchOptions
+        public static BrowserTypeLaunchOptions BrowserTypeLaunchOptions()
         {
-            Headless = bool.Parse(TestContextUtil.GetParameter(Property.HeadlessMode)),
-            Channel = Browser,
-            Args = new List<string> { "--start-maximized"}
-        };
+            return new BrowserTypeLaunchOptions
+            {
+                Headless = bool.Parse(TestContextUtil.GetParameter(Property.HeadlessMode)),
+                Channel = TestContextUtil.GetBrowser(),
+                Args = new List<string> { "--start-maximized" }
+            };
+        }
 
-        public static BrowserNewContextOptions browserNewContextOptions = new BrowserNewContextOptions
+        public static BrowserNewContextOptions BrowserNewContextOptions()
         {
-            ViewportSize = ViewportSize.NoViewport,
-            RecordVideoDir = TestContextUtil.GetVideoRecordingDir()
-        };
+            return new BrowserNewContextOptions
+            {
+                ViewportSize = ViewportSize.NoViewport,
+                RecordVideoDir = TestContextUtil.GetVideoRecordingDir()
+            };
+        }
     }
 }
