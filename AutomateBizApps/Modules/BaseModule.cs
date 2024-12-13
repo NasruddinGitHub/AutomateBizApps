@@ -433,7 +433,7 @@ namespace AutomateBizApps.Pages
 
         public async Task<byte[]> PageScreenshotAsync(string path)
         {
-            return await _page.ScreenshotAsync(new PageScreenshotOptions { Path = path});
+            return await _page.ScreenshotAsync(new PageScreenshotOptions { Path = path });
         }
 
         protected async Task<byte[]> ScreenshotAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorScreenshotOptions? options = default)
@@ -997,20 +997,65 @@ namespace AutomateBizApps.Pages
             try
             {
                 // To statically wait after click, if not below command may return true
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
                 if (!await _page.EvaluateAsync<bool>("window.UCWorkBlockTracker.isAppIdle()"))
                 {
                     // Let's log something
-                    Thread.Sleep(500);
+                    await Task.Delay(500);
                     await WaitUntilAppIsIdle();
 
                 }
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
                 // Ignore this exception
             }
         }
 
+
+
+        protected async Task WaitUntilAppReadyStateIsComplete()
+        {
+            string readyState = await _page.EvaluateAsync<string>("document.readyState");
+            try
+            {
+                // To statically wait after click, if not below command may return complete immediately
+                await Task.Delay(1000);
+                bool isAppReadyStateComplete = String.Equals(readyState, "complete", StringComparison.OrdinalIgnoreCase);
+                if (isAppReadyStateComplete)
+                {
+                    return;
+                }
+                await Task.Delay(500);
+                await WaitUntilAppReadyStateIsComplete();
+            }
+            catch (Exception e)
+            {
+                // Ignore this exception
+            }
+        }
+
+        protected async Task WaitForNoActiveRequests()
+        {
+            try
+            {
+                // To statically wait after click, if not below command may return complete 0
+                await Task.Delay(1000);
+                int noOfRequest = await _page.EvaluateAsync<int>("window.performance.getEntriesByType('resource')" +
+            ".filter(r => r.initiatorType === 'xmlhttprequest' || r.initiatorType === 'fetch').length");
+                Console.WriteLine($"No active requests: {noOfRequest}");
+                if (noOfRequest == 0)
+                {
+                    return;
+                }
+                await Task.Delay(500);
+                await WaitForNoActiveRequests();
+            }
+            catch (Exception e)
+            {
+                // Ignore this exception
+            }
+        }
     }
 
 }

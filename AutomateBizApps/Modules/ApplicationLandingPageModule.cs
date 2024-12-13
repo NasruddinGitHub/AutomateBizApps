@@ -33,5 +33,45 @@ namespace AutomateBizApps.Modules
             var accountManagerSignOutElement = Locator(ApplicationLandingPageLocators.AccountManagerSignOut);
             await ClickAsync(accountManagerSignOutElement);
         }
+
+        public async Task Search(string appToSearch)
+        {
+            string appLandingFrameLocator = ApplicationLandingPageLocators.ApplandingPageFrame;
+            string searchAppLocator = ApplicationLandingPageLocators.SearchApp;
+            var searchAppLocatorInFrame = SwitchToFrameAndLocate(appLandingFrameLocator, searchAppLocator);
+            await FillAsync(searchAppLocatorInFrame, appToSearch);
+        }
+
+        public async Task Refresh()
+        {
+            string appLandingFrameLocator = ApplicationLandingPageLocators.ApplandingPageFrame;
+            string refreshLocator = ApplicationLandingPageLocators.Refresh;
+            var refreshLocatorInFrame = SwitchToFrameAndLocate(appLandingFrameLocator, refreshLocator);
+            await ClickAsync(refreshLocatorInFrame);
+        }
+
+        public async Task<int> GetNumberOfPublishedApps()
+        {
+            string appLandingFrameLocator = ApplicationLandingPageLocators.ApplandingPageFrame;
+            string appTitlesLocator = ApplicationLandingPageLocators.AppTitles;
+            var numberOfPublishedAppsLocatorInFrame = SwitchToFrameAndLocate(appLandingFrameLocator, appTitlesLocator);
+            string numberOfPublishedApps = await TextContentAsync(numberOfPublishedAppsLocatorInFrame);
+            numberOfPublishedApps = numberOfPublishedApps.Replace("(", "").Replace(")", "");
+            return int.Parse(numberOfPublishedApps);
+        }
+
+        public async Task<List<string>> GetAllAvailableAppNames()
+        {
+            string appLandingFrameLocator = ApplicationLandingPageLocators.ApplandingPageFrame;
+            string appTitlesLocator = ApplicationLandingPageLocators.AppTitles;
+            var appTitlesLocatorInFrame = SwitchToFrameAndLocate(appLandingFrameLocator, appTitlesLocator);
+            return await GetAllElementsTextAfterWaiting(appTitlesLocatorInFrame);
+        }
+
+        public async Task<bool> IsMdaAppAvailable(string appName)
+        {
+            List<string> allAvailableApps = await GetAllAvailableAppNames();
+            return allAvailableApps.Contains(appName);
+        }
     }
 }

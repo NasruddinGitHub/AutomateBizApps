@@ -46,6 +46,8 @@ namespace AutomateBizApps.Pages
         {
             var staySignedInYesElement = Locator(LoginModuleLocators.StaySignedInYes);
             await ClickAsync(staySignedInYesElement);
+            await WaitUntilAppReadyStateIsComplete();
+            // await WaitForNoActiveRequests();
         }
 
         public async Task RejectStaySignedIn()

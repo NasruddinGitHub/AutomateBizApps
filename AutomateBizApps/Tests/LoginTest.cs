@@ -20,6 +20,10 @@ namespace AutomateBizApps.Tests
     [TestFixture]
     public class LoginTest : BaseTest
     {
+        string? email = TestContext.Parameters[Property.Email];
+        string? password = TestContext.Parameters[Property.Password];
+        string? mfaKey = TestContext.Parameters[Property.MfaKey];
+
         [Property("browser", "chrome")]
         [Test]
         public async Task ValidateIfValidUserIsAbleToLogin1()

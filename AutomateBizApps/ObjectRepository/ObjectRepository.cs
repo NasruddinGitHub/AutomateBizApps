@@ -29,6 +29,10 @@ namespace AutomateBizApps.ObjectRepository
             public static string Application = "//div[@data-type='app-title' and @title='[Name]']";
             public static string AccountManager = "//*[@id='mectrl_main_trigger']";
             public static string AccountManagerSignOut = "//*[@id='mectrl_body_signOut']";
+            public static string SearchApp = "#app-search-input";
+            public static string Refresh = "#refreshLbl";
+            public static string NumberOfPublishedApps = "//div[@id='AppLandingPageContentContainer']/descendant::*[text()='Published Apps']/following-sibling::*[contains(text(),'(')]";
+            public static string AppTitles = "//div[@data-type='app-title']";
         }
 
         public static class ComplementaryPaneLocators
