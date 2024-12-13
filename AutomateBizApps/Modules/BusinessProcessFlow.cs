@@ -166,17 +166,22 @@ namespace AutomateCe.Modules
             return await isFieldOptional(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
+        public async Task<bool> isFieldCompleted(String field, int timeToCheckIfFrameExists = 1000)
+        {
+            return await isFieldCompleted(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+        }
+
         public async Task<bool> isFieldOptional(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await isFieldOptional(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        protected async Task<bool> isFieldLocked(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> isFieldLocked(String field, int timeToCheckIfFrameExists = 1000)
         {
             return await isFieldLocked(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
-        protected async Task<bool> isFieldLocked(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> isFieldLocked(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await isFieldLocked(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }

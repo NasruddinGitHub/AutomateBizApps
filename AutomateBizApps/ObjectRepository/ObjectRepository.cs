@@ -123,7 +123,7 @@ namespace AutomateBizApps.ObjectRepository
             public static string LookupResults = "//ul[@aria-label='Lookup results']";
             public static string CloseIconLookupValue = "descendant::button[contains(@aria-label,'Delete')]";
             public static string LookupValue = "descendant::div[contains(@id,'selected_tag_text')]";
-            public static string DropdownOpener = "descendant::button[@role='combobox']";
+            public static string DropdownOpener = "descendant::*[@role='combobox']";
             public static string DropdownValues = "//div[@role='listbox']/descendant::div[@role='option']";
             public static string MultiSelectOptionSetOpener = "descendant::div[contains(@class,'msos-caret-container')]";
             public static string MultiSelectOptions = "//div[@class='msos-selection-container']/descendant::label/descendant::div[contains(@class,'msos-optionitem-text')]";
@@ -135,6 +135,7 @@ namespace AutomateBizApps.ObjectRepository
             public static string BusinessRecommendedIcon = ".//span[contains(@data-id,'required-icon') and text()='+']";
             public static string OptionalIcon = ".//span[contains(@data-id,'required-icon')]";
             public static string LockedIcon = ".//div[contains(@data-id,'FieldSectionItemContainer')]/descendant::div[contains(@data-id,'locked-iconWrapper')]";
+            public static string CompletedIcon = ".//div[contains(@id,'completed-iconWrapper')]";
         }
 
         public static class EntityLocators

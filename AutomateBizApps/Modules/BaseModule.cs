@@ -863,7 +863,9 @@ namespace AutomateBizApps.Pages
                 await ScrollUsingMouseUntilElementIsVisible(dropdownOptionsOpener, 0, 100, maxNumberOfScrolls);
             }
             await ClickAsync(dropdownOptionsOpener);
-            return await GetAllElementsTextAfterWaiting(dropdownOptions);
+            List<string>  availableChoices = await GetAllElementsTextAfterWaiting(dropdownOptions);
+            await KeyboardPressAsync("Tab");
+            return availableChoices;
         }
 
         protected async Task<List<string>> GetAllAvailableChoices(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded)
