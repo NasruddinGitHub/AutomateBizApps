@@ -1,6 +1,7 @@
 ﻿using AutomateBizApps.Modules;
 using AutomateCe.Controls;
 using AutomateCe.Enums;
+using Microsoft.CodeAnalysis;
 using Microsoft.Playwright;
 using Newtonsoft.Json.Linq;
 using System;
@@ -27,7 +28,7 @@ namespace AutomateCe.Modules
             var tabLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.Tab.Replace("[Name]", tabName), timeToCheckIfFrameExists);
             try
             {
-                await ClickAsync(tabLocator, new LocatorClickOptions { Timeout = 7000 });
+                await ClickAsync(tabLocator, new LocatorClickOptions { Timeout = 5000 });
             }
             catch (TimeoutException ex)
             {
@@ -188,44 +189,44 @@ namespace AutomateCe.Modules
             await ClearValues(multiSelectOptionSet, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<bool> isFieldBusinessRequired(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldBusinessRequired(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldBusinessRequired(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
+            return await IsFieldBusinessRequired(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task<bool> isFieldBusinessRequired(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsFieldBusinessRequired(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await isFieldBusinessRequired(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await IsFieldBusinessRequired(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<bool> isFieldBusinessRecommended(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldBusinessRecommended(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldBusinessRecommended(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
+            return await IsFieldBusinessRecommended(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task<bool> isFieldBusinessRecommended(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsFieldBusinessRecommended(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await isFieldBusinessRecommended(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await IsFieldBusinessRecommended(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<bool> isFieldOptional(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldOptional(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldOptional(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
+            return await IsFieldOptional(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task<bool> isFieldOptional(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsFieldOptional(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await isFieldOptional(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await IsFieldOptional(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        protected async Task<bool> isFieldLocked(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldLocked(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldLocked(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
+            return await IsFieldLocked(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        protected async Task<bool> isFieldLocked(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsFieldLocked(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await isFieldLocked(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists);
+            return await IsFieldLocked(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
         public async Task<string> GetFormHeaderTitle()
@@ -234,9 +235,20 @@ namespace AutomateCe.Modules
             return title.Split("-")[0].Trim();
         }
 
+        public async Task<bool> IsFormSaved()
+        {
+            string title = await TextContentAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormHeaderTitle));
+            return string.Equals(title.Split("-")[1].Trim(), "Saved", StringComparison.OrdinalIgnoreCase);
+        }
+
         public async Task<string> GetEntityName()
         {
             return await TextContentAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.EntityName));
+        }
+
+        public async Task<bool> IsFormSelectorShown()
+        {
+            return await IsVisibleAsyncWithWaiting(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormSelector), 0);
         }
 
         public async Task<string> GetSelectedFormName()
@@ -248,7 +260,8 @@ namespace AutomateCe.Modules
         {
             ILocator formSelectionOpener = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormSelector);
             await ClickAsync(formSelectionOpener);
-            await SelectOption(formSelectionOpener, formName);
+            ILocator formSelectorItemsLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormSelectorItems);
+            await SelectOption(formSelectorItemsLocator, formName);
         }
 
         public async Task<List<string>> GetAllFormNames()
@@ -256,7 +269,9 @@ namespace AutomateCe.Modules
             ILocator formSelectionOpener = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormSelector);
             await ClickAsync(formSelectionOpener);
             ILocator allForms = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormSelectorItems);
-            return await GetAllElementsText(allForms);
+            List<string> allFormNames = await GetAllElementsText(allForms);
+            await KeyboardPressAsync("Tab");
+            return allFormNames;
         }
 
         public async Task<string> GetHeaderControlValue(string name)
@@ -280,168 +295,310 @@ namespace AutomateCe.Modules
                 await ClickAsync(headerFieldsExpandLocator);
         }
 
-        public async Task SetHeaderValue(string fieldName, string value, int timeToCheckIfFrameExists = 1000)
+        public async Task SetHeaderValue(string fieldName, string value, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
-            await ExpandHeaderFlyout();
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await SetValue(fieldName, value, FormContextType.Header, timeToCheckIfFrameExists);
-            await CloseHeaderFlyout();
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task SetHeaderValue(string fieldName, string value, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task SetHeaderValue(string fieldName, string value, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            await ExpandHeaderFlyout();
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await SetValue(fieldName, value, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
-            await CloseHeaderFlyout();
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task ClearHeaderValue(string fieldName, int timeToCheckIfFrameExists = 1000)
+        public async Task ClearHeaderValue(string fieldName, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await SetValue(fieldName, string.Empty, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task ClearHeaderValue(string fieldName, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task ClearHeaderValue(string fieldName, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await SetValue(fieldName, string.Empty, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task<string> GetHeaderValue(string fieldName, int timeToCheckIfFrameExists = 1000)
+        public async Task<string> GetHeaderValue(string fieldName, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetValue(fieldName, FormContextType.Header, timeToCheckIfFrameExists);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            string value = await GetValue(fieldName, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return value;
         }
 
-        public async Task<string> GetHeaderValue(string fieldName, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<string> GetHeaderValue(string fieldName, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await GetValue(fieldName, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            string value = await GetValue(fieldName, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return value;
         }
 
-        public async Task SetHeaderValue(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
+        public async Task SetHeaderValue(LookupItem lookupItem, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await SetValue(lookupItem, false, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task SetHeaderValue(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task SetHeaderValue(LookupItem lookupItem, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await SetValue(lookupItem, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task ClearHeaderValue(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
+        public async Task ClearHeaderValue(LookupItem lookupItem, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await ClearValue(lookupItem, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task ClearHeaderValue(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task ClearHeaderValue(LookupItem lookupItem, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await ClearValue(lookupItem, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task<string> GetHeaderValue(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
+        public async Task<string> GetHeaderValue(LookupItem lookupItem, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetValue(lookupItem, FormContextType.Header, timeToCheckIfFrameExists);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            string value = await GetValue(lookupItem, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return value;
         }
 
-        public async Task<string> GetHeaderValue(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<string> GetHeaderValue(LookupItem lookupItem, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await GetValue(lookupItem, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            string value = await GetValue(lookupItem, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return value;
         }
 
-        public async Task SetHeaderValue(OptionSet optionSet, int timeToCheckIfFrameExists = 1000)
+        public async Task SetHeaderValue(OptionSet optionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await SetValue(optionSet, false, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task SetHeaderValue(OptionSet optionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task SetHeaderValue(OptionSet optionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await SetValue(optionSet, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task<string> GetHeaderValue(OptionSet optionSet, int timeToCheckIfFrameExists = 1000)
+        public async Task<string> GetHeaderValue(OptionSet optionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetValue(optionSet, FormContextType.Header, timeToCheckIfFrameExists);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            string value = await GetValue(optionSet, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return value;
         }
 
-        public async Task<string> GetHeaderValue(OptionSet optionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<string> GetHeaderValue(OptionSet optionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await GetValue(optionSet, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            string value = await GetValue(optionSet, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return value;
         }
 
-        public async Task<List<string>> GetAllAvailableHeaderValues(OptionSet optionSet, int timeToCheckIfFrameExists = 1000)
+        public async Task<List<string>> GetAllAvailableHeaderValues(OptionSet optionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetAllAvailableValues(optionSet, FormContextType.Header, timeToCheckIfFrameExists);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            List<string> values = await GetAllAvailableValues(optionSet, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return values;
         }
 
-        public async Task<List<string>> GetAllAvailableHeaderValues(OptionSet optionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<List<string>> GetAllAvailableHeaderValues(OptionSet optionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await GetAllAvailableValues(optionSet, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            List<string> values = await GetAllAvailableValues(optionSet, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return values;
         }
 
-        public async Task SetHeaderValue(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
+        public async Task SetHeaderValue(MultiSelectOptionSet multiSelectOptionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await SetValue(multiSelectOptionSet, false, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task SetHeaderValue(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task SetHeaderValue(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await SetValue(multiSelectOptionSet, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task<List<string>> GetSelectedHeaderValues(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
+        public async Task<List<string>> GetSelectedHeaderValues(MultiSelectOptionSet multiSelectOptionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetSelectedValues(multiSelectOptionSet, FormContextType.Header, timeToCheckIfFrameExists);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            List<string> values = await GetSelectedValues(multiSelectOptionSet, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return values;
         }
 
-        public async Task<List<string>> GetSelectedHeaderValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<List<string>> GetSelectedHeaderValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await GetSelectedValues(multiSelectOptionSet, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            List<string> values = await GetSelectedValues(multiSelectOptionSet, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return values;
         }
 
-        public async Task ClearHeaderValues(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
+        public async Task ClearHeaderValues(MultiSelectOptionSet multiSelectOptionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await ClearValues(multiSelectOptionSet, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task ClearHeaderValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task ClearHeaderValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
             await ClearValues(multiSelectOptionSet, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
         }
 
-        public async Task<bool> isHeaderFieldBusinessRequired(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsHeaderFieldBusinessRequired(String field, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldBusinessRequired(field, false, FormContextType.Header, timeToCheckIfFrameExists);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            bool isRequired = await IsFieldBusinessRequired(field, false, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return isRequired;
         }
 
-        public async Task<bool> isHeaderFieldBusinessRequired(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsHeaderFieldBusinessRequired(String field, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await isFieldBusinessRequired(field, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            bool isRequired = await IsFieldBusinessRequired(field, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return isRequired;
         }
 
-        public async Task<bool> isHeaderFieldBusinessRecommended(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsHeaderFieldBusinessRecommended(String field, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldBusinessRecommended(field, false, FormContextType.Header, timeToCheckIfFrameExists);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            bool isRecommended = await IsFieldBusinessRecommended(field, false, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return isRecommended;
         }
 
-        public async Task<bool> isHeaderFieldBusinessRecommended(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsHeaderFieldBusinessRecommended(String field, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await isFieldBusinessRecommended(field, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            bool isRecommended = await IsFieldBusinessRecommended(field, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return isRecommended;
         }
 
-        public async Task<bool> isHeaderFieldOptional(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsHeaderFieldOptional(String field, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldOptional(field, false, FormContextType.Header, timeToCheckIfFrameExists);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            bool isOptional = await IsFieldOptional(field, false, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return isOptional;
         }
 
-        public async Task<bool> isHeaderFieldOptional(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsHeaderFieldOptional(String field, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await isFieldOptional(field, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            bool isOptional = await IsFieldOptional(field, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return isOptional;
         }
 
-        protected async Task<bool> isHeaderFieldLocked(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsHeaderFieldLocked(String field, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldLocked(field, false, FormContextType.Header, timeToCheckIfFrameExists);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            bool isLocked = await IsFieldLocked(field, false, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return isLocked;
         }
 
-        protected async Task<bool> isHeaderFieldLocked(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsHeaderFieldLocked(String field, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await isFieldLocked(field, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists);
+            if (expandHeaderFlyout)
+                await ExpandHeaderFlyout();
+            bool isLocked = await IsFieldLocked(field, dynamicallyLoaded, FormContextType.Header, timeToCheckIfFrameExists);
+            if (closeHeaderFlyout)
+                await CloseHeaderFlyout();
+            return isLocked;
         }
 
     }

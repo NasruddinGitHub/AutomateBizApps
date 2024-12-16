@@ -47,5 +47,23 @@ namespace AutomateBizApps.Utils
             }
             return (new string(str));
         }
+
+        public static string GetRandomNumberString(int length)
+        {
+            if (length < 1)
+                throw new ArgumentException("Length must be at least 1");
+
+            Random random = new Random();
+            char[] result = new char[length];
+            result[0] = (char)('1' + random.Next(0, 9)); // Ensure first digit is non-zero
+
+            for (int i = 1; i < length; i++)
+            {
+                result[i] = (char)('0' + random.Next(0, 10));
+            }
+
+            return new string(result);
+        }
     }
 }
+

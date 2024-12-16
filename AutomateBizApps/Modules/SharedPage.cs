@@ -318,46 +318,46 @@ namespace AutomateBizApps.Modules
             return int.Parse(await GetAttributeAsync(fieldContainer, "data-fieldrequirement"));
         }
 
-        protected async Task<bool> isFieldBusinessRequired(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        protected async Task<bool> IsFieldBusinessRequired(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldBusinessRequired(field, false, formContextType, timeToCheckIfFrameExists);
+            return await IsFieldBusinessRequired(field, false, formContextType, timeToCheckIfFrameExists);
         }
 
-        protected async Task<bool> isFieldBusinessRequired(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<bool> IsFieldBusinessRequired(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             
             int fieldRequirement = await GetFieldRequirement(field, dynamicallyLoaded, formContextType, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
             return fieldRequirement == 2;
         }
 
-        protected async Task<bool> isFieldBusinessRecommended(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        protected async Task<bool> IsFieldBusinessRecommended(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldBusinessRecommended(field, false, formContextType, timeToCheckIfFrameExists);
+            return await IsFieldBusinessRecommended(field, false, formContextType, timeToCheckIfFrameExists);
         }
 
-        protected async Task<bool> isFieldBusinessRecommended(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<bool> IsFieldBusinessRecommended(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             int fieldRequirement = await GetFieldRequirement(field, dynamicallyLoaded, formContextType, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
             return fieldRequirement == 3;
         }
 
-        protected async Task<bool> isFieldOptional(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        protected async Task<bool> IsFieldOptional(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldOptional(field, false, formContextType, timeToCheckIfFrameExists);
+            return await IsFieldOptional(field, false, formContextType, timeToCheckIfFrameExists);
         }
 
-        protected async Task<bool> isFieldOptional(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<bool> IsFieldOptional(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             int fieldRequirement = await GetFieldRequirement(field, dynamicallyLoaded, formContextType, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
             return fieldRequirement == 0;
         }
 
-        protected async Task<bool> isFieldCompleted(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        protected async Task<bool> IsFieldCompleted(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldCompleted(field, false, formContextType, timeToCheckIfFrameExists);
+            return await IsFieldCompleted(field, false, formContextType, timeToCheckIfFrameExists);
         }
 
-        protected async Task<bool> isFieldCompleted(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<bool> IsFieldCompleted(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             ILocator fieldContainer = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)
@@ -368,12 +368,12 @@ namespace AutomateBizApps.Modules
             return await IsVisibleAsyncWithWaiting(LocatorWithXpath(fieldContainer, CommonLocators.CompletedIcon), 0);
         }
 
-        protected async Task<bool> isFieldLocked(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        protected async Task<bool> IsFieldLocked(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldLocked(field, false, formContextType, timeToCheckIfFrameExists);
+            return await IsFieldLocked(field, false, formContextType, timeToCheckIfFrameExists);
         }
 
-        protected async Task<bool> isFieldLocked(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<bool> IsFieldLocked(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             ILocator fieldContainer = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)

@@ -243,7 +243,7 @@ namespace AutomateBizApps.Modules
 
         public async Task OpenRecord(string recordName)
         {
-            var rowLinkLocator = Locator(GridLocators.RowLink.Replace("[Name]", recordName));
+            var rowLinkLocator = LocatorWithXpath(GridLocators.RowLink.Replace("[Name]", recordName));
             await ClickAsync(rowLinkLocator);
         }
 

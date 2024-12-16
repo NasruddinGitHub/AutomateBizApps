@@ -141,49 +141,49 @@ namespace AutomateCe.Modules
             await ClearValues(multiSelectOptionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<bool> isFieldBusinessRequired(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldBusinessRequired(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldBusinessRequired(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await IsFieldBusinessRequired(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
-        public async Task<bool> isFieldBusinessRequired(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsFieldBusinessRequired(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await isFieldBusinessRequired(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await IsFieldBusinessRequired(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<bool> isFieldBusinessRecommended(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldBusinessRecommended(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldBusinessRecommended(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await IsFieldBusinessRecommended(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
-        public async Task<bool> isFieldBusinessRecommended(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsFieldBusinessRecommended(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await isFieldBusinessRecommended(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await IsFieldBusinessRecommended(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<bool> isFieldOptional(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldOptional(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldOptional(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await IsFieldOptional(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
-        public async Task<bool> isFieldCompleted(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldCompleted(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldCompleted(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await IsFieldCompleted(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
-        public async Task<bool> isFieldOptional(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsFieldOptional(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await isFieldOptional(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await IsFieldOptional(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<bool> isFieldLocked(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldLocked(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await isFieldLocked(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await IsFieldLocked(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
-        public async Task<bool> isFieldLocked(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsFieldLocked(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await isFieldLocked(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await IsFieldLocked(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task SelectStage(string stageName)

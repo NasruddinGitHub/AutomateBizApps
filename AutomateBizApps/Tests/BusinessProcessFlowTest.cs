@@ -78,11 +78,11 @@ namespace AutomateCe.Tests
             await ceApp.BusinessProcessFlow.ClearValue("Description");
 
             // To verify if a field is optional, business required, business recommended, locked or completed in BPF
-            bool isSubstatusOptionalField = await ceApp.BusinessProcessFlow.isFieldOptional("Substatus");
-            bool isPriceListMandatoryField = await ceApp.BusinessProcessFlow.isFieldBusinessRequired("Price List");
-            bool isSystemStatusRecommendedField = await ceApp.BusinessProcessFlow.isFieldBusinessRequired("System Status");
-            bool isBillingAccountLockedField = await ceApp.BusinessProcessFlow.isFieldLocked("Billing Account");
-            bool isWorkOrderTypeCompleted = await ceApp.BusinessProcessFlow.isFieldCompleted("Work Order Type");
+            bool isSubstatusOptionalField = await ceApp.BusinessProcessFlow.IsFieldOptional("Substatus");
+            bool isPriceListMandatoryField = await ceApp.BusinessProcessFlow.IsFieldBusinessRequired("Price List");
+            bool isSystemStatusRecommendedField = await ceApp.BusinessProcessFlow.IsFieldBusinessRequired("System Status");
+            bool isBillingAccountLockedField = await ceApp.BusinessProcessFlow.IsFieldLocked("Billing Account");
+            bool isWorkOrderTypeCompleted = await ceApp.BusinessProcessFlow.IsFieldCompleted("Work Order Type");
 
             // This will take the user to previous stage
             await ceApp.BusinessProcessFlow.PreviousStage();
