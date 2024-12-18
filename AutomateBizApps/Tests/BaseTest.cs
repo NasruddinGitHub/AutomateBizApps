@@ -56,7 +56,6 @@ namespace AutomateBizApps.Tests
         {
             string? url = TestContext.Parameters[Property.Url];
             await page.GotoAsync(url);
-            
         }
 
         [TearDown]

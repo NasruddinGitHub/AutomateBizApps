@@ -21,7 +21,7 @@
 		<Parameter name="APIKey" value="" />
 		<Parameter name="DeploymentName" value="" />
 		<Parameter name="APIVersion" value="" />
-		<Parameter name="HeadlessMode" value="true" />
+		<Parameter name="HeadlessMode" value="false" />
 		<Parameter name="ExecutionReportsPath" value="false" />
 		<Parameter name="ScreenshotsForFailedTests" value="true" />
 		<Parameter name="ScreenshotsForPassedTests" value="true" />
@@ -30,5 +30,6 @@
 		<Parameter name="ScreenshotsFolderPath" value="Output\Screenshots" />
 		<!-- Use recording wisely. Provide path from project's root directory keep it empty if recording not needed -->
 		<Parameter name="RecordingVideosDir" value="" />
+		<Parameter name="EnableTestMode" value="true" />
 	</TestRunParameters>
 </RunSettings>

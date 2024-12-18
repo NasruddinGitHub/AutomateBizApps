@@ -225,6 +225,46 @@ namespace AutomateCe.Tests
             await ceApp.Entity.IsHeaderFieldOptional("Status");
         }
 
+        [Test]
+        public async Task ValidateEntityInTestMode()
+        {
+            ReportUtil.CreateTest("Validate entity in the test mode.");
+
+            CeApp ceApp = new CeApp(page);
+            await ceApp.LoginModule.Login(email, password, mfaKey);
+
+            await ceApp.ApplicationLandingPageModule.OpenApp("Sales Hub");
+            await ceApp.SiteMapPanel.OpenSubArea("Customers", "Contacts");
+            await ceApp.Complementary.OpenOrCloseTab("Copilot");
+            await ceApp.CommandBar.ClickCommand("New");
+
+            await ceApp.Entity.SetValue("First Name", "Nasruddin");
+            await ceApp.Entity.SetValue("Last Name", "Shaik");
+            await ceApp.Entity.SetValue("Address 1: Country/Region", "India");
+        }
+
+        // This test will not work if the test mode is false
+        [Test]
+        public async Task ValidateDynamicallyLoadedElementInNonTestMode()
+        {
+            ReportUtil.CreateTest("Validate entity in the test mode.");
+
+            CeApp ceApp = new CeApp(page);
+            await ceApp.LoginModule.Login(email, password, mfaKey);
+
+            await ceApp.ApplicationLandingPageModule.OpenApp("Sales Hub");
+            await ceApp.SiteMapPanel.OpenSubArea("Customers", "Contacts");
+            await ceApp.Complementary.OpenOrCloseTab("Copilot");
+            await ceApp.CommandBar.ClickCommand("New");
+
+            await ceApp.Entity.SetValue("First Name", "Nasruddin");
+            await ceApp.Entity.SetValue("Last Name", "Shaik");
+
+            // Address 1: Country/Region is dynamically loaded element, so test mode should be on for this. 
+            // If we call SetValue like this, it will fail . await ceApp.Entity.SetValue("Address 1: Country/Region", "India");
+            // We should call like below
+            await ceApp.Entity.SetValue("Address 1: Country/Region", "India", true, anyFieldNameInScroller: "First Name", maxNumberOfScrolls: 100);
+        }
 
     }
 }

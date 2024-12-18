@@ -1,4 +1,5 @@
 ﻿using AutomateBizApps.Pages;
+using AutomateCe.Utils;
 using Microsoft.Playwright;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,11 @@ namespace AutomateBizApps.Modules
            string applicationLocator = ApplicationLandingPageLocators.Application.Replace("[Name]", applicationName);
            var appLandingPageFrame = SwitchToFrameAndLocate(appLandingFrameLocator, applicationLocator);
            await ClickAsync(appLandingPageFrame, new LocatorClickOptions { Timeout = 50000});
+           bool isTestModeRequired =  bool.Parse(TestContextUtil.GetParameter("EnableTestMode"));
+            if (isTestModeRequired)
+            {
+                await EnableTestMode();
+            }
         }
 
         public async Task Logout()

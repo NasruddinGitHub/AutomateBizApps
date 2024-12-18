@@ -4,11 +4,14 @@ using Microsoft.Playwright;
 using OtpNet;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using static AutomateBizApps.ObjectRepository.ObjectRepository;
 
 namespace AutomateBizApps.Pages
@@ -863,7 +866,7 @@ namespace AutomateBizApps.Pages
                 await ScrollUsingMouseUntilElementIsVisible(dropdownOptionsOpener, 0, 100, maxNumberOfScrolls);
             }
             await ClickAsync(dropdownOptionsOpener);
-            List<string>  availableChoices = await GetAllElementsTextAfterWaiting(dropdownOptions);
+            List<string> availableChoices = await GetAllElementsTextAfterWaiting(dropdownOptions);
             await KeyboardPressAsync("Tab");
             return availableChoices;
         }
@@ -1037,6 +1040,11 @@ namespace AutomateBizApps.Pages
             }
         }
 
+        protected async Task GotoAsync(string url, PageGotoOptions? options = default)
+        {
+            await _page.GotoAsync(url, options);
+        }
+
         protected async Task WaitForNoActiveRequests()
         {
             try
@@ -1057,6 +1065,32 @@ namespace AutomateBizApps.Pages
             {
                 // Ignore this exception
             }
+        }
+
+        private NameValueCollection GetUrlQueryParams(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return null;
+
+            Uri uri = new Uri(url);
+            var query = uri.Query.ToLower();
+            NameValueCollection result = HttpUtility.ParseQueryString(query);
+            return result;
+        }
+
+        protected async Task EnableTestMode()
+        {
+            String previousUrl = _page.Url;
+
+            var prevQuery = GetUrlQueryParams(previousUrl);
+            string queryParams = "";
+            if (prevQuery.Get("flags") == null)
+            {
+                queryParams += "&flags=easyreproautomation=true,testmode=true";
+            }
+
+            var testModeUri = previousUrl + queryParams;
+            await GotoAsync(testModeUri);
         }
     }
 
