@@ -526,6 +526,7 @@ namespace AutomateBizApps.Pages
             {
                 allElementsText.Add(await TextContentAsync(locator.Nth(i)));
             }
+            await KeyboardPressAsync("Tab");
             return allElementsText;
         }
 

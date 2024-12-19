@@ -169,6 +169,11 @@ namespace AutomateBizApps.Modules
             await ApplyFilter();
         }
 
+        public async Task SelectFilterOperator(string filterType)
+        {
+            await SelectDropdownOption(GridLocators.FilterByChevronDown, GridLocators.FilterByOptions, filterType);
+        }
+
         public async Task ClearColumnFilter(string column)
         {
             await SortColumn(column, "Clear filter");
@@ -234,16 +239,16 @@ namespace AutomateBizApps.Modules
             await ClickAsync(rowSelectorLocator);
         }
 
+        public async Task OpenRecord(string recordName)
+        {
+            var rowLinkLocator = LocatorWithXpath(GridLocators.RowLink.Replace("[Name]", recordName));
+            await ClickAsync(rowLinkLocator);
+        }
+
         public async Task OpenRecord(int index, string recordName)
         {
             var rowLocator = LocatorWithXpath(GridLocators.Row.Replace("[Index]", index.ToString()));
             var rowLinkLocator = LocatorWithXpath(rowLocator, GridLocators.RowLink.Replace("[Name]", recordName));
-            await ClickAsync(rowLinkLocator);
-        }
-
-        public async Task OpenRecord(string recordName)
-        {
-            var rowLinkLocator = LocatorWithXpath(GridLocators.RowLink.Replace("[Name]", recordName));
             await ClickAsync(rowLinkLocator);
         }
 
@@ -325,16 +330,16 @@ namespace AutomateBizApps.Modules
             }
         }
 
-        public async Task CloseColumnDialog()
+        public async Task CloseFilterByDialog()
         {
-            await ClickAsync(Locator(GridLocators.CloseColumnDialog));
+            await ClickAsync(Locator(GridLocators.CloseFilterByDialog));
         }
 
         public async Task SetColumnWidth(string columnName, int columnWidth)
         {
             await SortColumn(columnName, "Column width");
             await SetPreferredColumnWidth(columnWidth);
-            await CloseColumnDialog();
+            await CloseFilterByDialog();
         }
 
         public async Task<List<string>> GetRowValuesAsList(int rowIndex)

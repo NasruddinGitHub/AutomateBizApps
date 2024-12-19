@@ -90,7 +90,7 @@ namespace AutomateBizApps.ObjectRepository
             public static string SearchView = "//input[@placeholder='Search views']";
             public static string FilterByKeyword = "//input[@placeholder='Filter by keyword']";
             public static string ClearFilter = "//i[@data-icon-name='Clear']";
-            public static string CloseColumnDialog = "//button[@title='Close']";
+            public static string CloseFilterByDialog = "//button[@title='Close']";
             public static string FilterByChevronDown = "//div[@data-automation-id='filterBy']/descendant::*[@aria-label='Filter by operator']";
             public static string FilterByOptions = "//div[@aria-label='Filter by operator' and @role='listbox']/descendant::span[contains(@class,'optionText')]";
             public static string FilterByValue = "//input[@aria-label='Filter by value']";
@@ -191,5 +191,40 @@ namespace AutomateBizApps.ObjectRepository
             public static string Header = "//div[contains(@id, 'processCrossEntityFlyoutTitleLabel')]";
             public static string ProcessCrossEntityItems = "//div[contains(@id, 'processCrossEntityFlyoutItems')]/descendant::li[contains(@id,'processCrossEntityItemContainer')]/descendant::label[contains(@id,'processCrossEntityItem')]";
         }
+
+        public static class SubgridLocators
+        {
+            public static string SubgridRootContainer = "//div[contains(@id,'DataSetHostContainer') and contains(translate(@id, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '[Name]')]";
+            public static string SearchBox = ".//input[contains(@id,'quickFind_text')]";
+            public static string CurrentlySelectedView = ".//div[contains(@id,'ViewSelector') and @title='Select a view']/descendant::span[contains(@id,'text-value')]";
+            public static string View = ".//li[contains(@id,'ViewSelector')]/descendant::span[text()='[Name]']";
+            public static string AllViews = ".//ul[contains(@id,'ViewSelector') and @role='listbox']/descendant::li[@role='option']";
+            public static string AllHeaderCells = ".//div[contains(@class,'ag-header-row')]/div[contains(@class,'ag-header-cell')]/descendant::div[contains(@class,'headerTextContainer')]/descendant::div[contains(@class,'TooltipHost')]";
+            public static string SelectAllRows = "//div[text()='Toggle selection of all rows']/preceding-sibling::div[contains(@class,'ms-Checkbox')]";
+            public static string HeaderColumn = "//div[@class='ag-header-container']/div[contains(@class,'ag-header-row')]/div[contains(@class,'ag-header-cell')]/descendant::div[contains(@class,'headerTextContainer')]/descendant::div[contains(@class,'TooltipHost')][text()='[Name]']";
+            public static string HeaderChevronDownIcon = "//div[@class='ag-header-container']/descendant::div[contains(@class,'TooltipHost')][text()='[Name]']/ancestor::div[contains(@class,'headerText')]/following-sibling::div[contains(@class,'icons')]/i[@data-icon-name='ChevronDownSmall']";
+            public static string HeaderContextOptions = ".//div[@data-testid='columnContextMenu']/descendant::span[text()='[Name]']";
+            public static string ColumnWidthInput = "//div[@aria-labelledby='column-width-dialog-title']/descendant::input[contains(@id,'input')]";
+            public static string ColumnWidthUpArrow = "//span[contains(@class,'arrowButtonsContainer')]/button[contains(@class,'UpButton')]";
+            public static string ColumnWidthDownArrow = "//span[contains(@class,'arrowButtonsContainer')]/button[contains(@class,'DownButton')]";
+            public static string RowSelector = ".//input[@aria-label='select or deselect the row']/parent::div[contains(@class,'ms-Checkbox')]";
+            public static string Row = ".//div[@class='ag-center-cols-container']/div[@row-index='[Index]']";
+            public static string RowLink = ".//a[@role='link' and @aria-label='[Name]']";
+            public static string RowCells = "div[contains(@class,'editable-cell')]";
+            public static string HeaderSortUp = ".//div[contains(@class,'TooltipHost') and text()='[Name]']/ancestor::div[@data-testid='columnHeader']/descendant::*[@data-icon-name='SortUp']";
+            public static string HeaderSortDown = "//div[contains(@class,'TooltipHost') and text()='[Name]']/ancestor::div[@data-testid='columnHeader']/descendant::*[@data-icon-name='SortDown']";
+            public static string HeaderFiltered = ".//div[contains(@class,'TooltipHost') and text()='[Name]']/ancestor::div[@data-testid='columnHeader']/descendant::*[@data-icon-name='FilterSolid']";
+            public static string DisplayedRowsCount = ".//span[contains(text(),'Rows:')]";
+            public static string SelectedRowsCount = ".//span[contains(text(),'Selected:')]";
+            public static string Grid = "//div[@data-id='grid-container']/descendant::div[@class='ag-center-cols-container' and @role='rowgroup']";
+            public static string FilterByValue = ".//input[@aria-label='Filter by value']";
+            public static string FilterByChevronDown = ".//div[@data-automation-id='filterBy']/descendant::*[@aria-label='Filter by operator']";
+            public static string FilterByOptions = ".//div[@aria-label='Filter by operator' and @role='listbox']/descendant::span[contains(@class,'optionText')]";
+            public static string ApplyFilter = ".//span[text()='Apply']";
+            public static string ClearFilterValue = ".//span[text()='Clear']";
+            public static string CloseFilterByDialog = "//button[@title='Close']";
+
+        }
+
     }
 }

@@ -32,6 +32,8 @@ namespace AutomateBizApps.Modules
 
         public BusinessProcessFlow BusinessProcessFlow => this.GetElement<BusinessProcessFlow>(_page);
 
+        public Subgrid Subgrid => this.GetElement<Subgrid>(_page);
+
         public CeApp(IPage page)
         {
             this._page = page;
