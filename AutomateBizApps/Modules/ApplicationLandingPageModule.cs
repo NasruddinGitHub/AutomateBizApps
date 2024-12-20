@@ -24,7 +24,7 @@ namespace AutomateBizApps.Modules
            string appLandingFrameLocator = ApplicationLandingPageLocators.ApplandingPageFrame;
            string applicationLocator = ApplicationLandingPageLocators.Application.Replace("[Name]", applicationName);
            var appLandingPageFrame = SwitchToFrameAndLocate(appLandingFrameLocator, applicationLocator);
-           await ClickAsync(appLandingPageFrame, new LocatorClickOptions { Timeout = 50000});
+           await ClickAsync(appLandingPageFrame, new LocatorClickOptions { Timeout = 50000}, new LocatorEvaluateOptions { Timeout = 50000 });
            bool isTestModeRequired =  bool.Parse(TestContextUtil.GetParameter("EnableTestMode"));
             if (isTestModeRequired)
             {

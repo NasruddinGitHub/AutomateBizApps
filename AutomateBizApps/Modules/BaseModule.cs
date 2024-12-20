@@ -137,19 +137,20 @@ namespace AutomateBizApps.Pages
 
         protected async Task EvaluateAsync(ILocator locatorToClick, string expression, object? arg = default, LocatorEvaluateOptions? options = default)
         {
-            await locatorToClick.EvaluateAsync(expression);
+            await locatorToClick.EvaluateAsync(expression, default, options);
         }
 
-        protected async Task HightlightElementAsync(ILocator locatorToClick)
+        protected async Task HightlightElementAsync(ILocator locatorToClick, LocatorEvaluateOptions? options = default)
         {
-            await EvaluateAsync(locatorToClick, "el => el.style.border = '3px solid red'");
-            await EvaluateAsync(locatorToClick, "el => el.style.backgroundColor = 'yellow'");
+            await EvaluateAsync(locatorToClick, "el => el.style.border = '3px solid red'", options);
+            await EvaluateAsync(locatorToClick, "el => el.style.backgroundColor = 'yellow'", options);
         }
 
-        protected async Task ClickAsync(ILocator locatorToClick, LocatorClickOptions? options = default)
+        protected async Task ClickAsync(ILocator locatorToClick, LocatorClickOptions? options1 = default, LocatorEvaluateOptions? options2 = default)
         {
-            await HightlightElementAsync(locatorToClick);
-            await locatorToClick.ClickAsync(options);
+            
+            await HightlightElementAsync(locatorToClick, options2);
+            await locatorToClick.ClickAsync(options1);
             await WaitUntilAppIsIdle();
         }
 

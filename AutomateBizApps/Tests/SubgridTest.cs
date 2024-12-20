@@ -26,15 +26,12 @@ namespace AutomateBizApps.Tests
 
         [Property("browser", "chrome")]
         [Test]
-        public async Task ValidateSubgrid()
+        public async Task ValidateMultiSelectOptionSet()
         {
             ReportUtil.CreateTest("Validate subgrid functionalities");
             ReportUtil.AssignAuthor("Nasruddin Shaik");
             ReportUtil.AssignCategory("Smoke");
-            string? email = TestContext.Parameters[Property.Email];
-            string? password = TestContext.Parameters[Property.Password];
-            string? mfaKey = TestContext.Parameters[Property.MfaKey];
-            
+
             CeApp ceApp = new CeApp(page);
             await ceApp.LoginModule.Login(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
@@ -62,7 +59,9 @@ namespace AutomateBizApps.Tests
             allViews.ForEach(x => Console.WriteLine(x));
             await ceApp.Subgrid.Search("accounts", "Adventure");
             Console.WriteLine(await ceApp.Subgrid.GetDisplayedRowsCount("cases"));
-            
+
+            await ceApp.SubgridCommandBar.ClickCommand("accounts", "New Account");
+
         }
 
     }

@@ -34,6 +34,8 @@ namespace AutomateBizApps.Modules
 
         public Subgrid Subgrid => this.GetElement<Subgrid>(_page);
 
+        public SubgridCommandBar SubgridCommandBar => this.GetElement<SubgridCommandBar>(_page);
+
         public CeApp(IPage page)
         {
             this._page = page;

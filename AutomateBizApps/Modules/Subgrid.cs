@@ -1,4 +1,5 @@
-﻿using AutomateBizApps.Pages;
+﻿using AutomateBizApps.Modules;
+using AutomateBizApps.Pages;
 using Microsoft.Playwright;
 using System;
 using System.Collections.Generic;
@@ -77,8 +78,8 @@ namespace AutomateCe.Modules
         public async Task<int> GetDisplayedRowsCount(string subgridName)
         {
             ILocator gridLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, SubgridLocators.SubgridRootContainer.Replace("[Name]", subgridName));
-            ILocator rowCountLocator =  Locator(gridLocator, SubgridLocators.DisplayedRowsCount);
-            string displayedRowsCount = await TextContentAsync(Locator(GridLocators.DisplayedRowsCount));
+            ILocator rowCountLocator = LocatorWithXpath(gridLocator, SubgridLocators.DisplayedRowsCount);
+            string displayedRowsCount = await TextContentAsync(rowCountLocator);
             displayedRowsCount = displayedRowsCount.Split(':')[1].Trim();
             return Convert.ToInt32(displayedRowsCount);
         }
@@ -86,7 +87,7 @@ namespace AutomateCe.Modules
         public async Task<int> GetSelectedRowsCount(string subgridName)
         {
             ILocator gridLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, SubgridLocators.SubgridRootContainer.Replace("[Name]", subgridName));
-            ILocator selectedCountLocator = Locator(gridLocator, SubgridLocators.SelectedRowsCount);
+            ILocator selectedCountLocator = LocatorWithXpath(gridLocator, SubgridLocators.SelectedRowsCount);
             string selectedRowsCount = await TextContentAsync(selectedCountLocator);
             selectedRowsCount = selectedRowsCount.Split(':')[1].Trim();
             return Convert.ToInt32(selectedRowsCount);
@@ -95,21 +96,21 @@ namespace AutomateCe.Modules
         public async Task<bool> IsColumnFiltered(string subgridName, string column)
         {
             ILocator gridLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, SubgridLocators.SubgridRootContainer.Replace("[Name]", subgridName));
-            ILocator headerFilteredLocator = Locator(gridLocator, SubgridLocators.HeaderFiltered.Replace("[Name]", column));
+            ILocator headerFilteredLocator = LocatorWithXpath(gridLocator, SubgridLocators.HeaderFiltered.Replace("[Name]", column));
             return await IsVisibleAsyncWithWaiting(headerFilteredLocator, 0);
         }
 
         public async Task<bool> IsColumnSortedAscendingOrder(string subgridName, string column)
         {
             ILocator gridLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, SubgridLocators.SubgridRootContainer.Replace("[Name]", subgridName));
-            ILocator headerSortUpLocator = Locator(gridLocator, SubgridLocators.HeaderSortUp.Replace("[Name]", column));
+            ILocator headerSortUpLocator = LocatorWithXpath(gridLocator, SubgridLocators.HeaderSortUp.Replace("[Name]", column));
             return await IsVisibleAsyncWithWaiting(headerSortUpLocator, 0);
         }
 
         public async Task<bool> IsColumnSortedDescendingOrder(string subgridName, string column)
         {
             ILocator gridLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, SubgridLocators.SubgridRootContainer.Replace("[Name]", subgridName));
-            ILocator headerSortDownLocator = Locator(gridLocator, SubgridLocators.HeaderSortDown.Replace("[Name]", column));
+            ILocator headerSortDownLocator = LocatorWithXpath(gridLocator, SubgridLocators.HeaderSortDown.Replace("[Name]", column));
             return await IsVisibleAsyncWithWaiting(headerSortDownLocator, 0);
         }
 
@@ -122,7 +123,7 @@ namespace AutomateCe.Modules
         public async Task ClickColumnHeader(string subgridName, string columnName)
         {
             ILocator gridLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, SubgridLocators.SubgridRootContainer.Replace("[Name]", subgridName));
-            var headerColumnLocator = Locator(gridLocator, SubgridLocators.HeaderChevronDownIcon.Replace("[Name]", columnName));
+            var headerColumnLocator = LocatorWithXpath(gridLocator, SubgridLocators.HeaderChevronDownIcon.Replace("[Name]", columnName));
             await ClickAsync(headerColumnLocator);
         }
 
@@ -165,14 +166,14 @@ namespace AutomateCe.Modules
         public async Task SelectAllRecords(string subgridName)
         {
             ILocator gridLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, SubgridLocators.SubgridRootContainer.Replace("[Name]", subgridName));
-            var selectAllRowsLocator = Locator(gridLocator, SubgridLocators.SelectAllRows);
+            var selectAllRowsLocator = LocatorWithXpath(gridLocator, SubgridLocators.SelectAllRows);
             await ClickAsync(selectAllRowsLocator);
         }
 
         public async Task SelectRecord(string subgridName, int index)
         {
             ILocator gridLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, SubgridLocators.SubgridRootContainer.Replace("[Name]", subgridName));
-            var rowSelectorLocator = Locator(gridLocator, SubgridLocators.RowSelector);
+            var rowSelectorLocator = LocatorWithXpath(gridLocator, SubgridLocators.RowSelector);
             await ClickAsync(rowSelectorLocator);
         }
 

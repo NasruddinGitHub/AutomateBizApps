@@ -223,7 +223,10 @@ namespace AutomateBizApps.ObjectRepository
             public static string ApplyFilter = ".//span[text()='Apply']";
             public static string ClearFilterValue = ".//span[text()='Clear']";
             public static string CloseFilterByDialog = "//button[@title='Close']";
-
+            public static string CommandItem = ".//ul[@data-id='CommandBar']/descendant::button[contains(@aria-label,'[Name]')]";
+            public static string MoreCommandsEllipsis = ".//button[contains(@aria-label,'More commands for')]";
+            public static string AllShownCommands = ".//ul[@data-id='CommandBar' and contains(@aria-label,'Commands')]/child::li[not(contains(@id,'Overflow'))]/descendant::button[not(contains(@aria-describedby,'flyoutButton'))]";
+            public static string AllMoreCommands = ".//ul[contains(@id,'MenuSectionItemsOverflowButton')]/li/descendant::button[1]";
         }
 
     }
