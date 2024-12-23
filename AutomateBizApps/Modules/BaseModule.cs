@@ -149,7 +149,7 @@ namespace AutomateBizApps.Pages
         protected async Task ClickAsync(ILocator locatorToClick, LocatorClickOptions? options1 = default, LocatorEvaluateOptions? options2 = default)
         {
             
-            await HightlightElementAsync(locatorToClick, options2);
+            // await HightlightElementAsync(locatorToClick, options2);
             await locatorToClick.ClickAsync(options1);
             await WaitUntilAppIsIdle();
         }
@@ -822,7 +822,7 @@ namespace AutomateBizApps.Pages
 
         protected async Task SelectDropdownOption(string dropdownOptionsOpener, string dropdownOptions, string option, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
-            await SelectDropdownOption(Locator(dropdownOptionsOpener), Locator(dropdownOptions), option, dynamicallyLoaded);
+            await SelectDropdownOption(LocatorWithXpath(dropdownOptionsOpener), LocatorWithXpath(dropdownOptions), option, dynamicallyLoaded);
         }
 
         protected async Task SelectDropdownOption(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string option)

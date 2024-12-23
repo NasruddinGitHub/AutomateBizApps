@@ -101,7 +101,7 @@ namespace AutomateBizApps.ObjectRepository
             public static string HeaderColumn = "//div[@class='ag-header-container']/div[contains(@class,'ag-header-row')]/div[contains(@class,'ag-header-cell')]/descendant::div[contains(@class,'headerTextContainer')]/descendant::div[contains(@class,'TooltipHost')][text()='[Name]']";
             public static string HeaderChevronDownIcon = "//div[@class='ag-header-container']/descendant::div[contains(@class,'TooltipHost')][text()='[Name]']/ancestor::div[contains(@class,'headerText')]/following-sibling::div[contains(@class,'icons')]/i[@data-icon-name='ChevronDownSmall']";
             public static string HeaderContextOptions = "//div[@data-testid='columnContextMenu']/descendant::span[text()='[Name]']";
-            public static string ColumnWidthInput = "//div[@aria-labelledby='column-width-dialog-title']/descendant::input[contains(@id,'input')]";
+            public static string ColumnWidthInput = "//*[@aria-labelledby='column-width-dialog-title']/descendant::input[contains(@id,'input')]";
             public static string ColumnWidthUpArrow = "//span[contains(@class,'arrowButtonsContainer')]/button[contains(@class,'UpButton')]";
             public static string ColumnWidthDownArrow = "//span[contains(@class,'arrowButtonsContainer')]/button[contains(@class,'DownButton')]";
             public static string RowSelector = "//input[@aria-label='select or deselect the row']/parent::div[contains(@class,'ms-Checkbox')]";
@@ -204,7 +204,7 @@ namespace AutomateBizApps.ObjectRepository
             public static string HeaderColumn = "//div[@class='ag-header-container']/div[contains(@class,'ag-header-row')]/div[contains(@class,'ag-header-cell')]/descendant::div[contains(@class,'headerTextContainer')]/descendant::div[contains(@class,'TooltipHost')][text()='[Name]']";
             public static string HeaderChevronDownIcon = "//div[@class='ag-header-container']/descendant::div[contains(@class,'TooltipHost')][text()='[Name]']/ancestor::div[contains(@class,'headerText')]/following-sibling::div[contains(@class,'icons')]/i[@data-icon-name='ChevronDownSmall']";
             public static string HeaderContextOptions = ".//div[@data-testid='columnContextMenu']/descendant::span[text()='[Name]']";
-            public static string ColumnWidthInput = "//div[@aria-labelledby='column-width-dialog-title']/descendant::input[contains(@id,'input')]";
+            public static string ColumnWidthInput = "//*[@aria-labelledby='column-width-dialog-title']/descendant::input[contains(@id,'input')]";
             public static string ColumnWidthUpArrow = "//span[contains(@class,'arrowButtonsContainer')]/button[contains(@class,'UpButton')]";
             public static string ColumnWidthDownArrow = "//span[contains(@class,'arrowButtonsContainer')]/button[contains(@class,'DownButton')]";
             public static string RowSelector = ".//input[@aria-label='select or deselect the row']/parent::div[contains(@class,'ms-Checkbox')]";
@@ -218,9 +218,9 @@ namespace AutomateBizApps.ObjectRepository
             public static string SelectedRowsCount = ".//span[contains(text(),'Selected:')]";
             public static string Grid = "//div[@data-id='grid-container']/descendant::div[@class='ag-center-cols-container' and @role='rowgroup']";
             public static string FilterByValue = ".//input[@aria-label='Filter by value']";
-            public static string FilterByChevronDown = ".//div[@data-automation-id='filterBy']/descendant::*[@aria-label='Filter by operator']";
+            public static string FilterByChevronDown = ".//div[@aria-label='Filter by']/descendant::*[@aria-label='Filter by operator']";
             public static string FilterByOptions = ".//div[@aria-label='Filter by operator' and @role='listbox']/descendant::span[contains(@class,'optionText')]";
-            public static string ApplyFilter = ".//span[text()='Apply']";
+            public static string ApplyFilter = "//span[text()='Apply']";
             public static string ClearFilterValue = ".//span[text()='Clear']";
             public static string CloseFilterByDialog = "//button[@title='Close']";
             public static string CommandItem = ".//ul[@data-id='CommandBar']/descendant::button[contains(@aria-label,'[Name]')]";

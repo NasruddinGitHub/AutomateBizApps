@@ -116,7 +116,7 @@ namespace AutomateCe.Modules
 
         public async Task FillFilterByValue(string input)
         {
-            ILocator filterByValueLocator = Locator(SubgridLocators.FilterByValue);
+            ILocator filterByValueLocator = LocatorWithXpath(SubgridLocators.FilterByValue);
             await FillAsync(filterByValueLocator, input);
         }
 
@@ -130,7 +130,7 @@ namespace AutomateCe.Modules
         public async Task SortColumn(string subgridName, string columnName, string filterOption)
         {
             await ClickColumnHeader(subgridName, columnName);
-            var headerContextMenuOptions = Locator(SubgridLocators.HeaderContextOptions.Replace("[Name]", filterOption));
+            var headerContextMenuOptions = LocatorWithXpath(SubgridLocators.HeaderContextOptions.Replace("[Name]", filterOption));
             await ClickAsync(headerContextMenuOptions);
         }
 
