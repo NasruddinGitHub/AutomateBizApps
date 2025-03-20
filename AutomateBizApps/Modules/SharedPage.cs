@@ -325,9 +325,8 @@ namespace AutomateBizApps.Modules
 
         protected async Task<bool> IsFieldBusinessRequired(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            
             int fieldRequirement = await GetFieldRequirement(field, dynamicallyLoaded, formContextType, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
-            return fieldRequirement == 2;
+            return fieldRequirement == 1 || fieldRequirement == 2;
         }
 
         protected async Task<bool> IsFieldBusinessRecommended(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)

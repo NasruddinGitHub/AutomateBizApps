@@ -31,7 +31,8 @@ namespace AutomateBizApps.Modules
             catch (TimeoutException ex)
             {
                 await ClickMoreCommandEllipsis(subgridName, timeToCheckIfFrameExists);
-                await ClickAsync(commandLocator);
+                var subNameLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.CommandItem.Replace("[Name]", name), timeToCheckIfFrameExists);
+                await ClickAsync(subNameLocator);
             }
 
             if (!string.IsNullOrEmpty(subName))

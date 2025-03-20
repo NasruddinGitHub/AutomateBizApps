@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 namespace AutomateBizApps.Tests
 {
     
-    public class BaseTest : PageTest
+    public class BaseTest
     {
         public IBrowser browser;
 
@@ -106,13 +106,14 @@ namespace AutomateBizApps.Tests
 
         public async Task<IBrowser> OpenBrowser(string browser)
         {
+            var playwright = await Playwright.CreateAsync();
             switch (browser.ToLower())
             {
                 case "msedge":
                 case "chrome":
-                    return await Playwright.Chromium.LaunchAsync(TestSettings.BrowserTypeLaunchOptions());
+                    return await playwright.Chromium.LaunchAsync(TestSettings.BrowserTypeLaunchOptions());
                 case "firefox":
-                    return await Playwright.Firefox.LaunchAsync(TestSettings.BrowserTypeLaunchOptions());
+                    return await playwright.Firefox.LaunchAsync(TestSettings.BrowserTypeLaunchOptions());
                 default:
                     throw new ArgumentException("Invalid browser name is given. Given browser is " + browser);
             }

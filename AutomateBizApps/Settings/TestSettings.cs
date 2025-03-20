@@ -18,7 +18,7 @@ namespace AutomateBizApps.Settings
             {
                 Headless = bool.Parse(TestContextUtil.GetParameter(Property.HeadlessMode)),
                 Channel = TestContextUtil.GetBrowser(),
-                Args = new List<string> { "--start-maximized" }
+                Args = new List<string> { "--start-maximized", "--incognito", "--auth-server-whitelist=\"_\"" }
             };
         }
 

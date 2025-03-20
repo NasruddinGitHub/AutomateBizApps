@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -18,9 +19,16 @@ namespace AutomateCe.Modules
     {
         private IPage _page;
 
+        public FileUpload FileUpload => this.GetElement<FileUpload>(_page);
+
         public Entity(IPage page) : base(page)
         {
             this._page = page;
+        }
+
+        public T GetElement<T>(IPage page)
+        {
+            return (T)Activator.CreateInstance(typeof(T), new object[] { page });
         }
 
         public async Task SelectTab(string tabName, int timeToCheckIfFrameExists = 1000, string subTab = null)
@@ -238,7 +246,23 @@ namespace AutomateCe.Modules
         public async Task<bool> IsFormSaved()
         {
             string title = await TextContentAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormHeaderTitle));
-            return string.Equals(title.Split("-")[1].Trim(), "Saved", StringComparison.OrdinalIgnoreCase);
+            String[] splitString = title.Split("-");
+            return string.Equals(splitString[splitString.Length-1].Trim(), "Saved", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public async Task<bool> IsWarningNotificationShown()
+        {
+            return await IsVisibleAsyncWithWaiting(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.WarningNotification), 0);
+        }
+
+        public async Task WaitUntilWarningNotificationShown()
+        {
+            await ToBeVisibleAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.WarningNotification), 0);
+        }
+
+        public async Task WaitUntilWarningNotificationNotShown()
+        {
+            await ToBeNotVisibleAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.WarningNotification), 0);
         }
 
         public async Task<string> GetEntityName()

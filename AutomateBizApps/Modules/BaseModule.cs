@@ -251,6 +251,11 @@ namespace AutomateBizApps.Pages
             await locator.FillAsync(value, options);
         }
 
+        protected async Task UploadFile(ILocator locator, string filePath)
+        {
+            await locator.SetInputFilesAsync(filePath);
+        }
+
         protected async Task FillAsync(ILocator locator, string value, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorFillOptions? options = default)
         {
             if (dynamicallyLoaded)

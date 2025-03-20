@@ -15,9 +15,15 @@ namespace AutomateCe.Modules
     {
         private IPage _page;
 
+        public SubgridCommandBar SubgridCommandBar => this.GetElement<SubgridCommandBar>(_page);
+
         public Subgrid(IPage page) : base(page)
         {
             this._page = page;
+        }
+        public T GetElement<T>(IPage page)
+        {
+            return (T)Activator.CreateInstance(typeof(T), new object[] { page });
         }
 
         public async Task<bool> IsSubgridShown(string subgridName)

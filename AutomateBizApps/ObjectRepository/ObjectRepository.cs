@@ -134,14 +134,14 @@ namespace AutomateBizApps.ObjectRepository
             public static string BusinessRequiredIcon = ".//span[contains(@data-id,'required-icon') and text()='*']";
             public static string BusinessRecommendedIcon = ".//span[contains(@data-id,'required-icon') and text()='+']";
             public static string OptionalIcon = ".//span[contains(@data-id,'required-icon')]";
-            public static string LockedIcon = ".//div[contains(@data-id,'FieldSectionItemContainer')]/descendant::div[contains(@data-id,'locked-iconWrapper')]";
+            public static string LockedIcon = ".//div[contains(@data-id,'locked-iconWrapper')]";
             public static string CompletedIcon = ".//div[contains(@id,'completed-iconWrapper')]";
         }
 
         public static class EntityLocators
         {
             public static string FormContainer = "//*[@data-id='editFormRoot']";
-            public static string Tab = "//ul[contains(@id,'tablist')]/li[text()='[Name]']";
+            public static string Tab = "//ul[contains(@id,'tablist')]/li[normalize-space(text())='[Name]']";
             public static string AllShownTabs = "//ul[contains(@id,'tablist')]/li[contains(@id,'tab') and not(contains(@id,'related'))]";
             public static string RelatedTab = "//div[contains(@id,'button_more_tab') or (contains(@id,'container_related_tab') and text()='Related')]";
             public static string AllRelatedTabs = "//div[@id='relatedEntityContainer']/descendant::div[@role='menuitem']/descendant::span[contains(@class,'fui-MenuItem') and contains(@class,'content')]";
@@ -152,6 +152,7 @@ namespace AutomateBizApps.ObjectRepository
             public static string FormSelectorItems = "//div[@data-id='form-selector-flyout']/descendant::div[contains(@data-id,'form-selector-item-form-selector')]";
             public static string HeaderControlValue = "//div[contains(@id,'headerControlsList')]/descendant::div[text()='[Name]']/preceding-sibling::div";
             public static string HeaderFieldsExpand = "//button[contains(@id,'headerFieldsExpandButton')]";
+            public static string WarningNotification = "//div[contains(@id,'message')]/descendant::span[@data-id='warningNotification']";
         }
 
         public static class QuickCreateLocators
@@ -192,9 +193,14 @@ namespace AutomateBizApps.ObjectRepository
             public static string ProcessCrossEntityItems = "//div[contains(@id, 'processCrossEntityFlyoutItems')]/descendant::li[contains(@id,'processCrossEntityItemContainer')]/descendant::label[contains(@id,'processCrossEntityItem')]";
         }
 
+        public static class FileUploadLocators
+        {
+            public static string ChooseFile = "//input[@aria-label='[Name]' and @type='file']";
+        }
+
         public static class SubgridLocators
         {
-            public static string SubgridRootContainer = "//div[contains(@id,'DataSetHostContainer') and contains(translate(@id, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '[Name]')]";
+            public static string SubgridRootContainer = "//div[contains(@id,'DataSetHostContainer_dataSetRoot_[Name]')]";
             public static string SearchBox = ".//input[contains(@id,'quickFind_text')]";
             public static string CurrentlySelectedView = ".//div[contains(@id,'ViewSelector') and @title='Select a view']/descendant::span[contains(@id,'text-value')]";
             public static string View = ".//li[contains(@id,'ViewSelector')]/descendant::span[text()='[Name]']";
@@ -223,7 +229,7 @@ namespace AutomateBizApps.ObjectRepository
             public static string ApplyFilter = "//span[text()='Apply']";
             public static string ClearFilterValue = ".//span[text()='Clear']";
             public static string CloseFilterByDialog = "//button[@title='Close']";
-            public static string CommandItem = ".//ul[@data-id='CommandBar']/descendant::button[contains(@aria-label,'[Name]')]";
+            public static string CommandItem = ".//button//span[text()='[Name]']";
             public static string MoreCommandsEllipsis = ".//button[contains(@aria-label,'More commands for')]";
             public static string AllShownCommands = ".//ul[@data-id='CommandBar' and contains(@aria-label,'Commands')]/child::li[not(contains(@id,'Overflow'))]/descendant::button[not(contains(@aria-describedby,'flyoutButton'))]";
             public static string AllMoreCommands = ".//ul[contains(@id,'MenuSectionItemsOverflowButton')]/li/descendant::button[1]";
