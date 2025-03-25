@@ -91,7 +91,7 @@ namespace AutomateBizApps.ObjectRepository
             public static string FilterByKeyword = "//input[@placeholder='Filter by keyword']";
             public static string ClearFilter = "//i[@data-icon-name='Clear']";
             public static string CloseFilterByDialog = "//button[@title='Close']";
-            public static string FilterByChevronDown = "//div[@data-automation-id='filterBy']/descendant::*[@aria-label='Filter by operator']";
+            public static string FilterByChevronDown = "//div[@aria-label='Filter by']/descendant::*[@aria-label='Filter by operator']";
             public static string FilterByOptions = "//div[@aria-label='Filter by operator' and @role='listbox']/descendant::span[contains(@class,'optionText')]";
             public static string FilterByValue = "//input[@aria-label='Filter by value']";
             public static string ApplyFilter = "//span[text()='Apply']";
@@ -107,6 +107,7 @@ namespace AutomateBizApps.ObjectRepository
             public static string RowSelector = "//input[@aria-label='select or deselect the row']/parent::div[contains(@class,'ms-Checkbox')]";
             public static string Row = "//div[@class='ag-center-cols-container']/div[@row-index='[Index]']";
             public static string RowLink = ".//a[@role='link' and @aria-label='[Name]']";
+            public static string FirstCell = "//div[@role='treegrid']/descendant::div[@class='ag-center-cols-container' and @role='rowgroup']/div[@row-index='[Index]']/div[@role='gridcell'][2]";
             public static string RowCells = "div[contains(@class,'editable-cell')]";
             public static string HeaderSortUp = "//div[contains(@class,'TooltipHost') and text()='[Name]']/ancestor::div[@data-testid='columnHeader']/descendant::*[@data-icon-name='SortUp']";
             public static string HeaderSortDown = "//div[contains(@class,'TooltipHost') and text()='[Name]']/ancestor::div[@data-testid='columnHeader']/descendant::*[@data-icon-name='SortDown']";

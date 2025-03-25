@@ -255,6 +255,11 @@ namespace AutomateCe.Modules
             return await IsVisibleAsyncWithWaiting(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.WarningNotification), 0);
         }
 
+        public async Task<string> GetWarningNotificationText()
+        {
+            return await TextContentAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.WarningNotification));
+        }
+
         public async Task WaitUntilWarningNotificationShown()
         {
             await ToBeVisibleAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.WarningNotification), 0);

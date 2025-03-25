@@ -61,9 +61,13 @@ namespace AutomateBizApps.Modules
 
         public async Task<List<string>> GetAllMoreCommands(int timeToCheckIfFrameExists = 1000)
         {
-            await ClickMoreCommandEllipsis(timeToCheckIfFrameExists);
-            var allMoreCommands = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.AllMoreCommands, timeToCheckIfFrameExists);
-            return await GetAllElementsTextAfterWaiting(allMoreCommands);
+            ILocator moreCommandsLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.MoreCommandsEllipsis, timeToCheckIfFrameExists);
+            if (await IsVisibleAsyncWithWaiting(moreCommandsLocator, 0))
+            {
+                await ClickMoreCommandEllipsis(timeToCheckIfFrameExists);
+                var allMoreCommands = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.AllMoreCommands, timeToCheckIfFrameExists);
+                return await GetAllElementsTextAfterWaiting(allMoreCommands);
+            } return [];
         }
 
         public async Task OpenInNewWindow(int timeToCheckIfFrameExists = 1000)

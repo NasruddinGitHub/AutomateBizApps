@@ -245,6 +245,12 @@ namespace AutomateBizApps.Modules
             await ClickAsync(rowLinkLocator);
         }
 
+        public async Task OpenRecord(int index)
+        {
+            var cellLocatorToOpenRecord = LocatorWithXpath(GridLocators.FirstCell.Replace("[Index]", index.ToString()));
+            await DoubleClickAsync(cellLocatorToOpenRecord);
+        }
+
         public async Task OpenRecord(int index, string recordName)
         {
             var rowLocator = LocatorWithXpath(GridLocators.Row.Replace("[Index]", index.ToString()));
