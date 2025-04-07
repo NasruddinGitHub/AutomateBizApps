@@ -12,6 +12,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Xml.Linq;
 using static AutomateBizApps.ObjectRepository.ObjectRepository;
 
 namespace AutomateBizApps.Pages
@@ -148,7 +149,7 @@ namespace AutomateBizApps.Pages
 
         protected async Task ClickAsync(ILocator locatorToClick, LocatorClickOptions? options1 = default, LocatorEvaluateOptions? options2 = default)
         {
-            
+
             // await HightlightElementAsync(locatorToClick, options2);
             await locatorToClick.ClickAsync(options1);
             await WaitUntilAppIsIdle();
@@ -420,6 +421,11 @@ namespace AutomateBizApps.Pages
             await locator.SelectOptionAsync(values, options);
         }
 
+        protected async Task<List<string>> GetAllAvailbleSelecOptions(ILocator locator, LocatorSelectOptionOptions? options = default)
+        {
+            return await locator.EvaluateAsync<List<string>>("select => Array.from(select.options).map(option => option.text)");
+        }
+
         protected async Task SelectOptionAsync(ILocator locator, string values, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorSelectOptionOptions? options = default)
         {
             if (dynamicallyLoaded)
@@ -497,7 +503,14 @@ namespace AutomateBizApps.Pages
 
         protected async Task<string> TextContentAsync(ILocator locator, LocatorTextContentOptions? options = default)
         {
-            return await locator.TextContentAsync(options);
+            string textContext = await locator.TextContentAsync(options);
+            return textContext.Trim();
+        }
+
+        protected async Task<string> InnerTextAsync(ILocator locator, LocatorInnerTextOptions? options = default)
+        {
+            string textContext = await locator.InnerTextAsync(options);
+            return textContext.Trim().Replace('\u00A0', ' ');
         }
 
         protected async Task<string?> TextContentAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorTextContentOptions? options = default)
@@ -530,10 +543,44 @@ namespace AutomateBizApps.Pages
             var allElementsCount = await CountAsync(locator);
             for (int i = 0; i < allElementsCount; i++)
             {
-                allElementsText.Add(await TextContentAsync(locator.Nth(i)));
+                string elementText = await TextContentAsync(locator.Nth(i));
+                allElementsText.Add(elementText.Trim());
             }
             await KeyboardPressAsync("Tab");
             return allElementsText;
+        }
+
+        // This will wait until first element is visible
+        protected async Task<List<string>> GetAllElementsInnerTextAfterWaiting(ILocator locator, int waitTime = 10000)
+        {
+            var allElementsText = new List<string?>();
+            await ToBeVisibleAsync(locator, 0, waitTime);
+            var allElementsCount = await CountAsync(locator);
+            for (int i = 0; i < allElementsCount; i++)
+            {
+                string elementText = await InnerTextAsync(locator.Nth(i));
+                allElementsText.Add(elementText.Trim());
+            }
+            await KeyboardPressAsync("Tab");
+            return allElementsText;
+        }
+
+        protected async Task<List<ILocator>> GetAllElementsAfterWaiting(ILocator locator, int waitTime = 10000)
+        {
+            var allElementsLocator = new List<ILocator?>();
+            await ToBeVisibleAsync(locator, 0, waitTime);
+            var allElementsCount = await CountAsync(locator);
+            for (int i = 0; i < allElementsCount; i++)
+            {
+                allElementsLocator.Add(locator.Nth(i));
+            }
+            return allElementsLocator;
+        }
+
+        protected async Task<string> GetOuterTagText(ILocator locator, int waitTime = 10000)
+        {
+            string outerText = await locator.EvaluateAsync<string>("el => Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent).join('').trim()");
+            return outerText;
         }
 
         protected async Task<List<string>> GetAllElementsTextAfterWaiting(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, int waitTime = 10000)
@@ -558,7 +605,7 @@ namespace AutomateBizApps.Pages
             Thread.Sleep(milliseconds);
         }
 
-        protected async Task ToBeVisibleAsync(ILocator locator, int index, int visibleTimeout = 5000)
+        protected async Task ToBeVisibleAsync(ILocator locator, int index = 0, int visibleTimeout = 5000)
         {
             await Expect(locator.Nth(index)).ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
         }
@@ -573,7 +620,7 @@ namespace AutomateBizApps.Pages
             await Expect(locator.Nth(index)).ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
         }
 
-        protected async Task ToBeNotVisibleAsync(ILocator locator, int index, int visibleTimeout = 5000)
+        protected async Task ToBeNotVisibleAsync(ILocator locator, int index = 0, int visibleTimeout = 5000)
         {
             await Expect(locator.Nth(index)).Not.ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
         }
@@ -588,7 +635,7 @@ namespace AutomateBizApps.Pages
             await Expect(locator.Nth(index)).Not.ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
         }
 
-        protected async Task<bool> IsVisibleAsyncWithWaiting(ILocator locator, int index, int visibleTimeout = 5000)
+        protected async Task<bool> IsVisibleAsyncWithWaiting(ILocator locator, int index = 0, int visibleTimeout = 5000)
         {
             try
             {
@@ -600,6 +647,19 @@ namespace AutomateBizApps.Pages
                 // Console.WriteLine(ex.ToString()+" Timeout exception is thrown.");
                 // Log something
             }
+            return false;
+        }
+
+        protected async Task<bool> IsDisplayedAsyncWithWaiting(ILocator locator, int index = 0, int visibleTimeout = 5000)
+        {
+
+            await WaitForAsync(locator);
+            int numberOfElements = await CountAsync(locator);
+            if (numberOfElements > 0)
+            {
+                return true;
+            }
+
             return false;
         }
 

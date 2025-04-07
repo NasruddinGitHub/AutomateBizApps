@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RunSettings>
-	<!-- <RunConfiguration>
+	<RunConfiguration>
 		<EnvironmentVariables>
 			<HEADED>1</HEADED>
-			<BrowserName>chromium</BrowserName>
 		</EnvironmentVariables>
 	</RunConfiguration>
-	-->
 	<!-- General Test run parameters -->
 	<TestRunParameters>
 		<Parameter name="Email" value="admin@CRM156313.onmicrosoft.com" />
@@ -23,8 +21,10 @@
 		<Parameter name="APIVersion" value="" />
 		<Parameter name="HeadlessMode" value="false" />
 		<Parameter name="ExecutionReportsPath" value="false" />
-		<Parameter name="ScreenshotsForFailedTests" value="true" />
-		<Parameter name="ScreenshotsForPassedTests" value="true" />
+		<Parameter name="TakeScreenshotsForFailedTests" value="false" />
+		<Parameter name="TakeScreenshotsForPassedTests" value="false" />
+		<Parameter name="ScreenshotsForFailedTestsInExtentReport" value="false" />
+		<Parameter name="ScreenshotsForPassedTestsInExtentReport" value="false" />
 		<!-- Provide path from project's root directory -->
 		<Parameter name="ExecutionReportsFolderPath" value="Output\TestExecutionReports" />
 		<Parameter name="ScreenshotsFolderPath" value="Output\Screenshots" />
