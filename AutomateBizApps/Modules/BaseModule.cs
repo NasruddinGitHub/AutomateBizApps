@@ -155,6 +155,12 @@ namespace AutomateBizApps.Pages
             await WaitUntilAppIsIdle();
         }
 
+        protected async Task ClickAndWaitUntilLoadedAsync(ILocator locatorToClick, LocatorClickOptions? options1 = default, LocatorEvaluateOptions? options2 = default)
+        {
+            await locatorToClick.ClickAsync(options1);
+            await WaitUntilAppReadyStateIsComplete();
+        }
+
         protected async Task ClickAsync(ILocator locatorToClick, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorClickOptions? options = default)
         {
             if (dynamicallyLoaded)
@@ -371,6 +377,16 @@ namespace AutomateBizApps.Pages
             return await locator.IsEnabledAsync(options);
         }
 
+        protected async Task<bool> HasAttributeAsync(ILocator locator, string attributeName)
+        {
+            return (await locator.GetAttributeAsync(attributeName)) != null;
+        }
+
+        protected async Task<bool> IsReadonlyAsync(ILocator locator, LocatorIsEnabledOptions? options = default)
+        {
+            return await HasAttributeAsync(locator, "readonly");
+        }
+
         protected async Task<bool> IsEnabledAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorIsEnabledOptions? options = default)
         {
             if (dynamicallyLoaded)
@@ -421,9 +437,16 @@ namespace AutomateBizApps.Pages
             await locator.SelectOptionAsync(values, options);
         }
 
-        protected async Task<List<string>> GetAllAvailbleSelecOptions(ILocator locator, LocatorSelectOptionOptions? options = default)
+        protected async Task<List<string>> GetAllAvailableSelectOptions(ILocator locator, LocatorSelectOptionOptions? options = default)
         {
-            return await locator.EvaluateAsync<List<string>>("select => Array.from(select.options).map(option => option.text)");
+            List<ILocator> allOptions = await GetAllElementsAfterWaiting(LocatorWithXpath(locator, "//option[not(@style) and text()]"));
+            List<string> allOptionsText = new List<string>();
+            foreach (var option in allOptions)
+            {   
+                    string text = await TextContentAsync(option);
+                    allOptionsText.Add(text);
+            }
+            return allOptionsText;
         }
 
         protected async Task SelectOptionAsync(ILocator locator, string values, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorSelectOptionOptions? options = default)
@@ -512,6 +535,16 @@ namespace AutomateBizApps.Pages
             string textContext = await locator.InnerTextAsync(options);
             return textContext.Trim().Replace('\u00A0', ' ');
         }
+
+        protected async Task<string> GetVisibleTextAsync(ILocator locator, int timeout=5000)
+        {
+            if (await IsVisibleAsyncWithWaiting(locator, index:0, visibleTimeout:timeout))
+            {
+                return await InnerTextAsync(locator);
+            }
+            throw new InvalidOperationException("Element is not visible on the page.");
+        }
+
 
         protected async Task<string?> TextContentAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorTextContentOptions? options = default)
         {
@@ -644,7 +677,7 @@ namespace AutomateBizApps.Pages
             }
             catch (PlaywrightException ex)
             {
-                // Console.WriteLine(ex.ToString()+" Timeout exception is thrown.");
+                // Console.WriteLine(ex.ToString()+" Exception is thrown.");
                 // Log something
             }
             return false;
@@ -1075,7 +1108,6 @@ namespace AutomateBizApps.Pages
                     // Let's log something
                     await Task.Delay(500);
                     await WaitUntilAppIsIdle();
-
                 }
             }
             catch (Exception e)
