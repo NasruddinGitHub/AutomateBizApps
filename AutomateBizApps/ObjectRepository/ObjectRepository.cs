@@ -236,5 +236,23 @@ namespace AutomateBizApps.ObjectRepository
             public static string AllMoreCommands = ".//ul[contains(@id,'MenuSectionItemsOverflowButton')]/li/descendant::button[1]";
         }
 
+        // Timeline
+        public static class TimelineLocators
+        {
+            public static string Timeline = "//div[@data-id='notescontrol-mainTimeline']";
+            public static string TimelineTitle = "//*[@id='action_bar_header_titlenotescontrol']";
+            public static string AddTimelineRecordIcon = "//button[contains(@data-id,'notescontrol-action_bar_add_command')]";
+            public static string ExpandCollapseTimelineRecordsIcon = "//button[contains(@data-id,'notescontrol-action_bar_expandcollapse_all_records_command')]";
+            public static string RefreshTimelineRecordsIcon = "//button[contains(@data-id,'notescontrol-refreshTimeline_flyoutMenuItem')]";
+            public static string SearchTimelineBox = "//input[@placeholder='Search timeline' and @id='timeline_search_keyword_inputnotescontrol']";
+            public static string TimelineSearchClearIcon = "//*[@id='timeline_search_clear_inputnotescontrol']";
+            public static string TimelineRecords = "//div[@data-id='notescontrol-unPinnedAccordionContainer']//li";
+            public static string TimelineSubject = "//div[contains(@id,'timeline_field_subject')]/child::label[contains(@id,'timeline_record_title_text') and contains(text(),'[SubjectContains]')]";
+            public static string TimelineRecordContainer = "//div[contains(@id,'timeline_field_subject')]/child::label[contains(@id,'timeline_record_title_text') and contains(text(),'[SubjectContains]')]/ancestor::div[contains(@id,'timeline_record_container')]";
+            public static string ViewMore = "//button[@aria-label='View more']";
+            public static string ViewLess = "//button[@aria-label='View less']";
+            public static string OpenRecord = "//*[@aria-label='Open Record']";
+        }
+
     }
 }

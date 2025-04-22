@@ -18,6 +18,8 @@ namespace AutomateBizApps.Modules
         public ApplicationLandingPageModule ApplicationLandingPageModule => this.GetElement<ApplicationLandingPageModule>(_page);
         public SiteMapPanel SiteMapPanel => this.GetElement<SiteMapPanel>(_page);
 
+        public Timeline Timeline => this.GetElement<Timeline>(_page);
+
         public Complementary Complementary => this.GetElement<Complementary>(_page);
 
         public CommandBar CommandBar => this.GetElement<CommandBar>(_page);
