@@ -1,5 +1,4 @@
-﻿using AutomateBizApps.Modules;
-using AutomateCe.Controls;
+﻿using AutomateCe.Controls;
 using AutomateCe.Enums;
 using Microsoft.CodeAnalysis;
 using Microsoft.Playwright;
@@ -11,7 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using static AutomateBizApps.ObjectRepository.ObjectRepository;
+using static AutomateCe.ObjectRepository.ObjectRepository;
 
 namespace AutomateCe.Modules
 {
@@ -77,162 +76,162 @@ namespace AutomateCe.Modules
             return await GetAllElementsTextAfterWaiting(allRelatedTabsLocator);
         }
 
-        public async Task SetValue(string fieldName, string value, int timeToCheckIfFrameExists = 1000)
+        public async Task SetValueByLabelName(string fieldName, string value, int timeToCheckIfFrameExists = 1000)
         {
             await SetValue(fieldName, value, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task SetValue(string fieldName, string value, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task SetValueByLabelName(string fieldName, string value, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             await SetValue(fieldName, value, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task ClearValue(string fieldName, int timeToCheckIfFrameExists = 1000)
+        public async Task ClearValueByLabelName(string fieldName, int timeToCheckIfFrameExists = 1000)
         {
             await SetValue(fieldName, string.Empty, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task ClearValue(string fieldName, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task ClearValueByLabelName(string fieldName, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             await SetValue(fieldName, string.Empty, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<string> GetValue(string fieldName, int timeToCheckIfFrameExists = 1000)
+        public async Task<string> GetValueByLabelName(string fieldName, int timeToCheckIfFrameExists = 1000)
         {
             return await GetValue(fieldName, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task<string> GetValue(string fieldName, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<string> GetValueByLabelName(string fieldName, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await GetValue(fieldName, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task SetValue(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
+        public async Task SetValueByLabelName(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
         {
             await SetValue(lookupItem, false, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task SetValue(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task SetValueByLabelName(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             await SetValue(lookupItem, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task ClearValue(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
+        public async Task ClearValueByLabelName(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
         {
             await ClearValue(lookupItem, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task ClearValue(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task ClearValueByLabelName(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             await ClearValue(lookupItem, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<string> GetValue(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
+        public async Task<string> GetValueByLabelName(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
         {
             return await GetValue(lookupItem, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task<string> GetValue(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<string> GetValueByLabelName(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await GetValue(lookupItem, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task SetValue(OptionSet optionSet, int timeToCheckIfFrameExists = 1000)
+        public async Task SetValueByLabelName(OptionSet optionSet, int timeToCheckIfFrameExists = 1000)
         {
             await SetValue(optionSet, false, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task SetValue(OptionSet optionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task SetValueByLabelName(OptionSet optionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             await SetValue(optionSet, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<string> GetValue(OptionSet optionSet, int timeToCheckIfFrameExists = 1000)
+        public async Task<string> GetValueByLabelName(OptionSet optionSet, int timeToCheckIfFrameExists = 1000)
         {
             return await GetValue(optionSet, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task<string> GetValue(OptionSet optionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<string> GetValueByLabelName(OptionSet optionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await GetValue(optionSet, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<List<string>> GetAllAvailableValues(OptionSet optionSet, int timeToCheckIfFrameExists = 1000)
+        public async Task<List<string>> GetAllAvailableValuesByLabelName(OptionSet optionSet, int timeToCheckIfFrameExists = 1000)
         {
             return await GetAllAvailableValues(optionSet, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task<List<string>> GetAllAvailableValues(OptionSet optionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<List<string>> GetAllAvailableValuesByLabelName(OptionSet optionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await GetAllAvailableValues(optionSet, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task SetValue(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
+        public async Task SetValueByLabelName(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
         {
             await SetValue(multiSelectOptionSet, false, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task SetValue(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task SetValueByLabelName(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             await SetValue(multiSelectOptionSet, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<List<string>> GetSelectedValues(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
+        public async Task<List<string>> GetSelectedValuesByLabelName(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
         {
             return await GetSelectedValues(multiSelectOptionSet, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task<List<string>> GetSelectedValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<List<string>> GetSelectedValuesByLabelName(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await GetSelectedValues(multiSelectOptionSet, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task ClearValues(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
+        public async Task ClearValuesByLabelName(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
         {
             await ClearValues(multiSelectOptionSet, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task ClearValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task ClearValuesByLabelName(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             await ClearValues(multiSelectOptionSet, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<bool> IsFieldBusinessRequired(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldBusinessRequiredByLabelName(String field, int timeToCheckIfFrameExists = 1000)
         {
             return await IsFieldBusinessRequired(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task<bool> IsFieldBusinessRequired(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsFieldBusinessRequiredByLabelName(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await IsFieldBusinessRequired(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<bool> IsFieldBusinessRecommended(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldBusinessRecommendedByLabelName(String field, int timeToCheckIfFrameExists = 1000)
         {
             return await IsFieldBusinessRecommended(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task<bool> IsFieldBusinessRecommended(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsFieldBusinessRecommendedByLabelName(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await IsFieldBusinessRecommended(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<bool> IsFieldOptional(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldOptionalByLabelName(String field, int timeToCheckIfFrameExists = 1000)
         {
             return await IsFieldOptional(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task<bool> IsFieldOptional(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsFieldOptionalByLabelName(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await IsFieldOptional(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
-        public async Task<bool> IsFieldLocked(String field, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsFieldLockedByLabelName(String field, int timeToCheckIfFrameExists = 1000)
         {
             return await IsFieldLocked(field, false, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
-        public async Task<bool> IsFieldLocked(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsFieldLockedByLabelName(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await IsFieldLocked(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists);
         }
@@ -324,7 +323,7 @@ namespace AutomateCe.Modules
                 await ClickAsync(headerFieldsExpandLocator);
         }
 
-        public async Task SetHeaderValue(string fieldName, string value, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task SetHeaderValueByLabelName(string fieldName, string value, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -333,7 +332,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task SetHeaderValue(string fieldName, string value, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task SetHeaderValueByLabelName(string fieldName, string value, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -342,7 +341,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task ClearHeaderValue(string fieldName, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task ClearHeaderValueByLabelName(string fieldName, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -351,7 +350,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task ClearHeaderValue(string fieldName, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task ClearHeaderValueByLabelName(string fieldName, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -360,7 +359,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task<string> GetHeaderValue(string fieldName, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task<string> GetHeaderValueByLabelName(string fieldName, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -370,7 +369,7 @@ namespace AutomateCe.Modules
             return value;
         }
 
-        public async Task<string> GetHeaderValue(string fieldName, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<string> GetHeaderValueByLabelName(string fieldName, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -380,7 +379,7 @@ namespace AutomateCe.Modules
             return value;
         }
 
-        public async Task SetHeaderValue(LookupItem lookupItem, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task SetHeaderValueByLabelName(LookupItem lookupItem, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -389,7 +388,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task SetHeaderValue(LookupItem lookupItem, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task SetHeaderValueByLabelName(LookupItem lookupItem, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -398,7 +397,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task ClearHeaderValue(LookupItem lookupItem, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task ClearHeaderValueByLabelName(LookupItem lookupItem, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -407,7 +406,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task ClearHeaderValue(LookupItem lookupItem, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task ClearHeaderValueByLabelName(LookupItem lookupItem, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -416,7 +415,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task<string> GetHeaderValue(LookupItem lookupItem, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task<string> GetHeaderValueByLabelName(LookupItem lookupItem, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -426,7 +425,7 @@ namespace AutomateCe.Modules
             return value;
         }
 
-        public async Task<string> GetHeaderValue(LookupItem lookupItem, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<string> GetHeaderValueByLabelName(LookupItem lookupItem, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -436,7 +435,7 @@ namespace AutomateCe.Modules
             return value;
         }
 
-        public async Task SetHeaderValue(OptionSet optionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task SetHeaderValueByLabelName(OptionSet optionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -445,7 +444,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task SetHeaderValue(OptionSet optionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task SetHeaderValueByLabelName(OptionSet optionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -454,7 +453,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task<string> GetHeaderValue(OptionSet optionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task<string> GetHeaderValueByLabelName(OptionSet optionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -464,7 +463,7 @@ namespace AutomateCe.Modules
             return value;
         }
 
-        public async Task<string> GetHeaderValue(OptionSet optionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<string> GetHeaderValueByLabelName(OptionSet optionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -474,7 +473,7 @@ namespace AutomateCe.Modules
             return value;
         }
 
-        public async Task<List<string>> GetAllAvailableHeaderValues(OptionSet optionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task<List<string>> GetAllAvailableHeaderValuesByLabelName(OptionSet optionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -484,7 +483,7 @@ namespace AutomateCe.Modules
             return values;
         }
 
-        public async Task<List<string>> GetAllAvailableHeaderValues(OptionSet optionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<List<string>> GetAllAvailableHeaderValuesByLabelName(OptionSet optionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -494,7 +493,7 @@ namespace AutomateCe.Modules
             return values;
         }
 
-        public async Task SetHeaderValue(MultiSelectOptionSet multiSelectOptionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task SetHeaderValueByLabelName(MultiSelectOptionSet multiSelectOptionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -503,7 +502,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task SetHeaderValue(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task SetHeaderValueByLabelName(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -512,7 +511,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task<List<string>> GetSelectedHeaderValues(MultiSelectOptionSet multiSelectOptionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task<List<string>> GetSelectedHeaderValuesByLabelName(MultiSelectOptionSet multiSelectOptionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -522,7 +521,7 @@ namespace AutomateCe.Modules
             return values;
         }
 
-        public async Task<List<string>> GetSelectedHeaderValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<List<string>> GetSelectedHeaderValuesByLabelName(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -532,7 +531,7 @@ namespace AutomateCe.Modules
             return values;
         }
 
-        public async Task ClearHeaderValues(MultiSelectOptionSet multiSelectOptionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task ClearHeaderValuesByLabelName(MultiSelectOptionSet multiSelectOptionSet, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -541,7 +540,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task ClearHeaderValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task ClearHeaderValuesByLabelName(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -550,7 +549,7 @@ namespace AutomateCe.Modules
                 await CloseHeaderFlyout();
         }
 
-        public async Task<bool> IsHeaderFieldBusinessRequired(String field, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsHeaderFieldBusinessRequiredByLabelName(String field, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -560,7 +559,7 @@ namespace AutomateCe.Modules
             return isRequired;
         }
 
-        public async Task<bool> IsHeaderFieldBusinessRequired(String field, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsHeaderFieldBusinessRequiredByLabelName(String field, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -570,7 +569,7 @@ namespace AutomateCe.Modules
             return isRequired;
         }
 
-        public async Task<bool> IsHeaderFieldBusinessRecommended(String field, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsHeaderFieldBusinessRecommendedByLabelName(String field, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -580,7 +579,7 @@ namespace AutomateCe.Modules
             return isRecommended;
         }
 
-        public async Task<bool> IsHeaderFieldBusinessRecommended(String field, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsHeaderFieldBusinessRecommendedByLabelName(String field, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -590,7 +589,7 @@ namespace AutomateCe.Modules
             return isRecommended;
         }
 
-        public async Task<bool> IsHeaderFieldOptional(String field, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsHeaderFieldOptionalByLabelName(String field, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -600,7 +599,7 @@ namespace AutomateCe.Modules
             return isOptional;
         }
 
-        public async Task<bool> IsHeaderFieldOptional(String field, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsHeaderFieldOptionalByLabelName(String field, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -610,7 +609,7 @@ namespace AutomateCe.Modules
             return isOptional;
         }
 
-        public async Task<bool> IsHeaderFieldLocked(String field, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
+        public async Task<bool> IsHeaderFieldLockedByLabelName(String field, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();
@@ -620,7 +619,7 @@ namespace AutomateCe.Modules
             return isLocked;
         }
 
-        public async Task<bool> IsHeaderFieldLocked(String field, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        public async Task<bool> IsHeaderFieldLockedByLabelName(String field, bool dynamicallyLoaded, bool expandHeaderFlyout = false, bool closeHeaderFlyout = false, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (expandHeaderFlyout)
                 await ExpandHeaderFlyout();

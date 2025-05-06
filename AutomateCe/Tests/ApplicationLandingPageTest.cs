@@ -1,6 +1,5 @@
-﻿using AutomateBizApps.Constants;
-using AutomateBizApps.Modules;
-using AutomateBizApps.Tests;
+﻿using AutomateCe.Constants;
+using AutomateCe.Modules;
 using AutomateCe.Utils;
 using System;
 using System.Collections.Generic;

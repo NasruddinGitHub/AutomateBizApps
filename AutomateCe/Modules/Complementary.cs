@@ -1,13 +1,12 @@
-﻿using AutomateBizApps.Pages;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static AutomateBizApps.ObjectRepository.ObjectRepository;
+using static AutomateCe.ObjectRepository.ObjectRepository;
 
-namespace AutomateBizApps.Modules
+namespace AutomateCe.Modules
 {
     public class Complementary : SharedPage
     {

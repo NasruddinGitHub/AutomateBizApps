@@ -1,8 +1,6 @@
-﻿using AutomateBizApps.Constants;
-using AutomateBizApps.Modules;
-using AutomateBizApps.Tests;
-using AutomateBizApps.Utils;
+﻿using AutomateCe.Constants;
 using AutomateCe.Controls;
+using AutomateCe.Modules;
 using AutomateCe.Utils;
 using RazorEngine.Templating;
 using System;
@@ -35,23 +33,23 @@ namespace AutomateCe.Tests
             await ceApp.Complementary.OpenOrCloseTab("Copilot");
             await ceApp.CommandBar.ClickCommand("New");
 
-            await ceApp.Entity.SetValue("First Name", "Nasruddin " + DateUtil.GetTimeStamp("yyyyMMddHHmmss"));
-            await ceApp.Entity.SetValue("Last Name", "Shaik " + DateUtil.GetTimeStamp("yyyyMMddHHmmss"));
-            await ceApp.Entity.SetValue("Job Title", "Consultant");
+            await ceApp.Entity.SetValueByLabelName("First Name", "Nasruddin " + DateUtil.GetTimeStamp("yyyyMMddHHmmss"));
+            await ceApp.Entity.SetValueByLabelName("Last Name", "Shaik " + DateUtil.GetTimeStamp("yyyyMMddHHmmss"));
+            await ceApp.Entity.SetValueByLabelName("Job Title", "Consultant");
 
             LookupItem lookupItem = new LookupItem { Name = "Account Name", Value = "Alpine Ski", Index = 0 };
-            await ceApp.Entity.SetValue(lookupItem);
+            await ceApp.Entity.SetValueByLabelName(lookupItem);
 
-            await ceApp.Entity.SetValue("Email", "test@test.co.in");
-            await ceApp.Entity.SetValue("Business Phone", ""+RandomUtils.GetRandomNumberString(10));
-            await ceApp.Entity.SetValue("Fax", "" + RandomUtils.GetRandomNumberString(10));
-            await ceApp.Entity.SetValue("Mobile Phone", "" + RandomUtils.GetRandomNumberString(10));
+            await ceApp.Entity.SetValueByLabelName("Email", "test@test.co.in");
+            await ceApp.Entity.SetValueByLabelName("Business Phone", ""+RandomUtils.GetRandomNumberString(10));
+            await ceApp.Entity.SetValueByLabelName("Fax", "" + RandomUtils.GetRandomNumberString(10));
+            await ceApp.Entity.SetValueByLabelName("Mobile Phone", "" + RandomUtils.GetRandomNumberString(10));
 
             OptionSet optionSet = new OptionSet { Name = "Primary Time Zone", Value = "(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi" };
-            await ceApp.Entity.SetValue(optionSet);
+            await ceApp.Entity.SetValueByLabelName(optionSet);
             
             OptionSet preferredMethodOfContact = new OptionSet { Name = "Preferred Method of Contact", Value = "Email" };
-            await ceApp.Entity.SetValue(preferredMethodOfContact);
+            await ceApp.Entity.SetValueByLabelName(preferredMethodOfContact);
 
             await ceApp.CommandBar.ClickCommand("Save");
 
@@ -103,15 +101,15 @@ namespace AutomateCe.Tests
             await ceApp.Complementary.OpenOrCloseTab("Copilot");
             await ceApp.Grid.OpenRecord("Jim Glynn (sample)");
 
-            Console.WriteLine(await ceApp.Entity.IsFieldBusinessRecommended("First Name"));
-            Console.WriteLine(await ceApp.Entity.IsFieldBusinessRequired("First Name"));
-            Console.WriteLine(await ceApp.Entity.IsFieldOptional("First Name"));
-            Console.WriteLine(await ceApp.Entity.IsFieldLocked("First Name"));
+            Console.WriteLine(await ceApp.Entity.IsFieldBusinessRecommendedByLabelName("First Name"));
+            Console.WriteLine(await ceApp.Entity.IsFieldBusinessRequiredByLabelName("First Name"));
+            Console.WriteLine(await ceApp.Entity.IsFieldOptionalByLabelName("First Name"));
+            Console.WriteLine(await ceApp.Entity.IsFieldLockedByLabelName("First Name"));
 
-            Console.WriteLine(await ceApp.Entity.IsFieldBusinessRecommended("Last Name"));
-            Console.WriteLine(await ceApp.Entity.IsFieldBusinessRequired("Last Name"));
-            Console.WriteLine(await ceApp.Entity.IsFieldOptional("Last Name"));
-            Console.WriteLine(await ceApp.Entity.IsFieldLocked("Last Name"));
+            Console.WriteLine(await ceApp.Entity.IsFieldBusinessRecommendedByLabelName("Last Name"));
+            Console.WriteLine(await ceApp.Entity.IsFieldBusinessRequiredByLabelName("Last Name"));
+            Console.WriteLine(await ceApp.Entity.IsFieldOptionalByLabelName("Last Name"));
+            Console.WriteLine(await ceApp.Entity.IsFieldLockedByLabelName("Last Name"));
         }
 
         [Test]
@@ -173,8 +171,8 @@ namespace AutomateCe.Tests
             await ceApp.Complementary.OpenOrCloseTab("Copilot");
             await ceApp.CommandBar.ClickCommand("New");
 
-            await ceApp.Entity.SetHeaderValue("Annual Revenue", "10000", expandHeaderFlyout:true);
-            await ceApp.Entity.SetHeaderValue("Number of Employees", "100", closeHeaderFlyout: true);
+            await ceApp.Entity.SetHeaderValueByLabelName("Annual Revenue", "10000", expandHeaderFlyout:true);
+            await ceApp.Entity.SetHeaderValueByLabelName("Number of Employees", "100", closeHeaderFlyout: true);
         }
 
         [Test]
@@ -194,9 +192,9 @@ namespace AutomateCe.Tests
             OptionSet rating = new OptionSet { Name = "Rating", Value = "Cold" };
             OptionSet status = new OptionSet { Name = "Status", Value = "Contacted" };
 
-            await ceApp.Entity.SetHeaderValue(leadSource, expandHeaderFlyout:true);
-            await ceApp.Entity.SetHeaderValue(rating);
-            await ceApp.Entity.SetHeaderValue(status, closeHeaderFlyout: true);
+            await ceApp.Entity.SetHeaderValueByLabelName(leadSource, expandHeaderFlyout:true);
+            await ceApp.Entity.SetHeaderValueByLabelName(rating);
+            await ceApp.Entity.SetHeaderValueByLabelName(status, closeHeaderFlyout: true);
         }
 
         [Test]
@@ -212,17 +210,17 @@ namespace AutomateCe.Tests
             await ceApp.Complementary.OpenOrCloseTab("Copilot");
             await ceApp.CommandBar.ClickCommand("New");
 
-            await ceApp.Entity.IsHeaderFieldBusinessRecommended("Lead Source", expandHeaderFlyout:true);
-            await ceApp.Entity.IsHeaderFieldBusinessRequired("Lead Source");
-            await ceApp.Entity.IsHeaderFieldOptional("Lead Source");
-            await ceApp.Entity.IsHeaderFieldBusinessRecommended("Rating");
-            await ceApp.Entity.IsHeaderFieldBusinessRequired("Rating");
-            await ceApp.Entity.IsHeaderFieldOptional("Rating");
-            await ceApp.Entity.IsHeaderFieldBusinessRecommended("Status");
-            await ceApp.Entity.IsHeaderFieldBusinessRequired("Status");
-            await ceApp.Entity.IsHeaderFieldOptional("Status");
-            await ceApp.Entity.IsHeaderFieldLocked("Status");
-            await ceApp.Entity.IsHeaderFieldOptional("Status");
+            await ceApp.Entity.IsHeaderFieldBusinessRecommendedByLabelName("Lead Source", expandHeaderFlyout:true);
+            await ceApp.Entity.IsHeaderFieldBusinessRequiredByLabelName("Lead Source");
+            await ceApp.Entity.IsHeaderFieldOptionalByLabelName("Lead Source");
+            await ceApp.Entity.IsHeaderFieldBusinessRecommendedByLabelName("Rating");
+            await ceApp.Entity.IsHeaderFieldBusinessRequiredByLabelName("Rating");
+            await ceApp.Entity.IsHeaderFieldOptionalByLabelName("Rating");
+            await ceApp.Entity.IsHeaderFieldBusinessRecommendedByLabelName("Status");
+            await ceApp.Entity.IsHeaderFieldBusinessRequiredByLabelName("Status");
+            await ceApp.Entity.IsHeaderFieldOptionalByLabelName("Status");
+            await ceApp.Entity.IsHeaderFieldLockedByLabelName("Status");
+            await ceApp.Entity.IsHeaderFieldOptionalByLabelName("Status");
         }
 
         [Test]
@@ -238,9 +236,9 @@ namespace AutomateCe.Tests
             await ceApp.Complementary.OpenOrCloseTab("Copilot");
             await ceApp.CommandBar.ClickCommand("New");
 
-            await ceApp.Entity.SetValue("First Name", "Nasruddin");
-            await ceApp.Entity.SetValue("Last Name", "Shaik");
-            await ceApp.Entity.SetValue("Address 1: Country/Region", "India");
+            await ceApp.Entity.SetValueByLabelName("First Name", "Nasruddin");
+            await ceApp.Entity.SetValueByLabelName("Last Name", "Shaik");
+            await ceApp.Entity.SetValueByLabelName("Address 1: Country/Region", "India");
         }
 
         // This test will not work if the test mode is false
@@ -257,13 +255,13 @@ namespace AutomateCe.Tests
             await ceApp.Complementary.OpenOrCloseTab("Copilot");
             await ceApp.CommandBar.ClickCommand("New");
 
-            await ceApp.Entity.SetValue("First Name", "Nasruddin");
-            await ceApp.Entity.SetValue("Last Name", "Shaik");
+            await ceApp.Entity.SetValueByLabelName("First Name", "Nasruddin");
+            await ceApp.Entity.SetValueByLabelName("Last Name", "Shaik");
 
             // Address 1: Country/Region is dynamically loaded element, so test mode should be on for this. 
             // If we call SetValue like this, it will fail . await ceApp.Entity.SetValue("Address 1: Country/Region", "India");
             // We should call like below
-            await ceApp.Entity.SetValue("Address 1: Country/Region", "India", true, anyFieldNameInScroller: "First Name", maxNumberOfScrolls: 100);
+            await ceApp.Entity.SetValueByLabelName("Address 1: Country/Region", "India", true, anyFieldNameInScroller: "First Name", maxNumberOfScrolls: 100);
         }
 
     }

@@ -1,6 +1,5 @@
-﻿using AutomateBizApps.Constants;
-using AutomateBizApps.Modules;
-using AutomateBizApps.Tests;
+﻿using AutomateCe.Constants;
+using AutomateCe.Modules;
 using AutomateCe.Controls;
 using AutomateCe.Utils;
 using System;
@@ -29,9 +28,9 @@ namespace AutomateCe.Tests
             ReportUtil.Info("Selected Field Service application");
             await ceApp.SiteMapPanel.OpenSubArea("Service Delivery", "Cases");
             await ceApp.CommandBar.ClickCommand("New Case");
-            await ceApp.Entity.SetValue("Case Title", "Contoso Coffee Machine is not working");
+            await ceApp.Entity.SetValueByLabelName("Case Title", "Contoso Coffee Machine is not working");
             LookupItem customer = new LookupItem { Name = "Customer", Value = "Adventure Works", Index = 0};
-            await ceApp.Entity.SetValue(customer);
+            await ceApp.Entity.SetValueByLabelName(customer);
             
             await ceApp.CommandBar.ClickCommand("Save");
 
@@ -41,8 +40,8 @@ namespace AutomateCe.Tests
             await ceApp.BusinessProcessFlow.SelectStage("Identify");
             Console.WriteLine(await ceApp.BusinessProcessFlow.Header());
             LookupItem findCustomer = new LookupItem { Name = "Find Customer", Value = "Alpine Ski", Index = 0 };
-            await ceApp.BusinessProcessFlow.ClearValue(findCustomer);
-            await ceApp.BusinessProcessFlow.SetValue(findCustomer);
+            await ceApp.BusinessProcessFlow.ClearValueByLabelName(findCustomer);
+            await ceApp.BusinessProcessFlow.SetValueByLabelName(findCustomer);
             await ceApp.BusinessProcessFlow.NextStage();
             await ceApp.BusinessProcessFlow.NextStage();
             await ceApp.BusinessProcessFlow.Finish();
@@ -56,33 +55,33 @@ namespace AutomateCe.Tests
 
             // To clear, set and get the lookup value
             LookupItem serviceAccount = new LookupItem { Name = "Service Account", Value = "Alpine Ski House", Index = 0 };
-            await ceApp.BusinessProcessFlow.ClearValue(serviceAccount);
-            await ceApp.BusinessProcessFlow.SetValue(serviceAccount);
-            Console.WriteLine(await ceApp.BusinessProcessFlow.GetValue(serviceAccount));
+            await ceApp.BusinessProcessFlow.ClearValueByLabelName(serviceAccount);
+            await ceApp.BusinessProcessFlow.SetValueByLabelName(serviceAccount);
+            Console.WriteLine(await ceApp.BusinessProcessFlow.GetValueByLabelName(serviceAccount));
 
             // To set, get and get all available values in optionset
             OptionSet systemStatus = new OptionSet { Name = "System Status", Value = "Expired" };
-            await ceApp.BusinessProcessFlow.SetValue(systemStatus);
-            Console.WriteLine(await ceApp.BusinessProcessFlow.GetValue(systemStatus));
-            List<string> allSystemStatusValues = await ceApp.BusinessProcessFlow.GetAllAvailableValues(systemStatus);
+            await ceApp.BusinessProcessFlow.SetValueByLabelName(systemStatus);
+            Console.WriteLine(await ceApp.BusinessProcessFlow.GetValueByLabelName(systemStatus));
+            List<string> allSystemStatusValues = await ceApp.BusinessProcessFlow.GetAllAvailableValuesByLabelName(systemStatus);
 
             // To set, get and clear all available values in optionset
             MultiSelectOptionSet days = new MultiSelectOptionSet { Name = "Days", Values = new string[] { "Saturday","Sunday"} };
-            await ceApp.BusinessProcessFlow.SetValue(days);
-            List<string> selectedDays =  await ceApp.BusinessProcessFlow.GetSelectedValues(days);
-            await ceApp.BusinessProcessFlow.ClearValues(days);
+            await ceApp.BusinessProcessFlow.SetValueByLabelName(days);
+            List<string> selectedDays =  await ceApp.BusinessProcessFlow.GetSelectedValuesByLabelName(days);
+            await ceApp.BusinessProcessFlow.ClearValuesByLabelName(days);
 
             // To get, set and clear the value in text field
-            await ceApp.BusinessProcessFlow.SetValue("Description", "2 Years Agreement");
-            Console.WriteLine(await ceApp.BusinessProcessFlow.GetValue("Description"));
-            await ceApp.BusinessProcessFlow.ClearValue("Description");
+            await ceApp.BusinessProcessFlow.SetValueByLabelName("Description", "2 Years Agreement");
+            Console.WriteLine(await ceApp.BusinessProcessFlow.GetValueByLabelName("Description"));
+            await ceApp.BusinessProcessFlow.ClearValueByLabelName("Description");
 
             // To verify if a field is optional, business required, business recommended, locked or completed in BPF
-            bool isSubstatusOptionalField = await ceApp.BusinessProcessFlow.IsFieldOptional("Substatus");
-            bool isPriceListMandatoryField = await ceApp.BusinessProcessFlow.IsFieldBusinessRequired("Price List");
-            bool isSystemStatusRecommendedField = await ceApp.BusinessProcessFlow.IsFieldBusinessRequired("System Status");
-            bool isBillingAccountLockedField = await ceApp.BusinessProcessFlow.IsFieldLocked("Billing Account");
-            bool isWorkOrderTypeCompleted = await ceApp.BusinessProcessFlow.IsFieldCompleted("Work Order Type");
+            bool isSubstatusOptionalField = await ceApp.BusinessProcessFlow.IsFieldOptionalByLabelName("Substatus");
+            bool isPriceListMandatoryField = await ceApp.BusinessProcessFlow.IsFieldBusinessRequiredByLabelName("Price List");
+            bool isSystemStatusRecommendedField = await ceApp.BusinessProcessFlow.IsFieldBusinessRequiredByLabelName("System Status");
+            bool isBillingAccountLockedField = await ceApp.BusinessProcessFlow.IsFieldLockedByLabelName("Billing Account");
+            bool isWorkOrderTypeCompleted = await ceApp.BusinessProcessFlow.IsFieldCompletedByLabelName("Work Order Type");
 
             // This will take the user to previous stage
             await ceApp.BusinessProcessFlow.PreviousStage();

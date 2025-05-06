@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutomateBizApps.Utils
+namespace AutomateCe.Utils
 {
     public static class RandomUtils
     {

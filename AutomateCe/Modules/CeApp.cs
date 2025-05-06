@@ -1,5 +1,5 @@
-﻿using AutomateBizApps.Pages;
-using AutomateCe.Modules;
+﻿using AutomateCe.Modules;
+using AutomateCe.Pages;
 using Microsoft.Playwright;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace AutomateBizApps.Modules
+namespace AutomateCe.Modules
 {
     public class CeApp
     {

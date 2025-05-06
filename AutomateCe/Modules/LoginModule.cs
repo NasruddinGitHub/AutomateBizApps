@@ -1,13 +1,13 @@
-﻿using AutomateBizApps.Modules;
+﻿using AutomateCe.Modules;
 using Microsoft.Playwright;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static AutomateBizApps.ObjectRepository.ObjectRepository;
+using static AutomateCe.ObjectRepository.ObjectRepository;
 
-namespace AutomateBizApps.Pages
+namespace AutomateCe.Modules
 {
     public class LoginModule : SharedPage
     {

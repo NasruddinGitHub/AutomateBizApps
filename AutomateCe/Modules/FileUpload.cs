@@ -1,5 +1,4 @@
-﻿using AutomateBizApps.Modules;
-using AutomateCe.Controls;
+﻿using AutomateCe.Controls;
 using AutomateCe.Enums;
 using Microsoft.Playwright;
 using System;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static AutomateBizApps.ObjectRepository.ObjectRepository;
+using static AutomateCe.ObjectRepository.ObjectRepository;
 
 namespace AutomateCe.Modules
 {

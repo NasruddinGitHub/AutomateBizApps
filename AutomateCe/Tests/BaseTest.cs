@@ -1,14 +1,12 @@
-﻿using AutomateBizApps.Constants;
-using AutomateBizApps.Enums;
-using AutomateBizApps.Pages;
-using AutomateBizApps.Settings;
-using AutomateBizApps.Utils;
+﻿using AutomateCe.Constants;
+using AutomateCe.Enums;
+using AutomateCe.Pages;
+using AutomateCe.Settings;
 using AutomateCe.Utils;
 using AventStack.ExtentReports;
 using AventStack.ExtentReports.Model;
 using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollection;
-using PlayWrightMVP.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +14,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutomateBizApps.Tests
+namespace AutomateCe.Tests
 {
     
     public class BaseTest
@@ -78,7 +76,7 @@ namespace AutomateBizApps.Tests
             if (status == NUnit.Framework.Interfaces.TestStatus.Failed)
             {
                 ReportUtil.FailTest("Test failed");
-                bool needScreenshotForFailedTests = bool.Parse(TestContext.Parameters[Property.ScreenshotsForFailedTests]);
+                bool needScreenshotForFailedTests = bool.Parse(TestContext.Parameters[Property.ScreenshotsForFailedTestsInExtentReport]);
                 if (needScreenshotForFailedTests)
                     ReportUtil.AddScreenCaptureFromPath(screenshotPath);
             }
@@ -89,7 +87,7 @@ namespace AutomateBizApps.Tests
             else if (status == NUnit.Framework.Interfaces.TestStatus.Passed)
             {
                 ReportUtil.PassTest("Test passed");
-                bool needScreenshotForPassedTests = bool.Parse(TestContext.Parameters[Property.ScreenshotsForPassedTests]);
+                bool needScreenshotForPassedTests = bool.Parse(TestContext.Parameters[Property.ScreenshotsForPassedTestsInExtentReport]);
                 if (needScreenshotForPassedTests)
                     ReportUtil.AddScreenCaptureFromPath(screenshotPath);
             }

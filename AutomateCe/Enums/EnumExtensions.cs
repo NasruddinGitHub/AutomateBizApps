@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlayWrightMVP.Enums
+namespace AutomateCe.Enums
 {
     public static class EnumExtensions
     {

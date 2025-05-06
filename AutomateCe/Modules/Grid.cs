@@ -1,5 +1,4 @@
-﻿using AutomateBizApps.Pages;
-using AutomateCe.Enums;
+﻿using AutomateCe.Enums;
 using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using Newtonsoft.Json.Linq;
@@ -8,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static AutomateBizApps.ObjectRepository.ObjectRepository;
+using static AutomateCe.ObjectRepository.ObjectRepository;
 
-namespace AutomateBizApps.Modules
+namespace AutomateCe.Modules
 {
     public class Grid : SharedPage
     {

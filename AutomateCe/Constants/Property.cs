@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutomateBizApps.Constants
+namespace AutomateCe.Constants
 {
     public class Property
     {

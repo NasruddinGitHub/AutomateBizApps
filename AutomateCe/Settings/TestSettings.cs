@@ -1,4 +1,4 @@
-﻿using AutomateBizApps.Constants;
+﻿using AutomateCe.Constants;
 using AutomateCe.Utils;
 using Microsoft.Playwright;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutomateBizApps.Settings
+namespace AutomateCe.Settings
 {
     public static class TestSettings
     {

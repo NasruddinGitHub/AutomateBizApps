@@ -1,8 +1,7 @@
-﻿using AutomateBizApps.Constants;
-using AutomateBizApps.Modules;
-using AutomateBizApps.Pages;
+﻿using AutomateCe.Constants;
 using AutomateCe.Controls;
 using AutomateCe.Modules;
+using AutomateCe.Tests;
 using AutomateCe.Utils;
 using Microsoft.Playwright;
 using OtpNet;
@@ -13,9 +12,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using static AutomateBizApps.ObjectRepository.ObjectRepository;
+using static AutomateCe.ObjectRepository.ObjectRepository;
 
-namespace AutomateBizApps.Tests
+namespace AutomateCe.Tests
 {
     [TestFixture]
     public class LoginTest : BaseTest

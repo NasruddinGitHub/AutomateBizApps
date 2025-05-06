@@ -1,8 +1,7 @@
-﻿using AutomateBizApps.ObjectRepository;
-using AutomateBizApps.Pages;
-using AutomateCe.Controls;
+﻿using AutomateCe.Controls;
 using AutomateCe.Enums;
 using AutomateCe.Modules;
+using AutomateCe.Pages;
 using Microsoft.Playwright;
 using System;
 using System.Collections.Generic;
@@ -10,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using static AutomateBizApps.ObjectRepository.ObjectRepository;
+using static AutomateCe.ObjectRepository.ObjectRepository;
 
-namespace AutomateBizApps.Modules
+namespace AutomateCe.Modules
 {
     public class SharedPage : BaseModule
     {
@@ -30,12 +29,12 @@ namespace AutomateBizApps.Modules
 
         protected ILocator GetFieldWithXpath(string fieldName)
         {
-            return LocatorWithXpath(CommonLocators.FieldContainer.Replace("[Name]", fieldName));
+            return LocatorWithXpath(CommonLocators.FieldContainerBylabel.Replace("[Name]", fieldName));
         }
 
-        protected ILocator GetField(string fieldName)
+        protected ILocator GetFieldByLabel(string fieldName)
         {
-            return Locator(CommonLocators.FieldContainer.Replace("[Name]", fieldName));
+            return Locator(CommonLocators.FieldContainerBylabel.Replace("[Name]", fieldName));
         }
         protected async Task ClickButton(string buttonName)
         {
@@ -53,7 +52,7 @@ namespace AutomateBizApps.Modules
             var completeFieldLocator = await ValidateFormContext(formContextType, fieldName, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(completeFieldLocator, 0, 100, maxNumberOfScrolls);
             }
             var inputTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::input");
@@ -99,7 +98,7 @@ namespace AutomateBizApps.Modules
             var completeFieldLocator = await ValidateFormContext(formContextType, fieldName, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(completeFieldLocator, 0, 100, maxNumberOfScrolls);
             }
             var inputTagLocator = LocatorWithXpath(completeFieldLocator, "descendant::input");
@@ -158,7 +157,7 @@ namespace AutomateBizApps.Modules
             ILocator locator = LocatorWithXpath(completeFieldLocator, CommonLocators.CloseIconLookupValue);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
             await ClickAsync(locator);
@@ -176,7 +175,7 @@ namespace AutomateBizApps.Modules
             ILocator locator = LocatorWithXpath(completeFieldLocator, CommonLocators.LookupValue);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
             }
             return await TextContentAsync(locator);
@@ -196,7 +195,7 @@ namespace AutomateBizApps.Modules
             ILocator dropdownValuesLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.DropdownValues);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(dropdownOpenerLocator, 0, 100, maxNumberOfScrolls);
             }
             await SelectDropdownOption(dropdownOpenerLocator, dropdownValuesLocator, value);
@@ -215,7 +214,7 @@ namespace AutomateBizApps.Modules
             ILocator dropdownLocator = LocatorWithXpath(completeFieldLocator, CommonLocators.DropdownOpener);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(dropdownLocator, 0, 100, maxNumberOfScrolls);
             }
             return await TextContentAsync(dropdownLocator);
@@ -251,7 +250,7 @@ namespace AutomateBizApps.Modules
             ILocator dropdownValues = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.MultiSelectOptions);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(dropdownOptionsOpenerLocator, 0, 100, maxNumberOfScrolls);
             }
             await SelectMultiSelectOptions(dropdownOptionsOpenerLocator, dropdownValues, values);
@@ -270,7 +269,7 @@ namespace AutomateBizApps.Modules
             ILocator completeFieldLocator = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(completeFieldLocator, 0, 100, maxNumberOfScrolls);
             }
 
@@ -290,14 +289,14 @@ namespace AutomateBizApps.Modules
         protected async Task<List<string>> GetSelectedValues(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             string field = multiSelectOptionSet.Name;
-            ILocator fieldContainer = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
+            ILocator FieldContainerBylabel = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
-                await ScrollUsingMouseUntilElementIsVisible(fieldContainer, 0, 100, maxNumberOfScrolls);
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
+                await ScrollUsingMouseUntilElementIsVisible(FieldContainerBylabel, 0, 100, maxNumberOfScrolls);
             }
 
-            string allValues = await TextContentAsync(LocatorWithXpath(fieldContainer, CommonLocators.SelectedOptionsTextInMultiSelectOptionSet));
+            string allValues = await TextContentAsync(LocatorWithXpath(FieldContainerBylabel, CommonLocators.SelectedOptionsTextInMultiSelectOptionSet));
             string[] splittedValues = allValues.Split(",");
             List<string> outputValues = new List<string>();
             foreach (string value in splittedValues)
@@ -309,13 +308,13 @@ namespace AutomateBizApps.Modules
 
         private async Task<int> GetFieldRequirement(string field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            ILocator fieldContainer = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
+            ILocator FieldContainerBylabel = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
-                await ScrollUsingMouseUntilElementIsVisible(fieldContainer, 0, 100, maxNumberOfScrolls);
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
+                await ScrollUsingMouseUntilElementIsVisible(FieldContainerBylabel, 0, 100, maxNumberOfScrolls);
             }
-            return int.Parse(await GetAttributeAsync(fieldContainer, "data-fieldrequirement"));
+            return int.Parse(await GetAttributeAsync(FieldContainerBylabel, "data-fieldrequirement"));
         }
 
         protected async Task<bool> IsFieldBusinessRequired(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
@@ -358,13 +357,13 @@ namespace AutomateBizApps.Modules
 
         protected async Task<bool> IsFieldCompleted(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            ILocator fieldContainer = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
+            ILocator FieldContainerBylabel = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
-                await ScrollUsingMouseUntilElementIsVisible(fieldContainer, 0, 100, maxNumberOfScrolls);
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
+                await ScrollUsingMouseUntilElementIsVisible(FieldContainerBylabel, 0, 100, maxNumberOfScrolls);
             }
-            return await IsVisibleAsyncWithWaiting(LocatorWithXpath(fieldContainer, CommonLocators.CompletedIcon), 0);
+            return await IsVisibleAsyncWithWaiting(LocatorWithXpath(FieldContainerBylabel, CommonLocators.CompletedIcon), 0);
         }
 
         protected async Task<bool> IsFieldLocked(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
@@ -374,13 +373,13 @@ namespace AutomateBizApps.Modules
 
         protected async Task<bool> IsFieldLocked(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            ILocator fieldContainer = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
+            ILocator FieldContainerBylabel = await ValidateFormContext(formContextType, field, timeToCheckIfFrameExists);
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
-                await ScrollUsingMouseUntilElementIsVisible(fieldContainer, 0, 100, maxNumberOfScrolls);
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
+                await ScrollUsingMouseUntilElementIsVisible(FieldContainerBylabel, 0, 100, maxNumberOfScrolls);
             }
-            return await IsVisibleAsyncWithWaiting(LocatorWithXpath(fieldContainer, CommonLocators.LockedIcon), 0);
+            return await IsVisibleAsyncWithWaiting(LocatorWithXpath(FieldContainerBylabel, CommonLocators.LockedIcon), 0);
         }
 
         protected async Task<ILocator> ValidateFormContext(FormContextType formContextType, string field, int timeToCheckIfFrameExists)
@@ -389,27 +388,27 @@ namespace AutomateBizApps.Modules
             if (formContextType == FormContextType.QuickCreate)
             {
                 ILocator formContainerLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, QuickCreateLocators.FormContainer, timeToCheckIfFrameExists);
-                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainer.Replace("[Name]", field));
+                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainerBylabel.Replace("[Name]", field));
             }
             else if (formContextType == FormContextType.Entity)
             {
                 ILocator formContainerLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, EntityLocators.FormContainer, timeToCheckIfFrameExists);
-                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainer.Replace("[Name]", field));
+                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainerBylabel.Replace("[Name]", field));
             }
             else if (formContextType == FormContextType.BusinessProcessFlow)
             {
                 ILocator formContainerLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, BusinessProcessFlowLocators.FormContainer, timeToCheckIfFrameExists);
-                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainer.Replace("[Name]", field));
+                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainerBylabel.Replace("[Name]", field));
             }
             else if (formContextType == FormContextType.Header)
             {
                 ILocator formContainerLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, HeaderLocators.FormContainer, timeToCheckIfFrameExists);
-                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainer.Replace("[Name]", field));
+                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainerBylabel.Replace("[Name]", field));
             }
             else if (formContextType == FormContextType.Dialog)
             {
                 ILocator formContainerLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, DialogLocators.FormContainer, timeToCheckIfFrameExists);
-                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainer.Replace("[Name]", field));
+                fieldLocator = LocatorWithXpath(formContainerLocator, CommonLocators.FieldContainerBylabel.Replace("[Name]", field));
             }
             return fieldLocator;
         }

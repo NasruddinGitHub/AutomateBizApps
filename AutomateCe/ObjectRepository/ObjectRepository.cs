@@ -1,11 +1,10 @@
-﻿using AutomateBizApps.Pages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutomateBizApps.ObjectRepository
+namespace AutomateCe.ObjectRepository
 {
     public static class ObjectRepository
     {
@@ -119,7 +118,7 @@ namespace AutomateBizApps.ObjectRepository
 
         public static class CommonLocators
         {
-            public static string FieldContainer = "//label[text()='[Name]']/ancestor::div[contains(@data-id,'FieldSectionItemContainer')]";
+            public static string FieldContainerBylabel = "//label[text()='[Name]']/ancestor::div[contains(@data-id,'FieldSectionItemContainer')]";
             public static string Button = "//*[text()='[Name]']";
             public static string LookupResults = "//ul[@aria-label='Lookup results']";
             public static string CloseIconLookupValue = "descendant::button[contains(@aria-label,'Delete')]";

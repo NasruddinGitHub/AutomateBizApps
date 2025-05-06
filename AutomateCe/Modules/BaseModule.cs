@@ -13,9 +13,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml.Linq;
-using static AutomateBizApps.ObjectRepository.ObjectRepository;
+using static AutomateCe.ObjectRepository.ObjectRepository;
 
-namespace AutomateBizApps.Pages
+namespace AutomateCe.Pages
 {
     public class BaseModule : PageTest
     {
@@ -962,7 +962,7 @@ namespace AutomateBizApps.Pages
         {
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainer.Replace("[Name]", anyFieldNameInScroller)));
+                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
                 await ScrollUsingMouseUntilElementIsVisible(dropdownOptionsOpener, 0, 100, maxNumberOfScrolls);
             }
             await ClickAsync(dropdownOptionsOpener);
