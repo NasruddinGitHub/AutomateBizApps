@@ -22,167 +22,167 @@ namespace AutomateCe.Modules
 
         public async Task SetValueByLabelName(string fieldName, string value, int timeToCheckIfFrameExists = 1000)
         {
-            await SetValue(fieldName, value, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            await SetValueByLabelName(fieldName, value, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task SetValueByLabelName(string fieldName, string value, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            await SetValue(fieldName, value, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            await SetValueByLabelName(fieldName, value, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task ClearValueByLabelName(string fieldName, int timeToCheckIfFrameExists = 1000)
         {
-            await SetValue(fieldName, string.Empty, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            await SetValueByLabelName(fieldName, string.Empty, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task ClearValueByLabelName(string fieldName, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            await SetValue(fieldName, string.Empty, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            await SetValueByLabelName(fieldName, string.Empty, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task<string> GetValueByLabelName(string fieldName, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetValue(fieldName, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await GetValueByLabelName(fieldName, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task<string> GetValueByLabelName(string fieldName, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await GetValue(fieldName, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await GetValueByLabelName(fieldName, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task SetValueByLabelName(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
         {
-            await SetValue(lookupItem, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            await SetValueByLabelName(lookupItem, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task SetValueByLabelName(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            await SetValue(lookupItem, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            await SetValueByLabelName(lookupItem, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task ClearValueByLabelName(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
         {
-            await ClearValue(lookupItem, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            await ClearValueByLabelName(lookupItem, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task ClearValueByLabelName(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            await ClearValue(lookupItem, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            await ClearValueByLabelName(lookupItem, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task<string> GetValueByLabelName(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetValue(lookupItem, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await GetValueByLabelName(lookupItem, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task<string> GetValueByLabelName(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await GetValue(lookupItem, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await GetValueByLabelName(lookupItem, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task SetValueByLabelName(OptionSet optionSet, int timeToCheckIfFrameExists = 1000)
         {
-            await SetValue(optionSet, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            await SetValueByLabelName(optionSet, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task SetValueByLabelName(OptionSet optionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            await SetValue(optionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            await SetValueByLabelName(optionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task<string> GetValueByLabelName(OptionSet optionSet, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetValue(optionSet, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await GetValueByLabelName(optionSet, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task<string> GetValueByLabelName(OptionSet optionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await GetValue(optionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await GetValueByLabelName(optionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task<List<string>> GetAllAvailableValuesByLabelName(OptionSet optionSet, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetAllAvailableValues(optionSet, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await GetAllAvailableValuesByLabelName(optionSet, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task<List<string>> GetAllAvailableValuesByLabelName(OptionSet optionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await GetAllAvailableValues(optionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await GetAllAvailableValuesByLabelName(optionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task SetValueByLabelName(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
         {
-            await SetValue(multiSelectOptionSet, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            await SetValueByLabelName(multiSelectOptionSet, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task SetValueByLabelName(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            await SetValue(multiSelectOptionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            await SetValueByLabelName(multiSelectOptionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task<List<string>> GetSelectedValuesByLabelName(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
         {
-            return await GetSelectedValues(multiSelectOptionSet, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await GetSelectedValuesByLabelName(multiSelectOptionSet, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task<List<string>> GetSelectedValuesByLabelName(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await GetSelectedValues(multiSelectOptionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await GetSelectedValuesByLabelName(multiSelectOptionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task ClearValuesByLabelName(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
         {
-            await ClearValues(multiSelectOptionSet, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            await ClearValuesByLabelName(multiSelectOptionSet, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task ClearValuesByLabelName(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            await ClearValues(multiSelectOptionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            await ClearValuesByLabelName(multiSelectOptionSet, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task<bool> IsFieldBusinessRequiredByLabelName(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await IsFieldBusinessRequired(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await IsFieldBusinessRequiredByLabelName(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task<bool> IsFieldBusinessRequiredByLabelName(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await IsFieldBusinessRequired(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await IsFieldBusinessRequiredByLabelName(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task<bool> IsFieldBusinessRecommendedByLabelName(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await IsFieldBusinessRecommended(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await IsFieldBusinessRecommendedByLabelName(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task<bool> IsFieldBusinessRecommendedByLabelName(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await IsFieldBusinessRecommended(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await IsFieldBusinessRecommendedByLabelName(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task<bool> IsFieldOptionalByLabelName(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await IsFieldOptional(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await IsFieldOptionalByLabelName(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task<bool> IsFieldCompletedByLabelName(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await IsFieldCompleted(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await IsFieldCompletedByLabelName(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task<bool> IsFieldOptionalByLabelName(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await IsFieldOptional(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            return await IsFieldOptionalByLabelName(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
         }
 
         public async Task<bool> IsFieldLockedByLabelName(String field, int timeToCheckIfFrameExists = 1000)
         {
-            return await IsFieldLocked(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await IsFieldLockedByLabelName(field, false, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task<bool> IsFieldLockedByLabelName(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
-            return await IsFieldLocked(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
+            return await IsFieldLockedByLabelName(field, dynamicallyLoaded, FormContextType.BusinessProcessFlow, timeToCheckIfFrameExists);
         }
 
         public async Task SelectStage(string stageName)

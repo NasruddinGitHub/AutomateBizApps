@@ -7,12 +7,12 @@
 	</RunConfiguration>
 	<!-- General Test run parameters -->
 	<TestRunParameters>
-		<Parameter name="Email" value="admin@CRM156313.onmicrosoft.com" />
-		<Parameter name="Password" value="*Nn9959691887" />
-		<Parameter name="Url" value="https://org1a73c068.crm5.dynamics.com/" />
+		<Parameter name="Email" value="admin@crm124441.onmicrosoft.com" />
+		<Parameter name="Password" value="O00(n^ucIm{Sn[M6zb37]^HS5Q8#K6(w" />
+		<Parameter name="Url" value="https://crm124441.crm.dynamics.com/main.aspx" />
 		<!-- chrome,msedge(edge browser should be given as msedge),firefox -->
 		<Parameter name="BrowserType" value="msedge" />
-		<Parameter name="MfaSecretKey" value="xmzdl5j2mdw6nrqh" />
+		<Parameter name="MfaSecretKey" value="w2vjxqzwhwl6qdhh" />
 		<Parameter name="AzureKey" value="" />
 		<Parameter name="SessionId" value="" />
 		<Parameter name="EndpointName" value="" />

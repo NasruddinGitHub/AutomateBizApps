@@ -98,7 +98,7 @@ namespace AutomateCe.Modules
         {
             await ClickViewOpener();
             await ClickSaveAsNewView();
-            await SetValue("Name", viewName, FormContextType.Dialog);
+            await SetValueByLabelName("Name", viewName, FormContextType.Dialog);
             await ClickButton("Save");
         }
 
@@ -106,8 +106,8 @@ namespace AutomateCe.Modules
         {
             await ClickViewOpener();
             await ClickSaveAsNewView();
-            await SetValue("Name", viewName, FormContextType.Dialog);
-            await SetValue("Description", viewDescription, FormContextType.Dialog);
+            await SetValueByLabelName("Name", viewName, FormContextType.Dialog);
+            await SetValueByLabelName("Description", viewDescription, FormContextType.Dialog);
             await ClickButton("Save");
         }
 

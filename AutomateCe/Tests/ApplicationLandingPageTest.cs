@@ -16,7 +16,7 @@ namespace AutomateCe.Tests
         string? password = TestContext.Parameters[Property.Password];
         string? mfaKey = TestContext.Parameters[Property.MfaKey];
 
-        [Property("browser", "chrome")]
+        [Property("browser", "firefox")]
         [Test]
         public async Task ValidateIfUserIsAbleToSelectAnApp()
         {
