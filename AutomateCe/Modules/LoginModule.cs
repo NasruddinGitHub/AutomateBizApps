@@ -18,75 +18,75 @@ namespace AutomateCe.Modules
             this._page = page;
         }
 
-        public async Task EnterEmail(string email)
+        public async Task EnterEmailAsync(string email)
         {
             var usernameElement = Locator(LoginModuleLocators.Username);
             await FillAsync(usernameElement, email);
         }
 
-        public async Task ClickNext()
+        public async Task ClickNextAsync()
         {
             var usernameElement = Locator(LoginModuleLocators.Next);
             await ClickAsync(usernameElement);
         }
 
-        public async Task EnterPassword(string password)
+        public async Task EnterPasswordAsync(string password)
         {
             var passwordElement = Locator(LoginModuleLocators.Password);
             await FillAsync(passwordElement, password);
         }
 
-        public async Task ClickSignIn()
+        public async Task ClickSignInAsync()
         {
             var signInElement = Locator(LoginModuleLocators.SignIn);
             await ClickAsync(signInElement);
         }
 
-        public async Task AcceptStaySignedIn()
+        public async Task AcceptStaySignedInAsync()
         {
             var staySignedInYesElement = Locator(LoginModuleLocators.StaySignedInYes);
             await ClickAsync(staySignedInYesElement);
-            await WaitUntilAppReadyStateIsComplete();
+            await WaitUntilAppReadyStateIsCompleteAsync();
             // await WaitForNoActiveRequests();
         }
 
-        public async Task RejectStaySignedIn()
+        public async Task RejectStaySignedInAsync()
         {
             var staySignedInNoElement = Locator(LoginModuleLocators.StaySignedInNo);
             await ClickAsync(staySignedInNoElement);
         }
 
-        public async Task EnterCode(string mfaKey)
+        public async Task EnterCodeAsync(string mfaKey)
         {
             var code = GetTotp(mfaKey);
             var codeElement = Locator(LoginModuleLocators.Code);
             await FillAsync(codeElement, code);
         }
 
-        public async Task ClickCodeVerify()
+        public async Task ClickCodeVerifyAsync()
         {
             var verifyCodeElement = Locator(LoginModuleLocators.VerifyCode);
             await ClickAsync(verifyCodeElement);
         }
 
-        public async Task Login(string? email, string? password)
+        public async Task LoginAsync(string? email, string? password)
         {
-            await EnterEmail(email);
-            await ClickNext();
-            await EnterPassword(password);
-            await ClickSignIn();
-            await AcceptStaySignedIn();
+            await EnterEmailAsync(email);
+            await ClickNextAsync();
+            await EnterPasswordAsync(password);
+            await ClickSignInAsync();
+            await AcceptStaySignedInAsync();
         }
 
-        public async Task Login(string? email, string? password, string? mfaKey)
+        public async Task LoginAsync(string? email, string? password, string? mfaKey)
         {
-            await EnterEmail(email);
-            await ClickNext();
-            await EnterPassword(password);
-            await ClickSignIn();
-            await EnterCode(mfaKey);
-            await ClickCodeVerify();
-            await AcceptStaySignedIn();
+            await EnterEmailAsync(email);
+            await ClickNextAsync();
+            await EnterPasswordAsync(password);
+            await ClickSignInAsync();
+            await EnterCodeAsync(mfaKey);
+            await ClickCodeVerifyAsync();
+            await AcceptStaySignedInAsync();
         }
 
     }

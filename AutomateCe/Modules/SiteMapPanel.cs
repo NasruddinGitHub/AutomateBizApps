@@ -17,19 +17,19 @@ namespace AutomateCe.Modules
             this._page = page;
         }
 
-        public async Task ExpandSiteMap()
+        public async Task ExpandSiteMapAsync()
         {
             var siteMapLauncherElement = Locator(SiteMapPanelLocators.SiteMapLauncherOrCloser);
             await ClickAsync(siteMapLauncherElement);
         }
 
-        public async Task ShrinkSiteMap()
+        public async Task ShrinkSiteMapAsync()
         {
             var siteMapLauncherElement = Locator(SiteMapPanelLocators.SiteMapLauncherOrCloser);
             await ClickAsync(siteMapLauncherElement);
         }
 
-        public async Task ExpandSiteMapIfShrinked()
+        public async Task ExpandSiteMapIfShrinkedAsync()
         {
             var siteMapLauncherElement = Locator(SiteMapPanelLocators.SiteMapLauncherOrCloser);
             bool isSiteMapExpanded = Convert.ToBoolean(await GetAttributeAsync(siteMapLauncherElement, "aria-expanded"));
@@ -39,7 +39,7 @@ namespace AutomateCe.Modules
             }
         }
 
-        public async Task ShrinkSiteMapIfExpanded()
+        public async Task ShrinkSiteMapIfExpandedAsync()
         {
             var siteMapLauncherElement = Locator(SiteMapPanelLocators.SiteMapLauncherOrCloser);
             bool isSiteMapExpanded = Convert.ToBoolean(await GetAttributeAsync(siteMapLauncherElement, "aria-expanded"));
@@ -49,22 +49,22 @@ namespace AutomateCe.Modules
             }
         }
 
-        public async Task OpenSubArea(string area, string subarea)
+        public async Task OpenSubAreaAsync(string area, string subarea)
         {
             string subAreaLocator = SiteMapPanelLocators.SubArea.Replace("[Area]", area).Replace("[Subarea]", subarea);
             var subAreaElement = Locator(subAreaLocator);
             await ClickAsync(subAreaElement);
         }
 
-        public async Task<List<string>> GetSubAreas(string area)
+        public async Task<List<string>> GetSubAreasAsync(string area)
         {
             var subAreaTreeItemsSelector = SiteMapPanelLocators.SiteMapEntity.Replace("[Area]", area);
             var subAreaTreeItems = Locator(subAreaTreeItemsSelector);
             var subAreaTreeItemsCount = await CountAsync(subAreaTreeItems);
-            return await GetAllElementsText(subAreaTreeItems);
+            return await GetAllElementsTextAsync(subAreaTreeItems);
         }
 
-        public async Task ChangeArea(string areaToSelect)
+        public async Task ChangeAreaAsync(string areaToSelect)
         {
             var areaChangerElement = Locator(SiteMapPanelLocators.AreaChanger);
             await ClickAsync(areaChangerElement);
@@ -72,46 +72,46 @@ namespace AutomateCe.Modules
             await ClickAsync(areaChangerItemElement);
         }
 
-        public async Task<List<string>> GetChangeAreaItems()
+        public async Task<List<string>> GetChangeAreaItemsAsync()
         {
             var areaChangerElement = Locator(SiteMapPanelLocators.AreaChanger);
             await ClickAsync(areaChangerElement);
             var areaChangerItemsElement = Locator(SiteMapPanelLocators.AreaChangerItems);
-            return await GetAllElementsText(areaChangerItemsElement);
+            return await GetAllElementsTextAsync(areaChangerItemsElement);
         }
 
-        public async Task<string?> GetCurrentlySelectedArea()
+        public async Task<string?> GetCurrentlySelectedAreaAsync()
         {
             var areaChangerElement = Locator(SiteMapPanelLocators.AreaChanger);
             return await TextContentAsync(areaChangerElement);
         }
 
-        public async Task ClickSiteMapTab(string tabName)
+        public async Task ClickSiteMapTabAsync(string tabName)
         {
             var siteMapTabElement = Locator(SiteMapPanelLocators.SiteMapTab.Replace("[Name]", tabName));
             await ClickAsync(siteMapTabElement);
         }
 
-        public async Task ExpandOrCollapseRecentTab()
+        public async Task ExpandOrCollapseRecentTabAsync()
         {
-            await ClickSiteMapTab("Recent");
+            await ClickSiteMapTabAsync("Recent");
         }
 
-        public async Task ExpandOrCollapsePinnedTab()
+        public async Task ExpandOrCollapsePinnedTabAsync()
         {
-            await ClickSiteMapTab("Pinned");
+            await ClickSiteMapTabAsync("Pinned");
         }
 
-        public async Task OpenItemFromRecentGroup(string itemName)
+        public async Task OpenItemFromRecentGroupAsync(string itemName)
         {
-            await ExpandOrCollapseRecentTab();
+            await ExpandOrCollapseRecentTabAsync();
             var recentItemLocator = Locator(SiteMapPanelLocators.RecentItem.Replace("[Name]", itemName));
-            await ExpandOrCollapseRecentTab();
+            await ExpandOrCollapseRecentTabAsync();
         }
 
-        public async Task PinRecentItem(string itemName)
+        public async Task PinRecentItemAsync(string itemName)
         {
-            await ExpandOrCollapseRecentTab();
+            await ExpandOrCollapseRecentTabAsync();
             var recentItemPinLocator = Locator(SiteMapPanelLocators.PinRecentItem.Replace("[Name]", itemName));
             var recentItemLocator = Locator(SiteMapPanelLocators.RecentItem.Replace("[Name]", itemName));
             await HoverAsync(recentItemLocator);
@@ -120,7 +120,7 @@ namespace AutomateCe.Modules
 
         public async Task PinRecentItems(List<string> items)
         {
-            await ExpandOrCollapseRecentTab();
+            await ExpandOrCollapseRecentTabAsync();
             foreach (string item in items)
             {
                 var recentItemPinLocator = Locator(SiteMapPanelLocators.PinRecentItem.Replace("[Name]", item));
@@ -130,18 +130,18 @@ namespace AutomateCe.Modules
             }
         }
 
-        public async Task UnPinRecentItem(string itemName)
+        public async Task UnPinRecentItemAsync(string itemName)
         {
-            await ExpandOrCollapseRecentTab();
+            await ExpandOrCollapseRecentTabAsync();
             var recentItemUnpinLocator = Locator(SiteMapPanelLocators.UnPinRecentItem.Replace("[Name]", itemName));
             var recentItemLocator = Locator(SiteMapPanelLocators.RecentItem.Replace("[Name]", itemName));
             await HoverAsync(recentItemLocator);
             await ClickAsync(recentItemUnpinLocator);
         }
 
-        public async Task UnPinRecentItems(List<string> items)
+        public async Task UnPinRecentItemsAsync(List<string> items)
         {
-            await ExpandOrCollapseRecentTab();
+            await ExpandOrCollapseRecentTabAsync();
             foreach (string item in items)
             {
                 var recentItemUnpinLocator = Locator(SiteMapPanelLocators.UnPinRecentItem.Replace("[Name]", item));
@@ -151,34 +151,34 @@ namespace AutomateCe.Modules
             }
         }
 
-        public async Task<List<string?>> GetAllPinnedItemsFromRecentGroup()
+        public async Task<List<string?>> GetAllPinnedItemsFromRecentGroupAsync()
         {
-            await ExpandOrCollapseRecentTab();
+            await ExpandOrCollapseRecentTabAsync();
             var allPinnedRecentItemsLocator = Locator(SiteMapPanelLocators.AllPinnedRecentItem);
             await ToBeVisibleAsync(allPinnedRecentItemsLocator, 0, 30000);
-            return await GetAllElementsText(allPinnedRecentItemsLocator);
+            return await GetAllElementsTextAsync(allPinnedRecentItemsLocator);
         }
 
-        public async Task<List<string?>> GetAllPinnedItemsFromPinnedGroup()
+        public async Task<List<string?>> GetAllPinnedItemsFromPinnedGroupAsync()
         {
-            await ExpandOrCollapsePinnedTab();
+            await ExpandOrCollapsePinnedTabAsync();
             var allPinnedItemsLocator = Locator(SiteMapPanelLocators.AllPinnedItems);
             await ToBeVisibleAsync(allPinnedItemsLocator, 0, 30000);
-            return await GetAllElementsText(allPinnedItemsLocator);
+            return await GetAllElementsTextAsync(allPinnedItemsLocator);
         }
 
-        public async Task UnPinItemFromPinnedGroup(string itemName)
+        public async Task UnPinItemFromPinnedGroupAsync(string itemName)
         {
-            await ExpandOrCollapsePinnedTab();
+            await ExpandOrCollapsePinnedTabAsync();
             var unPinItemFromPinnedGroupLocator = Locator(SiteMapPanelLocators.UnPinPinnedItemFromPinnedGroup.Replace("[Name]", itemName));
             var pinnedItemLocator = Locator(SiteMapPanelLocators.PinnedItem.Replace("[Name]", itemName));
             await HoverAsync(pinnedItemLocator);
             await ClickAsync(unPinItemFromPinnedGroupLocator);
         }
 
-        public async Task UnPinItemsFromPinnedGroup(List<string> items)
+        public async Task UnPinItemsFromPinnedGroupAsync(List<string> items)
         {
-            await ExpandOrCollapsePinnedTab();
+            await ExpandOrCollapsePinnedTabAsync();
             foreach (string item in items)
             {
                 var unPinItemFromPinnedGroupLocator = Locator(SiteMapPanelLocators.UnPinPinnedItemFromPinnedGroup.Replace("[Name]", item));
@@ -188,20 +188,20 @@ namespace AutomateCe.Modules
             }
         }
 
-        public async Task<List<string?>> GetAllUnPinnedItemsFromRecentGroup()
+        public async Task<List<string?>> GetAllUnPinnedItemsFromRecentGroupAsync()
         {
-            await ExpandOrCollapseRecentTab();
+            await ExpandOrCollapseRecentTabAsync();
             var allUnPinnedRecentItemsLocator = Locator(SiteMapPanelLocators.AllUnPinnedRecentItem);
             await ToBeVisibleAsync(allUnPinnedRecentItemsLocator, 0, 30000);
-            return await GetAllElementsText(allUnPinnedRecentItemsLocator);
+            return await GetAllElementsTextAsync(allUnPinnedRecentItemsLocator);
         }
 
         public async Task<List<string?>> GetAllItemsFromRecentGroup()
         {
-            await ClickSiteMapTab("Recent");
+            await ClickSiteMapTabAsync("Recent");
             var allRecentItemsLocator = Locator(SiteMapPanelLocators.AllRecentItems);
             await ToBeVisibleAsync(allRecentItemsLocator, 0, 30000);
-            return await GetAllElementsText(allRecentItemsLocator);
+            return await GetAllElementsTextAsync(allRecentItemsLocator);
         }
     }
 }

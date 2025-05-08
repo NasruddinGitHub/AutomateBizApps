@@ -35,9 +35,9 @@ namespace AutomateCe.Tests
             string? mfaKey = TestContext.Parameters[Property.MfaKey];
             
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            await ceApp.ApplicationLandingPageModule.OpenApp("Field Service");
+            await ceApp.ApplicationLandingPageModule.OpenAppAsync("Field Service");
             ReportUtil.Info("Selected Field Service application");
             //await ceApp.SiteMapPanel.OpenSubArea("Customers", "Accounts");
             //await ceApp.Complementary.OpenOrCloseTab("Copilot");
@@ -55,9 +55,9 @@ namespace AutomateCe.Tests
             string? password = TestContext.Parameters[Property.Password];
             string? mfaKey = TestContext.Parameters[Property.MfaKey];
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            await ceApp.ApplicationLandingPageModule.OpenApp("Customer Service Hub");
+            await ceApp.ApplicationLandingPageModule.OpenAppAsync("Customer Service Hub");
             ReportUtil.Info("Selected Customer Service Hub application");
             //await ceApp.SiteMapPanel.OpenSubArea("Customers", "Accounts");
             //await ceApp.Complementary.OpenOrCloseTab("Copilot");
@@ -76,7 +76,7 @@ namespace AutomateCe.Tests
             CeApp ceApp = new CeApp(page);
             await ceApp.LoginModule.Login(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            await ceApp.ApplicationLandingPageModule.OpenApp("Sales Hub1");
+            await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub1");
             ReportUtil.Info("Selected Sales Hub application");
             //await ceApp.SiteMapPanel.OpenSubArea("Customers", "Accounts");
             //await ceApp.Complementary.OpenOrCloseTab("Copilot");

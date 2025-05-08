@@ -24,18 +24,18 @@ namespace AutomateCe.Tests
             ReportUtil.CreateTest("Validate is the user is able to select a MDA app from the landing page");
 
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            await ceApp.ApplicationLandingPageModule.OpenApp("Sales Hub");
-            await ceApp.SiteMapPanel.OpenSubArea("Customers", "Contacts");
-            await ceApp.CommandBar.ClickCommand("Refresh");
-            List<string> allShownCommands = await ceApp.CommandBar.GetAllShownCommands();
+            await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
+            await ceApp.SiteMapPanel.OpenSubAreaAsync("Customers", "Contacts");
+            await ceApp.CommandBar.ClickCommandAsync("Refresh");
+            List<string> allShownCommands = await ceApp.CommandBar.GetAllShownCommandsAsync();
             foreach (string command in allShownCommands)
             {
                 Console.WriteLine("The shown command is: "+command);
             }
 
-            List<string> allMoreCommands = await ceApp.CommandBar.GetAllMoreCommands();
+            List<string> allMoreCommands = await ceApp.CommandBar.GetAllMoreCommandsAsync();
             foreach (string command in allMoreCommands)
             {
                 Console.WriteLine("The more command is: " + command);

@@ -40,24 +40,24 @@ namespace AutomateCe.Tests
         }
 
         [SetUp]
-        public async Task OpenBrowser()
+        public async Task SetUpBrowserAsync()
         {
             _timestamp = DateUtil.GetTimeStamp("yyyyMMddHHmmss");
-            browser = await OpenBrowser(TestContextUtil.GetBrowser());
+            browser = await OpenBrowserAsync(TestContextUtil.GetBrowser());
 
             _browserContext = await browser.NewContextAsync(TestSettings.BrowserNewContextOptions()).ConfigureAwait(false);
             page = await _browserContext.NewPageAsync().ConfigureAwait(false);
         }
 
         [SetUp]
-        public async Task GoToUrl()
+        public async Task GoToUrlAsync()
         {
             string? url = TestContext.Parameters[Property.Url];
             await page.GotoAsync(url);
         }
 
         [TearDown]
-        public async Task CloseBrowserInstance()
+        public async Task CloseBrowserInstanceAsync()
         {
             await page.CloseAsync();
             await _browserContext.CloseAsync();
@@ -65,7 +65,7 @@ namespace AutomateCe.Tests
         }
 
         [TearDown]
-        public async Task AfterTest()
+        public async Task AfterTestAsync()
         {
             string projectRoot = TestContextUtil.GetProjectRootDir();
             string screenshotsFolderPath = Path.Combine(projectRoot, TestContext.Parameters[Property.ScreenshotsFolderPath]);
@@ -102,7 +102,7 @@ namespace AutomateCe.Tests
             }
         }
 
-        public async Task<IBrowser> OpenBrowser(string browser)
+        public async Task<IBrowser> OpenBrowserAsync(string browser)
         {
             var playwright = await Playwright.CreateAsync();
             switch (browser.ToLower())

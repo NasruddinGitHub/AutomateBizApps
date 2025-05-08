@@ -27,9 +27,9 @@ namespace AutomateCe.Tests
             ReportUtil.AssignDevice("Desktop - 1280x720");
 
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            await ceApp.ApplicationLandingPageModule.OpenApp(appToSelect);
+            await ceApp.ApplicationLandingPageModule.OpenAppAsync(appToSelect);
             ReportUtil.Info($"Selected {appToSelect} application");
         }
 
@@ -44,9 +44,9 @@ namespace AutomateCe.Tests
             ReportUtil.AssignDevice("Mobile - 300x450");
 
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            await ceApp.ApplicationLandingPageModule.Logout();
+            await ceApp.ApplicationLandingPageModule.LogoutAsync();
             ReportUtil.Info("User is able to log-out successfully");
         }
 
@@ -60,9 +60,9 @@ namespace AutomateCe.Tests
             ReportUtil.AssignDevice("Tab - 600x350");
 
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            await ceApp.ApplicationLandingPageModule.Search(appToSearch);
+            await ceApp.ApplicationLandingPageModule.SearchAsync(appToSearch);
             ReportUtil.Info($"User is able to search for the app {appToSearch} successfully");
         }
 
@@ -75,9 +75,9 @@ namespace AutomateCe.Tests
             ReportUtil.AssignDevice("Tab - 600x350");
 
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            await ceApp.ApplicationLandingPageModule.Refresh();
+            await ceApp.ApplicationLandingPageModule.RefreshAsync();
             ReportUtil.Info("User has clicked on refresh successfully");
         }
 
@@ -90,9 +90,9 @@ namespace AutomateCe.Tests
             ReportUtil.AssignDevice("Tab - 600x350");
 
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            Console.WriteLine(await ceApp.ApplicationLandingPageModule.GetNumberOfPublishedApps());
+            Console.WriteLine(await ceApp.ApplicationLandingPageModule.GetNumberOfPublishedAppsAsync());
             ReportUtil.Info("User is able to get the number of published app count successfully");
         }
 
@@ -105,9 +105,9 @@ namespace AutomateCe.Tests
             ReportUtil.AssignDevice("Tab - 600x350");
 
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            List<string> allAppNames = await ceApp.ApplicationLandingPageModule.GetAllAvailableAppNames();
+            List<string> allAppNames = await ceApp.ApplicationLandingPageModule.GetAllAvailableAppNamesAsync();
             foreach (string appName in allAppNames)
             {
                 Console.WriteLine(appName);
@@ -126,9 +126,9 @@ namespace AutomateCe.Tests
             ReportUtil.AssignDevice("Tab - 600x350");
 
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            bool isAppAvailable = await ceApp.ApplicationLandingPageModule.IsMdaAppAvailable(appName);
+            bool isAppAvailable = await ceApp.ApplicationLandingPageModule.IsMdaAppAvailableAsync(appName);
 
             ReportUtil.Info($"User is able to verify if {appName} is available successfully");
         }

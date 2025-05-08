@@ -18,13 +18,13 @@ namespace AutomateCe.Modules
             this._page = page;
         }
 
-        public async Task OpenOrCloseTab(string appName)
+        public async Task OpenOrCloseTabAsync(string appName)
         {
             var tabLocator = Locator(ComplementaryPaneLocators.Tab.Replace("[Name]", appName));
             await ClickAsync(tabLocator);
         }
 
-        public async Task OpenTabIfNotExpanded(string appName)
+        public async Task OpenTabIfNotExpandedAsync(string appName)
         {
             var tabLocator = Locator(ComplementaryPaneLocators.Tab.Replace("[Name]", appName));
             bool isApplicationOpened = Convert.ToBoolean(await GetAttributeAsync(tabLocator, "aria-expanded"));
@@ -34,7 +34,7 @@ namespace AutomateCe.Modules
             }
         }
 
-        public async Task CloseTabIfNotExpanded(string appName)
+        public async Task CloseTabIfNotExpandedAsync(string appName)
         {
             var tabLocator = Locator(ComplementaryPaneLocators.Tab.Replace("[Name]", appName));
             bool isApplicationOpened = Convert.ToBoolean(await GetAttributeAsync(tabLocator, "aria-expanded"));

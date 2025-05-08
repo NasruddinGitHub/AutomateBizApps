@@ -19,248 +19,248 @@ namespace AutomateCe.Modules
         {
             this._page = page;
         }
-        public async Task ClickViewOpener()
+        public async Task ClickViewOpenerAsync()
         {
             var viewOpenerLocator = Locator(GridLocators.ViewOpener);
             await ClickAsync(viewOpenerLocator);
         }
 
-        public async Task ClickSetDefaultView()
+        public async Task ClickSetDefaultViewAsync()
         {
             var setDefaultViewLocator = Locator(GridLocators.SetDefaultView);
             await ClickAsync(setDefaultViewLocator);
         }
 
-        public async Task ClickSaveAsNewView()
+        public async Task ClickSaveAsNewViewAsync()
         {
             var saveChangesAsNewViewLocator = Locator(GridLocators.SaveChangesAsNewView);
             await ClickAsync(saveChangesAsNewViewLocator);
         }
 
-        public async Task ClickSaveChangesToCurrentView()
+        public async Task ClickSaveChangesToCurrentViewAsync()
         {
             var saveChangesToCurrentViewLocator = Locator(GridLocators.SaveChangesToCurrentView);
             await ClickAsync(saveChangesToCurrentViewLocator);
         }
 
-        public async Task ClickResetDefaultView()
+        public async Task ClickResetDefaultViewAsync()
         {
             var resetDefaultViewLocator = Locator(GridLocators.ResetDefaultView);
             await ClickAsync(resetDefaultViewLocator);
         }
 
-        public async Task SwitchView(string viewName)
+        public async Task SwitchViewAsync(string viewName)
         {
-            await ClickViewOpener();
-            await SelectView(viewName);
+            await ClickViewOpenerAsync();
+            await SelectViewAsync(viewName);
         }
 
-        public async Task SelectView(string viewName)
+        public async Task SelectViewAsync(string viewName)
         {
             var viewNameLocator = Locator(GridLocators.ViewName.Replace("[Name]", viewName));
             await ClickAsync(viewNameLocator);
-            await WaitUntilAppIsIdle();
+            await WaitUntilAppIsIdleAsync();
         }
 
-        public async Task<string?> GetCurrentlySelectedView()
+        public async Task<string?> GetCurrentlySelectedViewAsync()
         {
             var viewOpenerLocator = Locator(GridLocators.CurrentlySelectedViewName);
             return await TextContentAsync(viewOpenerLocator);
         }
 
-        public async Task<string?> GetDefaultViewName()
+        public async Task<string?> GetDefaultViewNameAsync()
         {
-            await ClickViewOpener();
+            await ClickViewOpenerAsync();
             var defaultViewNameLocator = Locator(GridLocators.DefaultViewName);
             return await TextContentAsync(defaultViewNameLocator);
         }
 
-        public async Task<List<string?>> GetAllViewNames()
+        public async Task<List<string?>> GetAllViewNamesAsync()
         {
-            await ClickViewOpener();
+            await ClickViewOpenerAsync();
             var allViewNamesLocator = Locator(GridLocators.AllViewNames);
-            return await GetAllElementsTextAfterWaiting(allViewNamesLocator);
+            return await GetAllElementsTextAfterWaitingAsync(allViewNamesLocator);
         }
 
-        public async Task<int> GetNumberOfViews()
+        public async Task<int> GetNumberOfViewsAsync()
         {
-            List<string?> allViews = await GetAllViewNames();
+            List<string?> allViews = await GetAllViewNamesAsync();
             return allViews.Count;
         }
-        public async Task SetDefaultView(string viewName)
+        public async Task SetDefaultViewAsync(string viewName)
         {
-            await SwitchView(viewName);
-            await ClickViewOpener();
-            await ClickSetDefaultView();
+            await SwitchViewAsync(viewName);
+            await ClickViewOpenerAsync();
+            await ClickSetDefaultViewAsync();
         }
 
-        public async Task SaveChangesAsNewView(string viewName)
+        public async Task SaveChangesAsNewViewAsync(string viewName)
         {
-            await ClickViewOpener();
-            await ClickSaveAsNewView();
-            await SetValueByLabelName("Name", viewName, FormContextType.Dialog);
-            await ClickButton("Save");
+            await ClickViewOpenerAsync();
+            await ClickSaveAsNewViewAsync();
+            await SetValueByLabelNameAsync("Name", viewName, FormContextType.Dialog);
+            await ClickButtonAsync("Save");
         }
 
         public async Task SaveChangesAsNewView(string viewName, string viewDescription)
         {
-            await ClickViewOpener();
-            await ClickSaveAsNewView();
-            await SetValueByLabelName("Name", viewName, FormContextType.Dialog);
-            await SetValueByLabelName("Description", viewDescription, FormContextType.Dialog);
-            await ClickButton("Save");
+            await ClickViewOpenerAsync();
+            await ClickSaveAsNewViewAsync();
+            await SetValueByLabelNameAsync("Name", viewName, FormContextType.Dialog);
+            await SetValueByLabelNameAsync("Description", viewDescription, FormContextType.Dialog);
+            await ClickButtonAsync("Save");
         }
 
-        public async Task SaveChangesToCurrentView()
+        public async Task SaveChangesToCurrentViewAsync()
         {
-            await ClickViewOpener();
-            await ClickSaveAsNewView();
+            await ClickViewOpenerAsync();
+            await ClickSaveAsNewViewAsync();
         }
 
-        public async Task ResetDefaultView()
+        public async Task ResetDefaultViewAsync()
         {
-            await ClickViewOpener();
-            await ClickResetDefaultView();
+            await ClickViewOpenerAsync();
+            await ClickResetDefaultViewAsync();
         }
 
-        public async Task SearchView(string inputToSearch)
+        public async Task SearchViewAsync(string inputToSearch)
         {
             var searchViewLocator = Locator(GridLocators.SearchView);
             await FillAsync(searchViewLocator, inputToSearch);
         }
 
-        public async Task<bool> IsSetDefaultViewDisplayed()
+        public async Task<bool> IsSetDefaultViewDisplayedAsync()
         {
             var setDefaultViewLocator = Locator(GridLocators.SetDefaultView);
             return await IsVisibleAsyncWithWaiting(setDefaultViewLocator, 0);
         }
 
-        public async Task<bool> IsResetDefaultViewDisplayed()
+        public async Task<bool> IsResetDefaultViewDisplayedAsync()
         {
             var resetDefaultViewLocator = Locator(GridLocators.ResetDefaultView);
             return await IsVisibleAsyncWithWaiting(resetDefaultViewLocator, 0);
         }
 
-        public async Task<bool> IsManageAndShareViewsDisplayed()
+        public async Task<bool> IsManageAndShareViewsDisplayedAsync()
         {
             var manageAndShareViewsLocator = Locator(GridLocators.ManageAndShareViews);
             return await IsVisibleAsyncWithWaiting(manageAndShareViewsLocator, 0);
         }
 
-        public async Task SearchByKeyword(string inputToFilter)
+        public async Task SearchByKeywordAsync(string inputToFilter)
         {
             var filterByKeywordLocator = Locator(GridLocators.FilterByKeyword);
             await FillAsync(filterByKeywordLocator, inputToFilter);
             await KeyboardPressAsync("Enter");
         }
 
-        public async Task ClearSearch()
+        public async Task ClearSearchAsync()
         {
             var clearFilterLocator = Locator(GridLocators.ClearFilter);
             await ClickAsync(clearFilterLocator);
         }
 
-        public async Task FilterBy(string column, string filterType, string inputToFilter)
+        public async Task FilterByAsync(string column, string filterType, string inputToFilter)
         {
-            await SortColumn(column, "Filter by");
-            await SelectDropdownOption(GridLocators.FilterByChevronDown, GridLocators.FilterByOptions, filterType);
-            await FillFilterByValue(inputToFilter);
-            await ApplyFilter();
+            await SortColumnAsync(column, "Filter by");
+            await SelectDropdownOptionAsync(GridLocators.FilterByChevronDown, GridLocators.FilterByOptions, filterType);
+            await FillFilterByValueAsync(inputToFilter);
+            await ApplyFilterAsync();
         }
 
-        public async Task SelectFilterOperator(string filterType)
+        public async Task SelectFilterOperatorAsync(string filterType)
         {
-            await SelectDropdownOption(GridLocators.FilterByChevronDown, GridLocators.FilterByOptions, filterType);
+            await SelectDropdownOptionAsync(GridLocators.FilterByChevronDown, GridLocators.FilterByOptions, filterType);
         }
 
-        public async Task ClearColumnFilter(string column)
+        public async Task ClearColumnFilterAsync(string column)
         {
-            await SortColumn(column, "Clear filter");
+            await SortColumnAsync(column, "Clear filter");
         }
 
-        public async Task<int> GetDisplayedRowsCount()
+        public async Task<int> GetDisplayedRowsCountAsync()
         {
             string displayedRowsCount = await TextContentAsync(Locator(GridLocators.DisplayedRowsCount));
             displayedRowsCount = displayedRowsCount.Split(':')[1].Trim();
             return Convert.ToInt32(displayedRowsCount);
         }
 
-        public async Task<int> GetSelectedRowsCount()
+        public async Task<int> GetSelectedRowsCountAsync()
         {
             string selectedRowsCount = await TextContentAsync(Locator(GridLocators.SelectedRowsCount));
             selectedRowsCount = selectedRowsCount.Split(':')[1].Trim();
             return Convert.ToInt32(selectedRowsCount);
         }
 
-        public async Task<bool> IsColumnFiltered(string column)
+        public async Task<bool> IsColumnFilteredAsync(string column)
         {
             var locator = Locator(GridLocators.HeaderFiltered.Replace("[Name]", column));
             return await IsVisibleAsyncWithWaiting(locator, 0);
         }
 
-        public async Task<bool> IsColumnSortedAscendingOrder(string column)
+        public async Task<bool> IsColumnSortedAscendingOrderAsync(string column)
         {
             var locator = Locator(GridLocators.HeaderSortUp.Replace("[Name]", column));
             return await IsVisibleAsyncWithWaiting(locator, 0);
         }
 
-        public async Task<bool> IsColumnSortedDescendingOrder(string column)
+        public async Task<bool> IsColumnSortedDescendingOrderAsync(string column)
         {
             var locator = Locator(GridLocators.HeaderSortDown.Replace("[Name]", column));
             return await IsVisibleAsyncWithWaiting(locator, 0);
         }
 
-        public async Task FillFilterByValue(string input)
+        public async Task FillFilterByValueAsync(string input)
         {
             await FillAsync(Locator(GridLocators.FilterByValue), input);
         }
 
-        public async Task ApplyFilter()
+        public async Task ApplyFilterAsync()
         {
             var applyFilterLocator = Locator(GridLocators.ApplyFilter);
             await ClickAsync(applyFilterLocator);
         }
 
-        public async Task ClearFilterValue()
+        public async Task ClearFilterValueAsync()
         {
             await ClickAsync(Locator(GridLocators.ClearFilterValue));
         }
 
-        public async Task SelectAllRecords()
+        public async Task SelectAllRecordsAsync()
         {
             var selectAllRowsLocator = Locator(GridLocators.SelectAllRows);
             await ClickAsync(selectAllRowsLocator);
         }
 
-        public async Task SelectRecord(int index)
+        public async Task SelectRecordAsync(int index)
         {
             var rowSelectorLocator = Locator(GridLocators.RowSelector).Nth(index);
             await ClickAsync(rowSelectorLocator);
         }
 
-        public async Task OpenRecord(string recordName)
+        public async Task OpenRecordAsync(string recordName)
         {
             var rowLinkLocator = LocatorWithXpath(GridLocators.RowLink.Replace("[Name]", recordName));
             await ClickAsync(rowLinkLocator);
         }
 
-        public async Task OpenRecord(int index)
+        public async Task OpenRecordAsync(int index)
         {
             var cellLocatorToOpenRecord = LocatorWithXpath(GridLocators.FirstCell.Replace("[Index]", index.ToString()));
             await DoubleClickAsync(cellLocatorToOpenRecord);
         }
 
-        public async Task OpenRecord(int index, string recordName)
+        public async Task OpenRecordAsync(int index, string recordName)
         {
             var rowLocator = LocatorWithXpath(GridLocators.Row.Replace("[Index]", index.ToString()));
             var rowLinkLocator = LocatorWithXpath(rowLocator, GridLocators.RowLink.Replace("[Name]", recordName));
             await ClickAsync(rowLinkLocator);
         }
 
-        public async Task<List<string>> GetAllDisplayedColumnNames()
+        public async Task<List<string>> GetAllDisplayedColumnNamesAsync()
         {
             var allHeaderCellsLocator = Locator(GridLocators.AllHeaderCells);
-            List<string> allHeaderValues = await GetAllElementsTextAfterWaiting(allHeaderCellsLocator);
+            List<string> allHeaderValues = await GetAllElementsTextAfterWaitingAsync(allHeaderCellsLocator);
             List<string> allHeaderValuesAfterTrimming = new List<string>();
             foreach (var column in allHeaderValues)
             {
@@ -269,51 +269,51 @@ namespace AutomateCe.Modules
             return allHeaderValuesAfterTrimming;
         }
 
-        public async Task<int> GetNumberOfDisplayedColumns()
+        public async Task<int> GetNumberOfDisplayedColumnsAsync()
         {
             var allHeaderCellsLocator = Locator(GridLocators.AllHeaderCells);
-            List<string> allHeaderCells = await GetAllElementsTextAfterWaiting(allHeaderCellsLocator);
+            List<string> allHeaderCells = await GetAllElementsTextAfterWaitingAsync(allHeaderCellsLocator);
             return allHeaderCells.Count;
         }
 
-        public async Task ClickColumnHeader(string columnName)
+        public async Task ClickColumnHeaderAsync(string columnName)
         {
             var headerColumnLocator = Locator(GridLocators.HeaderChevronDownIcon.Replace("[Name]", columnName));
             await ClickAsync(headerColumnLocator);
         }
 
-        public async Task SortColumn(string columnName, string filterOption)
+        public async Task SortColumnAsync(string columnName, string filterOption)
         {
-            await ClickColumnHeader(columnName);
+            await ClickColumnHeaderAsync(columnName);
             var headerContextMenuOptions = Locator(GridLocators.HeaderContextOptions.Replace("[Name]", filterOption));
             await ClickAsync(headerContextMenuOptions);
         }
 
-        public async Task WaitUntilGridIsShown()
+        public async Task WaitUntilGridIsShownAsync()
         {
             await WaitForSelectorAsync(GridLocators.Grid, new PageWaitForSelectorOptions { State = WaitForSelectorState.Attached });
         }
 
-        public async Task MoveColumn(string columnName, string moveDirection)
+        public async Task MoveColumnAsync(string columnName, string moveDirection)
         {
-            await SortColumn(columnName, moveDirection);
+            await SortColumnAsync(columnName, moveDirection);
         }
 
-        public async Task<string?> GetColumnWidth()
+        public async Task<string?> GetColumnWidthAsync()
         {
             var columnWidthInputLocator = Locator(GridLocators.ColumnWidthInput);
             return await InputValueAsync(columnWidthInputLocator);
         }
 
-        private async Task SetPreferredColumnWidth(int inputColumnWidth)
+        private async Task SetPreferredColumnWidthAsync(int inputColumnWidth)
         {
-            string? currentColumnWidth = await GetColumnWidth();
+            string? currentColumnWidth = await GetColumnWidthAsync();
             bool isInputLess = inputColumnWidth < Convert.ToInt32(currentColumnWidth);
             if (isInputLess)
             {
                 for (int i = 0; ; i++)
                 {
-                    currentColumnWidth = await GetColumnWidth();
+                    currentColumnWidth = await GetColumnWidthAsync();
                     if (Convert.ToInt32(currentColumnWidth) <= inputColumnWidth)
                     {
                         return;
@@ -325,7 +325,7 @@ namespace AutomateCe.Modules
             {
                 for (int i = 0; ; i++)
                 {
-                    currentColumnWidth = await GetColumnWidth();
+                    currentColumnWidth = await GetColumnWidthAsync();
                     if (Convert.ToInt32(currentColumnWidth) >= inputColumnWidth)
                     {
                         return;
@@ -335,22 +335,22 @@ namespace AutomateCe.Modules
             }
         }
 
-        public async Task CloseFilterByDialog()
+        public async Task CloseFilterByDialogAsync()
         {
             await ClickAsync(Locator(GridLocators.CloseFilterByDialog));
         }
 
-        public async Task SetColumnWidth(string columnName, int columnWidth)
+        public async Task SetColumnWidthAsync(string columnName, int columnWidth)
         {
-            await SortColumn(columnName, "Column width");
-            await SetPreferredColumnWidth(columnWidth);
-            await CloseFilterByDialog();
+            await SortColumnAsync(columnName, "Column width");
+            await SetPreferredColumnWidthAsync(columnWidth);
+            await CloseFilterByDialogAsync();
         }
 
-        public async Task<List<string>> GetRowValuesAsList(int rowIndex)
+        public async Task<List<string>> GetRowValuesAsListAsync(int rowIndex)
         {
             var rowLocator = LocatorWithXpath(GridLocators.Row.Replace("[Index]", rowIndex.ToString()));
-            List<string> cellsValues = await GetAllElementsTextAfterWaiting(LocatorWithXpath(rowLocator, GridLocators.RowCells));
+            List<string> cellsValues = await GetAllElementsTextAfterWaitingAsync(LocatorWithXpath(rowLocator, GridLocators.RowCells));
             List<string> cellValuesAfterTrimming = new List<string>();
             foreach (string cell in cellsValues)
             {
@@ -359,29 +359,29 @@ namespace AutomateCe.Modules
             return cellValuesAfterTrimming;
         }
 
-        public async Task<List<List<string>>> GetRowValuesAsList(int startIndex, int endIndex)
+        public async Task<List<List<string>>> GetRowValuesAsListAsync(int startIndex, int endIndex)
         {
             List<List<string> > rowValues = new List<List<string>> ();
             for (int i = startIndex; i <= endIndex; i++)
             {
-                rowValues.Add(await GetRowValuesAsList(i));
+                rowValues.Add(await GetRowValuesAsListAsync(i));
             }
             return rowValues;
         }
 
-        public async Task<Dictionary<string, string>> GetRowValuesAsDict(int rowIndex)
+        public async Task<Dictionary<string, string>> GetRowValuesAsDictAsync(int rowIndex)
         {
-            List<string> rowValues = await GetRowValuesAsList(rowIndex);
-            List<string> headerValues = await GetAllDisplayedColumnNames();
+            List<string> rowValues = await GetRowValuesAsListAsync(rowIndex);
+            List<string> headerValues = await GetAllDisplayedColumnNamesAsync();
             return headerValues.Zip(rowValues).ToDictionary(x => x.First, x => x.Second);
         }
 
-        public async Task<List<Dictionary<string, string>>> GetRowValuesAsDict(int startIndex, int endIndex)
+        public async Task<List<Dictionary<string, string>>> GetRowValuesAsDictAsync(int startIndex, int endIndex)
         {
             List<Dictionary<string, string>> allRowValuesWithHeaders = new List<Dictionary<string, string>>();
 
-            List <List<string>> allRowValues = await GetRowValuesAsList(startIndex, endIndex);
-            List<string> headerValues = await GetAllDisplayedColumnNames();
+            List <List<string>> allRowValues = await GetRowValuesAsListAsync(startIndex, endIndex);
+            List<string> headerValues = await GetAllDisplayedColumnNamesAsync();
             foreach (List<string> eachRowValues in allRowValues)
             {
                 allRowValuesWithHeaders.Add(headerValues.Zip(eachRowValues).ToDictionary(x => x.First, x => x.Second));

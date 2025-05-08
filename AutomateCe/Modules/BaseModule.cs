@@ -149,16 +149,15 @@ namespace AutomateCe.Pages
 
         protected async Task ClickAsync(ILocator locatorToClick, LocatorClickOptions? options1 = default, LocatorEvaluateOptions? options2 = default)
         {
-
             // await HightlightElementAsync(locatorToClick, options2);
             await locatorToClick.ClickAsync(options1);
-            await WaitUntilAppIsIdle();
+            await WaitUntilAppIsIdleAsync();
         }
 
         protected async Task ClickAndWaitUntilLoadedAsync(ILocator locatorToClick, LocatorClickOptions? options1 = default, LocatorEvaluateOptions? options2 = default)
         {
             await locatorToClick.ClickAsync(options1);
-            await WaitUntilAppReadyStateIsComplete();
+            await WaitUntilAppReadyStateIsCompleteAsync();
         }
 
         protected async Task ClickAsync(ILocator locatorToClick, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorClickOptions? options = default)
@@ -166,11 +165,11 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locatorToClick, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locatorToClick, 0, 100, maxNumberOfScrolls);
             }
             await HightlightElementAsync(locatorToClick);
             await locatorToClick.ClickAsync(options);
-            await WaitUntilAppIsIdle();
+            await WaitUntilAppIsIdleAsync();
         }
 
         // Need to add scrollables overloads
@@ -178,7 +177,7 @@ namespace AutomateCe.Pages
         {
             await HightlightElementAsync(locator);
             await locator.DblClickAsync(options);
-            await WaitUntilAppIsIdle();
+            await WaitUntilAppIsIdleAsync();
         }
 
         protected async Task DoubleClickAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorDblClickOptions? options = default)
@@ -186,18 +185,18 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await HightlightElementAsync(locator);
             await locator.DblClickAsync(options);
-            await WaitUntilAppIsIdle();
+            await WaitUntilAppIsIdleAsync();
         }
 
         protected async Task CheckAsync(ILocator locator, LocatorCheckOptions? options = default)
         {
             await HightlightElementAsync(locator);
             await locator.CheckAsync(options);
-            await WaitUntilAppIsIdle();
+            await WaitUntilAppIsIdleAsync();
         }
 
         protected async Task CheckAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorCheckOptions? options = default)
@@ -205,11 +204,11 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await HightlightElementAsync(locator);
             await locator.CheckAsync(options);
-            await WaitUntilAppIsIdle();
+            await WaitUntilAppIsIdleAsync();
         }
 
         protected async Task<int> CountAsync(ILocator locator)
@@ -228,7 +227,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await HightlightElementAsync(locator);
             await locator.HoverAsync(options);
@@ -246,7 +245,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await HightlightElementAsync(locator);
             await locator.HoverAsync(options1);
@@ -258,7 +257,7 @@ namespace AutomateCe.Pages
             await locator.FillAsync(value, options);
         }
 
-        protected async Task UploadFile(ILocator locator, string filePath)
+        protected async Task UploadFileAsync(ILocator locator, string filePath)
         {
             await locator.SetInputFilesAsync(filePath);
         }
@@ -268,7 +267,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await locator.FillAsync(value, options);
         }
@@ -297,7 +296,7 @@ namespace AutomateCe.Pages
         {
             await HightlightElementAsync(locator);
             await locator.UncheckAsync(options);
-            await WaitUntilAppIsIdle();
+            await WaitUntilAppIsIdleAsync();
         }
 
         protected async Task UncheckAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorUncheckOptions? options = default)
@@ -305,11 +304,11 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await HightlightElementAsync(locator);
             await locator.UncheckAsync(options);
-            await WaitUntilAppIsIdle();
+            await WaitUntilAppIsIdleAsync();
         }
 
         protected async Task TypeAsync(ILocator locator, string text, LocatorTypeOptions? options = default)
@@ -322,7 +321,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await locator.TypeAsync(text, options);
         }
@@ -337,7 +336,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             return await locator.IsCheckedAsync(options);
         }
@@ -352,7 +351,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             return await locator.IsDisabledAsync(options);
         }
@@ -367,7 +366,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             return await locator.IsEditableAsync(options);
         }
@@ -392,7 +391,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             return await locator.IsEnabledAsync(options);
         }
@@ -407,7 +406,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             return await locator.IsHiddenAsync(options);
         }
@@ -422,7 +421,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             return await locator.IsVisibleAsync(options);
         }
@@ -437,9 +436,9 @@ namespace AutomateCe.Pages
             await locator.SelectOptionAsync(values, options);
         }
 
-        protected async Task<List<string>> GetAllAvailableSelectOptions(ILocator locator, LocatorSelectOptionOptions? options = default)
+        protected async Task<List<string>> GetAllAvailableSelectOptionsAsync(ILocator locator, LocatorSelectOptionOptions? options = default)
         {
-            List<ILocator> allOptions = await GetAllElementsAfterWaiting(LocatorWithXpath(locator, "//option[not(@style) and text()]"));
+            List<ILocator> allOptions = await GetAllElementsAfterWaitingAsync(LocatorWithXpath(locator, "//option[not(@style) and text()]"));
             List<string> allOptionsText = new List<string>();
             foreach (var option in allOptions)
             {   
@@ -454,7 +453,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await locator.SelectOptionAsync(values, options);
         }
@@ -479,7 +478,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             return await locator.ScreenshotAsync(options);
         }
@@ -499,7 +498,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             return await locator.InputValueAsync(options);
         }
@@ -519,7 +518,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await locator.HighlightAsync();
         }
@@ -551,13 +550,13 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             return await locator.TextContentAsync(options);
         }
 
         // This will not wait until first element is visible
-        protected async Task<List<string>> GetAllElementsText(ILocator locator)
+        protected async Task<List<string>> GetAllElementsTextAsync(ILocator locator)
         {
             var allElementsText = new List<string?>();
             var allElementsCount = await CountAsync(locator);
@@ -569,7 +568,7 @@ namespace AutomateCe.Pages
         }
 
         // This will wait until first element is visible
-        protected async Task<List<string>> GetAllElementsTextAfterWaiting(ILocator locator, int waitTime = 10000)
+        protected async Task<List<string>> GetAllElementsTextAfterWaitingAsync(ILocator locator, int waitTime = 10000)
         {
             var allElementsText = new List<string?>();
             await ToBeVisibleAsync(locator, 0, waitTime);
@@ -584,7 +583,7 @@ namespace AutomateCe.Pages
         }
 
         // This will wait until first element is visible
-        protected async Task<List<string>> GetAllElementsInnerTextAfterWaiting(ILocator locator, int waitTime = 10000)
+        protected async Task<List<string>> GetAllElementsInnerTextAfterWaitingAsync(ILocator locator, int waitTime = 10000)
         {
             var allElementsText = new List<string?>();
             await ToBeVisibleAsync(locator, 0, waitTime);
@@ -598,7 +597,7 @@ namespace AutomateCe.Pages
             return allElementsText;
         }
 
-        protected async Task<List<ILocator>> GetAllElementsAfterWaiting(ILocator locator, int waitTime = 10000)
+        protected async Task<List<ILocator>> GetAllElementsAfterWaitingAsync(ILocator locator, int waitTime = 10000)
         {
             var allElementsLocator = new List<ILocator?>();
             await ToBeVisibleAsync(locator, 0, waitTime);
@@ -610,19 +609,19 @@ namespace AutomateCe.Pages
             return allElementsLocator;
         }
 
-        protected async Task<string> GetOuterTagText(ILocator locator, int waitTime = 10000)
+        protected async Task<string> GetOuterTagTextAsync(ILocator locator, int waitTime = 10000)
         {
             string outerText = await locator.EvaluateAsync<string>("el => Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent).join('').trim()");
             return outerText;
         }
 
-        protected async Task<List<string>> GetAllElementsTextAfterWaiting(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, int waitTime = 10000)
+        protected async Task<List<string>> GetAllElementsTextAfterWaitingAsync(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, int waitTime = 10000)
         {
             var allElementsText = new List<string?>();
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await ToBeVisibleAsync(locator, 0, waitTime);
             var allElementsCount = await CountAsync(locator);
@@ -648,7 +647,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await Expect(locator.Nth(index)).ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
         }
@@ -663,7 +662,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await Expect(locator.Nth(index)).Not.ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
         }
@@ -718,7 +717,7 @@ namespace AutomateCe.Pages
                 if (dynamicallyLoaded)
                 {
                     await HoverAsync(Locator(anySelectorInScroller));
-                    await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                    await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
                 }
                 await Expect(locator.Nth(index)).ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = visibleTimeout });
                 return true;
@@ -731,19 +730,19 @@ namespace AutomateCe.Pages
             return false;
         }
 
-        protected async Task WaitUntilElementNotVisbleIfVisible(ILocator locator, int waitTimeToVisble, int waitTimeNotToVisble)
+        protected async Task WaitUntilElementNotVisbleIfVisibleAsync(ILocator locator, int waitTimeToVisble, int waitTimeNotToVisble)
         {
-            await WaitUntilElementNotVisbleIfVisible(locator, waitTimeToVisble, waitTimeNotToVisble, false);
+            await WaitUntilElementNotVisbleIfVisibleAsync(locator, waitTimeToVisble, waitTimeNotToVisble, false);
         }
 
-        protected async Task WaitUntilElementNotVisbleIfVisible(ILocator locator, int waitTimeToVisble, int waitTimeNotToVisble, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task WaitUntilElementNotVisbleIfVisibleAsync(ILocator locator, int waitTimeToVisble, int waitTimeNotToVisble, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             try
             {
                 if (dynamicallyLoaded)
                 {
                     await HoverAsync(Locator(anySelectorInScroller));
-                    await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                    await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
                 }
                 await ToBeVisibleAsync(locator, 0, waitTimeToVisble);
                 await ToBeNotVisibleAsync(locator, 0, waitTimeNotToVisble);
@@ -809,18 +808,18 @@ namespace AutomateCe.Pages
                 await _page.Keyboard.PressAsync(key, options);
         }
 
-        protected async Task SelectOption(string options, string optionToSelect)
+        protected async Task SelectOptionAsync(string options, string optionToSelect)
         {
-            await SelectOption(options, optionToSelect, false);
+            await SelectOptionAsync(options, optionToSelect, false);
         }
 
-        protected async Task SelectOption(string options, string optionToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectOptionAsync(string options, string optionToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             var optionsLocator = Locator(options);
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(optionsLocator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(optionsLocator, 0, 100, maxNumberOfScrolls);
             }
             await ToBeVisibleAsync(optionsLocator, 0);
             var allElementsCount = await CountAsync(Locator(options));
@@ -835,17 +834,17 @@ namespace AutomateCe.Pages
             }
         }
 
-        protected async Task SelectOption(ILocator optionsLocator, string optionToSelect)
+        protected async Task SelectOptionAsync(ILocator optionsLocator, string optionToSelect)
         {
-            await SelectOption(optionsLocator, optionToSelect, false);
+            await SelectOptionAsync(optionsLocator, optionToSelect, false, null, 0);
         }
 
-        protected async Task SelectOption(ILocator optionsLocator, string optionToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectOptionAsync(ILocator optionsLocator, string optionToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(optionsLocator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(optionsLocator, 0, 100, maxNumberOfScrolls);
             }
             await ToBeVisibleAsync(optionsLocator, 0);
             var allElementsCount = await CountAsync(optionsLocator);
@@ -860,17 +859,17 @@ namespace AutomateCe.Pages
             }
         }
 
-        protected async Task SelectOptions(ILocator optionsLocator, string[] optionsToSelect)
+        protected async Task SelectOptionsAsync(ILocator optionsLocator, string[] optionsToSelect)
         {
-            await SelectOptions(optionsLocator, optionsToSelect, false);
+            await SelectOptionsAsync(optionsLocator, optionsToSelect, false);
         }
 
-        protected async Task SelectOptions(ILocator optionsLocator, string[] optionsToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectOptionsAsync(ILocator optionsLocator, string[] optionsToSelect, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(optionsLocator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(optionsLocator, 0, 100, maxNumberOfScrolls);
             }
             await ToBeVisibleAsync(optionsLocator, 0);
             var allElementsCount = await CountAsync(optionsLocator);
@@ -889,17 +888,17 @@ namespace AutomateCe.Pages
             }
         }
 
-        protected async Task SelectOption(ILocator optionsLocator, int index)
+        protected async Task SelectOptionAsync(ILocator optionsLocator, int index)
         {
-            await SelectOption(optionsLocator, index, false);
+            await SelectOptionAsync(optionsLocator, index, false);
         }
 
-        protected async Task SelectOption(ILocator optionsLocator, int index, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectOptionAsync(ILocator optionsLocator, int index, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(optionsLocator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(optionsLocator, 0, 100, maxNumberOfScrolls);
             }
             await ToBeVisibleAsync(optionsLocator, 0);
             var allElementsCount = await CountAsync(optionsLocator);
@@ -913,67 +912,80 @@ namespace AutomateCe.Pages
             }
         }
 
-        protected async Task SelectDropdownOption(string dropdownOptionsOpener, string dropdownOptions, string option)
+        protected async Task SelectDropdownOptionAsync(string dropdownOptionsOpener, string dropdownOptions, string option)
         {
-            await SelectDropdownOption(dropdownOptionsOpener, dropdownOptions, option, false);
+            await SelectDropdownOptionAsync(dropdownOptionsOpener, dropdownOptions, option, false);
         }
 
-        protected async Task SelectDropdownOption(string dropdownOptionsOpener, string dropdownOptions, string option, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectDropdownOptionAsync(string dropdownOptionsOpener, string dropdownOptions, string option, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
-            await SelectDropdownOption(LocatorWithXpath(dropdownOptionsOpener), LocatorWithXpath(dropdownOptions), option, dynamicallyLoaded);
+            await SelectDropdownOptionAsync(LocatorWithXpath(dropdownOptionsOpener), LocatorWithXpath(dropdownOptions), option, dynamicallyLoaded);
         }
 
-        protected async Task SelectDropdownOption(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string option)
+        protected async Task SelectDropdownOptionAsync(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string option)
         {
-            await SelectDropdownOption(dropdownOptionsOpener, dropdownOptions, option, false);
+            await SelectDropdownOptionAsync(dropdownOptionsOpener, dropdownOptions, option, false);
         }
 
-        protected async Task SelectDropdownOption(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string option, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectDropdownOptionAsync(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string option, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(dropdownOptionsOpener, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(dropdownOptionsOpener, 0, 100, maxNumberOfScrolls);
             }
             await ClickAsync(dropdownOptionsOpener);
             var dropdownOptionsLocator = dropdownOptions;
             await ToBeVisibleAsync(dropdownOptionsLocator, 0);
-            await SelectOption(dropdownOptions, option);
+            await SelectOptionAsync(dropdownOptions, option);
         }
 
-        protected async Task SelectMultiSelectOptions(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string[] options, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task SelectMultiSelectOptionsAsync(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string[] options, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(dropdownOptionsOpener, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(dropdownOptionsOpener, 0, 100, maxNumberOfScrolls);
             }
             await ClickAsync(dropdownOptionsOpener);
             await ToBeVisibleAsync(dropdownOptions, 0);
-            await SelectOptions(dropdownOptions, options);
+            await SelectOptionsAsync(dropdownOptions, options);
         }
 
-        protected async Task SelectMultiSelectOptions(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string[] options)
+        protected async Task SelectMultiSelectOptionsAsync(ILocator dropdownOptionsOpener, ILocator dropdownOptions, string[] options)
         {
-            await SelectMultiSelectOptions(dropdownOptionsOpener, dropdownOptions, options, false);
+            await SelectMultiSelectOptionsAsync(dropdownOptionsOpener, dropdownOptions, options, false);
         }
 
-        protected async Task<List<string>> GetAllAvailableChoices(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        protected async Task<List<string>> GetAllAvailableChoicesAsync(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             if (dynamicallyLoaded)
             {
-                await HoverAsync(await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBylabel.Replace("[Name]", anyFieldNameInScroller)));
-                await ScrollUsingMouseUntilElementIsVisible(dropdownOptionsOpener, 0, 100, maxNumberOfScrolls);
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerByLabel.Replace("[Name]", anyFieldNameInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(dropdownOptionsOpener, 0, 100, maxNumberOfScrolls);
             }
             await ClickAsync(dropdownOptionsOpener);
-            List<string> availableChoices = await GetAllElementsTextAfterWaiting(dropdownOptions);
+            List<string> availableChoices = await GetAllElementsTextAfterWaitingAsync(dropdownOptions);
             await KeyboardPressAsync("Tab");
             return availableChoices;
         }
 
-        protected async Task<List<string>> GetAllAvailableChoices(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded)
+        protected async Task<List<string>> GetAllAvailableChoicesAsync(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded)
         {
-            return await GetAllAvailableChoices(dropdownOptionsOpener, dropdownOptions, false);
+            return await GetAllAvailableChoicesAsync(dropdownOptionsOpener, dropdownOptions, false, null, 0);
+        }
+
+        protected async Task<List<string>> GetAllAvailableChoicesBySchemaNameAsync(ILocator dropdownOptionsOpener, ILocator dropdownOptions, bool dynamicallyLoaded, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(dropdownOptionsOpener, 0, 100, maxNumberOfScrolls);
+            }
+            await ClickAsync(dropdownOptionsOpener);
+            List<string> availableChoices = await GetAllElementsTextAfterWaitingAsync(dropdownOptions);
+            await KeyboardPressAsync("Tab");
+            return availableChoices;
         }
 
         protected async Task ClearAsnyc(ILocator locator, bool dynamicallyLoaded, string? anySelectorInScroller = null, int maxNumberOfScrolls = 0, LocatorClearOptions? options = default)
@@ -981,7 +993,7 @@ namespace AutomateCe.Pages
             if (dynamicallyLoaded)
             {
                 await HoverAsync(Locator(anySelectorInScroller));
-                await ScrollUsingMouseUntilElementIsVisible(locator, 0, 100, maxNumberOfScrolls);
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
             }
             await locator.ClearAsync(options);
         }
@@ -1006,12 +1018,12 @@ namespace AutomateCe.Pages
             await _page.WaitForLoadStateAsync(state, options);
         }
 
-        protected async Task WaitUntilDomContentLoaded()
+        protected async Task WaitUntilDomContentLoadedAsync()
         {
             await _page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
         }
 
-        protected async Task WaitUntilLoaded()
+        protected async Task WaitUntilLoadedAsync()
         {
             await _page.WaitForLoadStateAsync(LoadState.Load);
         }
@@ -1051,7 +1063,7 @@ namespace AutomateCe.Pages
             await _page.Mouse.WheelAsync(deltaX, deltaY);
         }
 
-        protected async Task ScrollUsingMouseUntilElementIsVisible(ILocator locator, float deltaX, float deltaY, int maxScrollTimes)
+        protected async Task ScrollUsingMouseUntilElementIsVisibleAsync(ILocator locator, float deltaX, float deltaY, int maxScrollTimes)
         {
             int i = 0;
             while (!await IsVisibleAsync(locator))
@@ -1064,7 +1076,7 @@ namespace AutomateCe.Pages
             }
         }
 
-        protected async Task ScrollUsingMouseUntilElementIsVisible(string selector, float deltaX, float deltaY, int maxScrollTimes)
+        protected async Task ScrollUsingMouseUntilElementIsVisibleAsync(string selector, float deltaX, float deltaY, int maxScrollTimes)
         {
             int i = 0;
             while (!await IsVisibleAsync(Locator(selector)))
@@ -1077,7 +1089,7 @@ namespace AutomateCe.Pages
             }
         }
 
-        protected async Task<ILocator> GetLocatorWhenInFramesNotInFrames(string frameSelector, string elementSelector)
+        protected async Task<ILocator> GetLocatorWhenInFramesNotInFramesAsync(string frameSelector, string elementSelector)
         {
             bool isFrameNotShown = await IsNotVisibleAsyncWithWaiting(Locator(frameSelector), 0);
             if (isFrameNotShown)
@@ -1087,7 +1099,7 @@ namespace AutomateCe.Pages
             return SwitchToFrameAndLocateWithXpath(frameSelector, elementSelector);
         }
 
-        protected async Task<ILocator> GetLocatorWhenInFramesNotInFrames(string frameSelector, string elementSelector, int timeToCheckIfFrameExists)
+        protected async Task<ILocator> GetLocatorWhenInFramesNotInFramesAsync(string frameSelector, string elementSelector, int timeToCheckIfFrameExists)
         {
             bool isFrameNotShown = await IsNotVisibleAsyncWithWaiting(Locator(frameSelector), 0, timeToCheckIfFrameExists);
             if (isFrameNotShown)
@@ -1097,7 +1109,7 @@ namespace AutomateCe.Pages
             return SwitchToFrameAndLocateWithXpath(frameSelector, elementSelector);
         }
 
-        protected async Task WaitUntilAppIsIdle()
+        protected async Task WaitUntilAppIsIdleAsync()
         {
             try
             {
@@ -1107,7 +1119,7 @@ namespace AutomateCe.Pages
                 {
                     // Let's log something
                     await Task.Delay(500);
-                    await WaitUntilAppIsIdle();
+                    await WaitUntilAppIsIdleAsync();
                 }
             }
             catch (Exception e)
@@ -1116,9 +1128,7 @@ namespace AutomateCe.Pages
             }
         }
 
-
-
-        protected async Task WaitUntilAppReadyStateIsComplete()
+        protected async Task WaitUntilAppReadyStateIsCompleteAsync()
         {
             string readyState = await _page.EvaluateAsync<string>("document.readyState");
             try
@@ -1131,7 +1141,7 @@ namespace AutomateCe.Pages
                     return;
                 }
                 await Task.Delay(500);
-                await WaitUntilAppReadyStateIsComplete();
+                await WaitUntilAppReadyStateIsCompleteAsync();
             }
             catch (Exception e)
             {
@@ -1144,7 +1154,7 @@ namespace AutomateCe.Pages
             await _page.GotoAsync(url, options);
         }
 
-        protected async Task WaitForNoActiveRequests()
+        protected async Task WaitForNoActiveRequestsAsync()
         {
             try
             {
@@ -1158,7 +1168,7 @@ namespace AutomateCe.Pages
                     return;
                 }
                 await Task.Delay(500);
-                await WaitForNoActiveRequests();
+                await WaitForNoActiveRequestsAsync();
             }
             catch (Exception e)
             {
@@ -1177,7 +1187,7 @@ namespace AutomateCe.Pages
             return result;
         }
 
-        protected async Task EnableTestMode()
+        protected async Task EnableTestModeAsync()
         {
             String previousUrl = _page.Url;
 

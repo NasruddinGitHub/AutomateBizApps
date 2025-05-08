@@ -20,10 +20,10 @@ namespace AutomateCe.Modules
             this._page = page;
         }
 
-        public async Task UploadFile(string field, string path)
+        public async Task UploadFileUsingAriaLabelAsync(string field, string path)
         {
-            var chooseFileLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, FileUploadLocators.ChooseFile.Replace("[Name]", field));
-            await UploadFile(chooseFileLocator, path);
+            var chooseFileLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, FileUploadLocators.ChooseFile.Replace("[Name]", field));
+            await UploadFileAsync(chooseFileLocator, path);
         }
     }
 }

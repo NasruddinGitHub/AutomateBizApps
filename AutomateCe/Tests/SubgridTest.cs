@@ -31,34 +31,34 @@ namespace AutomateCe.Tests
             ReportUtil.AssignCategory("Smoke");
 
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            await ceApp.ApplicationLandingPageModule.OpenApp("Sales Hub");
+            await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
             ReportUtil.Info("Selected Sales hub application");
-            await ceApp.SiteMapPanel.OpenSubArea("Customers", "Contacts");
-            await ceApp.Complementary.OpenOrCloseTab("Copilot");
-            await ceApp.Grid.OpenRecord("Jimasa Glynn (sample)");
-            Console.WriteLine(await ceApp.Subgrid.IsSubgridShown("opportunities"));
-            Console.WriteLine(await ceApp.Subgrid.IsSubgridShown("cases"));
-            Console.WriteLine(await ceApp.Subgrid.IsSubgridShown("entitlement"));
-            Console.WriteLine(await ceApp.Subgrid.IsSubgridShown("asdsd"));
-            Console.WriteLine(await ceApp.Subgrid.IsSearchboxShown("opportunities"));
-            Console.WriteLine(await ceApp.Subgrid.IsSearchboxShown("cases"));
-            Console.WriteLine(await ceApp.Subgrid.IsSearchboxShown("entitlement"));
-            Console.WriteLine(await ceApp.Subgrid.IsSearchboxShown("accounts"));
-            Console.WriteLine(await ceApp.Subgrid.IsViewSelectorShown("opportunities"));
-            Console.WriteLine(await ceApp.Subgrid.IsViewSelectorShown("cases"));
-            Console.WriteLine(await ceApp.Subgrid.IsViewSelectorShown("entitlement"));
-            Console.WriteLine(await ceApp.Subgrid.IsViewSelectorShown("accounts"));
-            Console.WriteLine(await ceApp.Subgrid.GetSelectedViewName("accounts"));
-            await ceApp.Subgrid.SelectView("accounts", "All Accounts");
+            await ceApp.SiteMapPanel.OpenSubAreaAsync("Customers", "Contacts");
+            await ceApp.Complementary.OpenOrCloseTabAsync("Copilot");
+            await ceApp.Grid.OpenRecordAsync("Jimasa Glynn (sample)");
+            Console.WriteLine(await ceApp.Subgrid.IsSubgridShownAsync("opportunities"));
+            Console.WriteLine(await ceApp.Subgrid.IsSubgridShownAsync("cases"));
+            Console.WriteLine(await ceApp.Subgrid.IsSubgridShownAsync("entitlement"));
+            Console.WriteLine(await ceApp.Subgrid.IsSubgridShownAsync("asdsd"));
+            Console.WriteLine(await ceApp.Subgrid.IsSearchboxShownAsync("opportunities"));
+            Console.WriteLine(await ceApp.Subgrid.IsSearchboxShownAsync("cases"));
+            Console.WriteLine(await ceApp.Subgrid.IsSearchboxShownAsync("entitlement"));
+            Console.WriteLine(await ceApp.Subgrid.IsSearchboxShownAsync("accounts"));
+            Console.WriteLine(await ceApp.Subgrid.IsViewSelectorShownAsync("opportunities"));
+            Console.WriteLine(await ceApp.Subgrid.IsViewSelectorShownAsync("cases"));
+            Console.WriteLine(await ceApp.Subgrid.IsViewSelectorShownAsync("entitlement"));
+            Console.WriteLine(await ceApp.Subgrid.IsViewSelectorShownAsync("accounts"));
+            Console.WriteLine(await ceApp.Subgrid.GetSelectedViewNameAsync("accounts"));
+            await ceApp.Subgrid.SelectViewAsync("accounts", "All Accounts");
 
-            List<string> allViews = await ceApp.Subgrid.GetAllViews("accounts");
+            List<string> allViews = await ceApp.Subgrid.GetAllViewsAsync("accounts");
             allViews.ForEach(x => Console.WriteLine(x));
-            await ceApp.Subgrid.Search("accounts", "Adventure");
-            Console.WriteLine(await ceApp.Subgrid.GetDisplayedRowsCount("cases"));
+            await ceApp.Subgrid.SearchAsync("accounts", "Adventure");
+            Console.WriteLine(await ceApp.Subgrid.GetDisplayedRowsCountAsync("cases"));
 
-            await ceApp.SubgridCommandBar.ClickCommand("accounts", "New Account");
+            await ceApp.SubgridCommandBar.ClickCommandAsync("accounts", "New Account");
 
         }
 
@@ -71,22 +71,22 @@ namespace AutomateCe.Tests
             ReportUtil.AssignCategory("Smoke");
 
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            await ceApp.ApplicationLandingPageModule.OpenApp("Sales Hub");
+            await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
             ReportUtil.Info("Selected Sales hub application");
-            await ceApp.SiteMapPanel.OpenSubArea("Customers", "Contacts");
-            await ceApp.Complementary.OpenOrCloseTab("Copilot");
-            await ceApp.Grid.OpenRecord("Jimasa Glynn (sample)");
+            await ceApp.SiteMapPanel.OpenSubAreaAsync("Customers", "Contacts");
+            await ceApp.Complementary.OpenOrCloseTabAsync("Copilot");
+            await ceApp.Grid.OpenRecordAsync("Jimasa Glynn (sample)");
 
-            await ceApp.Subgrid.IsColumnFiltered("cases", "Case Title");
-            await ceApp.Subgrid.IsColumnSortedAscendingOrder("cases", "Priority");
-            await ceApp.Subgrid.IsColumnSortedDescendingOrder("cases", "Origin");
-            await ceApp.Subgrid.SortColumn("cases", "Priority", "Z to A");
-            await ceApp.Subgrid.FilterBy("opportunities", "Status", "Contains", "Open");
-            await ceApp.Subgrid.ClearColumnFilter("opportunities", "Status");
-            await ceApp.Subgrid.SelectAllRecords("cases");
-            await ceApp.Subgrid.SelectRecord("opportunities", 0);
+            await ceApp.Subgrid.IsColumnFilteredAsync("cases", "Case Title");
+            await ceApp.Subgrid.IsColumnSortedAscendingOrderAsync("cases", "Priority");
+            await ceApp.Subgrid.IsColumnSortedDescendingOrderAsync("cases", "Origin");
+            await ceApp.Subgrid.SortColumnAsync("cases", "Priority", "Z to A");
+            await ceApp.Subgrid.FilterByAsync("opportunities", "Status", "Contains", "Open");
+            await ceApp.Subgrid.ClearColumnFilterAsync("opportunities", "Status");
+            await ceApp.Subgrid.SelectAllRecordsAsync("cases");
+            await ceApp.Subgrid.SelectRecordAsync("opportunities", 0);
         }
 
         [Property("browser", "chrome")]
@@ -98,20 +98,20 @@ namespace AutomateCe.Tests
             ReportUtil.AssignCategory("Smoke");
 
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
-            await ceApp.ApplicationLandingPageModule.OpenApp("Sales Hub");
+            await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
             ReportUtil.Info("Selected Sales hub application");
-            await ceApp.SiteMapPanel.OpenSubArea("Customers", "Contacts");
-            await ceApp.Complementary.OpenOrCloseTab("Copilot");
-            await ceApp.Grid.OpenRecord("Jimasa Glynn (sample)");
+            await ceApp.SiteMapPanel.OpenSubAreaAsync("Customers", "Contacts");
+            await ceApp.Complementary.OpenOrCloseTabAsync("Copilot");
+            await ceApp.Grid.OpenRecordAsync("Jimasa Glynn (sample)");
 
-            await ceApp.Subgrid.OpenRecord("opportunities", 0, "Will be ordering about 110 items of all types (sample)");
-            await ceApp.Subgrid.OpenRecord("cases", "Product question (sample)");
-            List<string> displayedColumns = await ceApp.Subgrid.GetAllDisplayedColumnNames("entitlement");
+            await ceApp.Subgrid.OpenRecordAsync("opportunities", 0, "Will be ordering about 110 items of all types (sample)");
+            await ceApp.Subgrid.OpenRecordAsync("cases", "Product question (sample)");
+            List<string> displayedColumns = await ceApp.Subgrid.GetAllDisplayedColumnNamesAsync("entitlement");
             displayedColumns.ForEach(x => Console.WriteLine(x));
-            Console.WriteLine(await ceApp.Subgrid.GetNumberOfDisplayedColumns("cases"));
-            await ceApp.Subgrid.MoveColumn("opportunities", "Account", "Move left");
+            Console.WriteLine(await ceApp.Subgrid.GetNumberOfDisplayedColumnsAsync("cases"));
+            await ceApp.Subgrid.MoveColumnAsync("opportunities", "Account", "Move left");
         }
 
     }

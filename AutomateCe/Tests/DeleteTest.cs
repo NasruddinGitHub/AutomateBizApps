@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AutomateCe.Tests
 {
-    public class EntityTest : BaseTest
+    public class DeleteTest : BaseTest
     {
         string? email = TestContext.Parameters[Property.Email];
         string? password = TestContext.Parameters[Property.Password];
@@ -33,17 +33,17 @@ namespace AutomateCe.Tests
             await ceApp.Complementary.OpenOrCloseTabAsync("Copilot");
             await ceApp.CommandBar.ClickCommandAsync("New");
 
-            await ceApp.Entity.SetValueByLabelNameAsync("First Name", "Nasruddin " + DateUtil.GetTimeStamp("yyyyMMddHHmmss"));
-            await ceApp.Entity.SetValueByLabelNameAsync("Last Name", "Shaik " + DateUtil.GetTimeStamp("yyyyMMddHHmmss"));
-            await ceApp.Entity.SetValueByLabelNameAsync("Job Title", "Consultant");
+            await ceApp.Entity.SetValueBySchemaNameAsync("fullname_compositionLinkControl_firstname", "Nasruddin " + DateUtil.GetTimeStamp("yyyyMMddHHmmss"));
+            await ceApp.Entity.SetValueBySchemaNameAsync("fullname_compositionLinkControl_lastname", "Shaik " + DateUtil.GetTimeStamp("yyyyMMddHHmmss"));
+            await ceApp.Entity.SetValueBySchemaNameAsync("jobtitle", "Consultant");
 
-            LookupItem lookupItem = new LookupItem { Name = "Account Name", Value = "Alpine Ski", Index = 0 };
-            await ceApp.Entity.SetValueByLabelNameAsync(lookupItem);
+            //LookupItem lookupItem = new LookupItem { Name = "Account Name", Value = "Alpine Ski", Index = 0 };
+            //await ceApp.Entity.SetValueByLabelName(lookupItem);
 
-            await ceApp.Entity.SetValueByLabelNameAsync("Email", "test@test.co.in");
-            await ceApp.Entity.SetValueByLabelNameAsync("Business Phone", ""+RandomUtils.GetRandomNumberString(10));
-            await ceApp.Entity.SetValueByLabelNameAsync("Fax", "" + RandomUtils.GetRandomNumberString(10));
-            await ceApp.Entity.SetValueByLabelNameAsync("Mobile Phone", "" + RandomUtils.GetRandomNumberString(10));
+            await ceApp.Entity.SetValueBySchemaNameAsync("emailaddress1", "test@test.co.in");
+            await ceApp.Entity.SetValueBySchemaNameAsync("telephone11", ""+RandomUtils.GetRandomNumberString(10));
+            await ceApp.Entity.SetValueBySchemaNameAsync("fax", "" + RandomUtils.GetRandomNumberString(10));
+            await ceApp.Entity.SetValueBySchemaNameAsync("mobilephone", "" + RandomUtils.GetRandomNumberString(10));
 
             OptionSet optionSet = new OptionSet { Name = "Primary Time Zone", Value = "(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi" };
             await ceApp.Entity.SetValueByLabelNameAsync(optionSet);

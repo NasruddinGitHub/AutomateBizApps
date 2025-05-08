@@ -19,7 +19,7 @@ namespace AutomateCe.Modules
             this._page = page;
         }
         
-        public async Task OpenApp(string applicationName)
+        public async Task OpenAppAsync(string applicationName)
         {
            string appLandingFrameLocator = ApplicationLandingPageLocators.ApplandingPageFrame;
            string applicationLocator = ApplicationLandingPageLocators.Application.Replace("[Name]", applicationName);
@@ -28,11 +28,11 @@ namespace AutomateCe.Modules
            bool isTestModeRequired =  bool.Parse(TestContextUtil.GetParameter("EnableTestMode"));
             if (isTestModeRequired)
             {
-                await EnableTestMode();
+                await EnableTestModeAsync();
             }
         }
 
-        public async Task Logout()
+        public async Task LogoutAsync()
         {
             var accountManagerElement = Locator(ApplicationLandingPageLocators.AccountManager);
             await ClickAsync(accountManagerElement);
@@ -40,7 +40,7 @@ namespace AutomateCe.Modules
             await ClickAsync(accountManagerSignOutElement);
         }
 
-        public async Task Search(string appToSearch)
+        public async Task SearchAsync(string appToSearch)
         {
             string appLandingFrameLocator = ApplicationLandingPageLocators.ApplandingPageFrame;
             string searchAppLocator = ApplicationLandingPageLocators.SearchApp;
@@ -48,7 +48,7 @@ namespace AutomateCe.Modules
             await FillAsync(searchAppLocatorInFrame, appToSearch);
         }
 
-        public async Task Refresh()
+        public async Task RefreshAsync()
         {
             string appLandingFrameLocator = ApplicationLandingPageLocators.ApplandingPageFrame;
             string refreshLocator = ApplicationLandingPageLocators.Refresh;
@@ -56,7 +56,7 @@ namespace AutomateCe.Modules
             await ClickAsync(refreshLocatorInFrame);
         }
 
-        public async Task<int> GetNumberOfPublishedApps()
+        public async Task<int> GetNumberOfPublishedAppsAsync()
         {
             string appLandingFrameLocator = ApplicationLandingPageLocators.ApplandingPageFrame;
             string appTitlesLocator = ApplicationLandingPageLocators.AppTitles;
@@ -66,17 +66,17 @@ namespace AutomateCe.Modules
             return int.Parse(numberOfPublishedApps);
         }
 
-        public async Task<List<string>> GetAllAvailableAppNames()
+        public async Task<List<string>> GetAllAvailableAppNamesAsync()
         {
             string appLandingFrameLocator = ApplicationLandingPageLocators.ApplandingPageFrame;
             string appTitlesLocator = ApplicationLandingPageLocators.AppTitles;
             var appTitlesLocatorInFrame = SwitchToFrameAndLocate(appLandingFrameLocator, appTitlesLocator);
-            return await GetAllElementsTextAfterWaiting(appTitlesLocatorInFrame);
+            return await GetAllElementsTextAfterWaitingAsync(appTitlesLocatorInFrame);
         }
 
-        public async Task<bool> IsMdaAppAvailable(string appName)
+        public async Task<bool> IsMdaAppAvailableAsync(string appName)
         {
-            List<string> allAvailableApps = await GetAllAvailableAppNames();
+            List<string> allAvailableApps = await GetAllAvailableAppNamesAsync();
             return allAvailableApps.Contains(appName);
         }
     }

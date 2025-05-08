@@ -17,87 +17,87 @@ namespace AutomateCe.Modules
             this._page = page;
         }
 
-        public async Task ClickCommand(string name, int timeToCheckIfFrameExists = 1000, string subName = null, string subSecondName = null)
+        public async Task ClickCommandAsync(string name, int timeToCheckIfFrameExists = 1000, string subName = null, string subSecondName = null)
         {
 
-            var commandLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.CommandItem.Replace("[Name]", name), timeToCheckIfFrameExists);
+            var commandLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.CommandItem.Replace("[Name]", name), timeToCheckIfFrameExists);
             try
             {
                 await ClickAsync(commandLocator, new LocatorClickOptions { Timeout = 7000 });
-                await WaitUntilAppIsIdle();
+                await WaitUntilAppIsIdleAsync();
             }
             catch (TimeoutException ex)
             {
-                await ClickMoreCommandEllipsis(timeToCheckIfFrameExists);
+                await ClickMoreCommandEllipsisAsync(timeToCheckIfFrameExists);
                 await ClickAsync(commandLocator);
             }
 
             if (!string.IsNullOrEmpty(subName))
             {
-                var subNameLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.CommandItem.Replace("[Name]", subName), timeToCheckIfFrameExists);
+                var subNameLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.CommandItem.Replace("[Name]", subName), timeToCheckIfFrameExists);
                 await ClickAsync(subNameLocator);
             }
 
             if (!string.IsNullOrEmpty(subSecondName))
             {
-                var secondSubNameLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.CommandItem.Replace("[Name]", subSecondName), timeToCheckIfFrameExists);
+                var secondSubNameLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.CommandItem.Replace("[Name]", subSecondName), timeToCheckIfFrameExists);
                 await ClickAsync(secondSubNameLocator);
             }
 
         }
 
-        public async Task ClickMoreCommandEllipsis(int timeToCheckIfFrameExists = 1000)
+        public async Task ClickMoreCommandEllipsisAsync(int timeToCheckIfFrameExists = 1000)
         {
-            ILocator moreCommandsLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.MoreCommandsEllipsis, timeToCheckIfFrameExists);
+            ILocator moreCommandsLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.MoreCommandsEllipsis, timeToCheckIfFrameExists);
             await ClickAsync(moreCommandsLocator);
         }
 
-        public async Task<List<string>> GetAllShownCommands(int timeToCheckIfFrameExists = 1000)
+        public async Task<List<string>> GetAllShownCommandsAsync(int timeToCheckIfFrameExists = 1000)
         {
-            var allShownCommands = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.AllShownCommands, timeToCheckIfFrameExists);
-            return await GetAllElementsTextAfterWaiting(allShownCommands);
+            var allShownCommands = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.AllShownCommands, timeToCheckIfFrameExists);
+            return await GetAllElementsTextAfterWaitingAsync(allShownCommands);
         }
 
-        public async Task<List<string>> GetAllMoreCommands(int timeToCheckIfFrameExists = 1000)
+        public async Task<List<string>> GetAllMoreCommandsAsync(int timeToCheckIfFrameExists = 1000)
         {
-            ILocator moreCommandsLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.MoreCommandsEllipsis, timeToCheckIfFrameExists);
+            ILocator moreCommandsLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.MoreCommandsEllipsis, timeToCheckIfFrameExists);
             if (await IsVisibleAsyncWithWaiting(moreCommandsLocator, 0))
             {
-                await ClickMoreCommandEllipsis(timeToCheckIfFrameExists);
-                var allMoreCommands = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.AllMoreCommands, timeToCheckIfFrameExists);
-                return await GetAllElementsTextAfterWaiting(allMoreCommands);
+                await ClickMoreCommandEllipsisAsync(timeToCheckIfFrameExists);
+                var allMoreCommands = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.AllMoreCommands, timeToCheckIfFrameExists);
+                return await GetAllElementsTextAfterWaitingAsync(allMoreCommands);
             } return [];
         }
 
-        public async Task OpenInNewWindow(int timeToCheckIfFrameExists = 1000)
+        public async Task OpenInNewWindowAsync(int timeToCheckIfFrameExists = 1000)
         {
-            var openInNewWindowLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.OpenInNewWindow, timeToCheckIfFrameExists);
+            var openInNewWindowLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.OpenInNewWindow, timeToCheckIfFrameExists);
             await ClickAsync(openInNewWindowLocator);
         }
 
-        public async Task RecordSetNavigator(int timeToCheckIfFrameExists = 1000)
+        public async Task RecordSetNavigatorAsync(int timeToCheckIfFrameExists = 1000)
         {
-            var recordSetNavigatorLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.RecordSetNavigator, timeToCheckIfFrameExists);
+            var recordSetNavigatorLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.RecordSetNavigator, timeToCheckIfFrameExists);
             await ClickAsync(recordSetNavigatorLocator);
         }
 
-        public async Task ClickShare(int timeToCheckIfFrameExists = 1000)
+        public async Task ClickShareAsync(int timeToCheckIfFrameExists = 1000)
         {
-            var shareLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.Share, timeToCheckIfFrameExists);
+            var shareLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.Share, timeToCheckIfFrameExists);
             await ClickAsync(shareLocator);
         }
 
-        public async Task<List<string>> GetAllSharingTypes(int timeToCheckIfFrameExists = 1000)
+        public async Task<List<string>> GetAllSharingTypesAsync(int timeToCheckIfFrameExists = 1000)
         {
-            await ClickShare(timeToCheckIfFrameExists);
-            var allShareTypesLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.AllShareItems, timeToCheckIfFrameExists);
-            return await GetAllElementsTextAfterWaiting(allShareTypesLocator);
+            await ClickShareAsync(timeToCheckIfFrameExists);
+            var allShareTypesLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.AllShareItems, timeToCheckIfFrameExists);
+            return await GetAllElementsTextAfterWaitingAsync(allShareTypesLocator);
         }
 
-        public async Task ClickSharingType(string type, int timeToCheckIfFrameExists = 1000)
+        public async Task ClickSharingTypeAsync(string type, int timeToCheckIfFrameExists = 1000)
         {
-            await ClickShare(timeToCheckIfFrameExists);
-            var shareTypeLocator = await GetLocatorWhenInFramesNotInFrames(CommonLocators.FocusedViewFrame, CommandBarLocators.ShareType.Replace("[Name]", type), timeToCheckIfFrameExists);
+            await ClickShareAsync(timeToCheckIfFrameExists);
+            var shareTypeLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.ShareType.Replace("[Name]", type), timeToCheckIfFrameExists);
             await ClickAsync(shareTypeLocator);
         }
     }
