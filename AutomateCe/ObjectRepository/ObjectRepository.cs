@@ -119,8 +119,8 @@ namespace AutomateCe.ObjectRepository
         public static class CommonLocators
         {
             public static string FieldContainerByLabel = "//label[text()='[Name]']/ancestor::div[contains(@data-id,'FieldSectionItemContainer')]";
-            public static string TextBoxControl = ".//input[contains(@data-id,'fieldControl') and contains(@data-id,'text')]";
-            public static string TextAreaControl = ".//textarea[contains(@data-id,'fieldControl') and contains(@data-id,'text-box-text')]";
+            public static string TextBoxControl = "//input[contains(@data-id,'fieldControl') and contains(@data-id,'text')]";
+            public static string TextAreaControl = "//textarea[contains(@data-id,'fieldControl') and contains(@data-id,'text-box-text')]";
             public static string FieldContainerBySchema = "//*[contains(@data-id, '[Name]-FieldSectionItemContainer')]";
             public static string Button = "//*[text()='[Name]']";
             public static string LookupResults = "//ul[@aria-label='Lookup results']";

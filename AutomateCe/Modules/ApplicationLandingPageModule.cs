@@ -61,9 +61,7 @@ namespace AutomateCe.Modules
             string appLandingFrameLocator = ApplicationLandingPageLocators.ApplandingPageFrame;
             string appTitlesLocator = ApplicationLandingPageLocators.AppTitles;
             var numberOfPublishedAppsLocatorInFrame = SwitchToFrameAndLocate(appLandingFrameLocator, appTitlesLocator);
-            string numberOfPublishedApps = await TextContentAsync(numberOfPublishedAppsLocatorInFrame);
-            numberOfPublishedApps = numberOfPublishedApps.Replace("(", "").Replace(")", "");
-            return int.Parse(numberOfPublishedApps);
+            return await CountAsync(numberOfPublishedAppsLocatorInFrame);
         }
 
         public async Task<List<string>> GetAllAvailableAppNamesAsync()

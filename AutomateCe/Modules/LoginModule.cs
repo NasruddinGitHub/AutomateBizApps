@@ -28,6 +28,7 @@ namespace AutomateCe.Modules
         {
             var usernameElement = Locator(LoginModuleLocators.Next);
             await ClickAsync(usernameElement);
+            await WaitUntilAppIsIdleAsync();
         }
 
         public async Task EnterPasswordAsync(string password)
@@ -46,7 +47,7 @@ namespace AutomateCe.Modules
         {
             var staySignedInYesElement = Locator(LoginModuleLocators.StaySignedInYes);
             await ClickAsync(staySignedInYesElement);
-            await WaitUntilAppReadyStateIsCompleteAsync();
+            await WaitUntilAppIsIdleAsync();
             // await WaitForNoActiveRequests();
         }
 

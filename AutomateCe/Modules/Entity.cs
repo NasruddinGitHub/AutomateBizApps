@@ -35,7 +35,7 @@ namespace AutomateCe.Modules
             var tabLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, EntityLocators.Tab.Replace("[Name]", tabName), timeToCheckIfFrameExists);
             try
             {
-                await ClickAsync(tabLocator, new LocatorClickOptions { Timeout = 5000 });
+                await ClickAsync(tabLocator, new LocatorClickOptions { Timeout = 10000 });
             }
             catch (TimeoutException ex)
             {
