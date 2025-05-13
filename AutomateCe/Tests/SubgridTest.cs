@@ -37,7 +37,7 @@ namespace AutomateCe.Tests
             ReportUtil.Info("Selected Sales hub application");
             await ceApp.SiteMapPanel.OpenSubAreaAsync("Customers", "Contacts");
             await ceApp.Complementary.OpenOrCloseTabAsync("Copilot");
-            await ceApp.Grid.OpenRecordAsync("Jimasa Glynn (sample)");
+            await ceApp.Grid.OpenRecordAsync(0);
             Console.WriteLine(await ceApp.Subgrid.IsSubgridShownAsync("opportunities"));
             Console.WriteLine(await ceApp.Subgrid.IsSubgridShownAsync("cases"));
             Console.WriteLine(await ceApp.Subgrid.IsSubgridShownAsync("entitlement"));

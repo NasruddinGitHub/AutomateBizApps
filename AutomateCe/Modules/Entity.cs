@@ -30,7 +30,7 @@ namespace AutomateCe.Modules
             return (T)Activator.CreateInstance(typeof(T), new object[] { page });
         }
 
-        public async Task SelectTab(string tabName, int timeToCheckIfFrameExists = 1000, string subTab = null)
+        public async Task SelectTabAsync(string tabName, int timeToCheckIfFrameExists = 1000, string subTab = null)
         {
             var tabLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, EntityLocators.Tab.Replace("[Name]", tabName), timeToCheckIfFrameExists);
             try
@@ -39,24 +39,24 @@ namespace AutomateCe.Modules
             }
             catch (TimeoutException ex)
             {
-                await ClickRelatedTab(timeToCheckIfFrameExists);
-                await ClickRelatedTabs(tabName, timeToCheckIfFrameExists);
+                await ClickRelatedTabAsync(timeToCheckIfFrameExists);
+                await ClickRelatedTabsAsync(tabName, timeToCheckIfFrameExists);
             }
         }
 
-        public async Task ClickRelatedTab(int timeToCheckIfFrameExists = 1000)
+        public async Task ClickRelatedTabAsync(int timeToCheckIfFrameExists = 1000)
         {
             var relatedTabLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, EntityLocators.RelatedTab, timeToCheckIfFrameExists);
             await ClickAsync(relatedTabLocator);
         }
 
-        public async Task ClickRelatedTabs(string relatedTabName, int timeToCheckIfFrameExists = 1000)
+        public async Task ClickRelatedTabsAsync(string relatedTabName, int timeToCheckIfFrameExists = 1000)
         {
             var relatedTabsLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, EntityLocators.RelatedTabs.Replace("[Name]", relatedTabName), timeToCheckIfFrameExists);
             await ClickAsync(relatedTabsLocator);
         }
 
-        public async Task<List<string>> GetAllShownTabs(int timeToCheckIfFrameExists = 1000)
+        public async Task<List<string>> GetAllShownTabsAsync(int timeToCheckIfFrameExists = 1000)
         {
             var allShownTabsLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, EntityLocators.AllShownTabs, timeToCheckIfFrameExists);
             List<string> allShownTabs = await GetAllElementsTextAfterWaitingAsync(allShownTabsLocator);
@@ -68,7 +68,7 @@ namespace AutomateCe.Modules
             return allShownTabsAfterTrimming;
         }
 
-        public async Task<List<string>> GetAllRelatedTabs(int timeToCheckIfFrameExists = 1000)
+        public async Task<List<string>> GetAllRelatedTabsAsync(int timeToCheckIfFrameExists = 1000)
         {
             var relatedTabLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, EntityLocators.RelatedTab, timeToCheckIfFrameExists);
             await ClickAsync(relatedTabLocator);

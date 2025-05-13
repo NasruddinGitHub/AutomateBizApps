@@ -196,7 +196,7 @@ namespace AutomateCe.Modules
             return await GetAllElementsTextAsync(allUnPinnedRecentItemsLocator);
         }
 
-        public async Task<List<string?>> GetAllItemsFromRecentGroup()
+        public async Task<List<string?>> GetAllItemsFromRecentGroupAsync()
         {
             await ClickSiteMapTabAsync("Recent");
             var allRecentItemsLocator = Locator(SiteMapPanelLocators.AllRecentItems);

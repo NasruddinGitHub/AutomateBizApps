@@ -37,8 +37,8 @@ namespace AutomateCe.Tests
             await ceApp.Entity.SetValueBySchemaNameAsync("fullname_compositionLinkControl_lastname", "Shaik " + DateUtil.GetTimeStamp("yyyyMMddHHmmss"));
             await ceApp.Entity.SetValueBySchemaNameAsync("jobtitle", "Consultant");
 
-            //LookupItem lookupItem = new LookupItem { Name = "Account Name", Value = "Alpine Ski", Index = 0 };
-            //await ceApp.Entity.SetValueByLabelName(lookupItem);
+            LookupItem lookupItem = new LookupItem { Name = "Account Name", Value = "Alpine Ski", Index = 0 };
+            await ceApp.Entity.SetValueByLabelNameAsync(lookupItem);
 
             await ceApp.Entity.SetValueBySchemaNameAsync("emailaddress1", "test@test.co.in");
             await ceApp.Entity.SetValueBySchemaNameAsync("telephone11", ""+RandomUtils.GetRandomNumberString(10));
@@ -66,21 +66,21 @@ namespace AutomateCe.Tests
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
             await ceApp.SiteMapPanel.OpenSubAreaAsync("Customers", "Accounts");
             await ceApp.Complementary.OpenOrCloseTabAsync("Copilot");
-            await ceApp.Grid.OpenRecordAsync("A. Datum Csorporation (sample)");
+            await ceApp.Grid.OpenRecordAsync(1);
 
-            await ceApp.Entity.SelectTab("Details");
-            await ceApp.Entity.SelectTab("Servicing");
-            await ceApp.Entity.SelectTab("Summary");
+            await ceApp.Entity.SelectTabAsync("Details");
+            await ceApp.Entity.SelectTabAsync("Servicing");
+            await ceApp.Entity.SelectTabAsync("Summary");
 
-            await ceApp.Entity.SelectTab("Audit History");
+            await ceApp.Entity.SelectTabAsync("Audit History");
 
-            List<string> shownTabs = await ceApp.Entity.GetAllShownTabs();
+            List<string> shownTabs = await ceApp.Entity.GetAllShownTabsAsync();
             foreach (string tab in shownTabs)
             {
                 Console.WriteLine($"The shown tab is: {tab}");
             }
 
-            List<string> relatedTabs = await ceApp.Entity.GetAllRelatedTabs();
+            List<string> relatedTabs = await ceApp.Entity.GetAllRelatedTabsAsync();
             foreach (string tab in relatedTabs)
             {
                 Console.WriteLine($"The related tab is: {tab}");
@@ -123,7 +123,7 @@ namespace AutomateCe.Tests
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
             await ceApp.SiteMapPanel.OpenSubAreaAsync("Customers", "Contacts");
             await ceApp.Complementary.OpenOrCloseTabAsync("Copilot");
-            await ceApp.Grid.OpenRecordAsync("Jimasa Glynn (sample)");
+            await ceApp.Grid.OpenRecordAsync(2);
 
             Console.WriteLine(await ceApp.Entity.GetFormHeaderTitleAsync());
             Console.WriteLine(await ceApp.Entity.GetEntityNameAsync());
@@ -150,7 +150,8 @@ namespace AutomateCe.Tests
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
             await ceApp.SiteMapPanel.OpenSubAreaAsync("Sales", "Leads");
             await ceApp.Complementary.OpenOrCloseTabAsync("Copilot");
-            await ceApp.Grid.OpenRecordAsync("Peter Houston (sample)");
+            await ceApp.CommandBar.ClickCommandAsync("Read Only Grid");
+            await ceApp.Grid.OpenRecordAsync(0);
 
             Console.WriteLine(await ceApp.Entity.GetHeaderControlValueAsync("Lead Source"));
             Console.WriteLine(await ceApp.Entity.GetHeaderControlValueAsync("Rating"));
@@ -207,6 +208,7 @@ namespace AutomateCe.Tests
 
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
             await ceApp.SiteMapPanel.OpenSubAreaAsync("Sales", "Leads");
+            await ceApp.CommandBar.ClickCommandAsync("Read Only Grid");
             await ceApp.Complementary.OpenOrCloseTabAsync("Copilot");
             await ceApp.CommandBar.ClickCommandAsync("New");
 

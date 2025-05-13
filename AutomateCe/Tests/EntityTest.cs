@@ -68,19 +68,19 @@ namespace AutomateCe.Tests
             await ceApp.Complementary.OpenOrCloseTabAsync("Copilot");
             await ceApp.Grid.OpenRecordAsync("A. Datum Csorporation (sample)");
 
-            await ceApp.Entity.SelectTab("Details");
-            await ceApp.Entity.SelectTab("Servicing");
-            await ceApp.Entity.SelectTab("Summary");
+            await ceApp.Entity.SelectTabAsync("Details");
+            await ceApp.Entity.SelectTabAsync("Servicing");
+            await ceApp.Entity.SelectTabAsync("Summary");
 
-            await ceApp.Entity.SelectTab("Audit History");
+            await ceApp.Entity.SelectTabAsync("Audit History");
 
-            List<string> shownTabs = await ceApp.Entity.GetAllShownTabs();
+            List<string> shownTabs = await ceApp.Entity.GetAllShownTabsAsync();
             foreach (string tab in shownTabs)
             {
                 Console.WriteLine($"The shown tab is: {tab}");
             }
 
-            List<string> relatedTabs = await ceApp.Entity.GetAllRelatedTabs();
+            List<string> relatedTabs = await ceApp.Entity.GetAllRelatedTabsAsync();
             foreach (string tab in relatedTabs)
             {
                 Console.WriteLine($"The related tab is: {tab}");

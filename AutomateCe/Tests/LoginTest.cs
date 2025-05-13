@@ -74,7 +74,7 @@ namespace AutomateCe.Tests
             string? password = TestContext.Parameters[Property.Password];
             string? mfaKey = TestContext.Parameters[Property.MfaKey];
             CeApp ceApp = new CeApp(page);
-            await ceApp.LoginModule.Login(email, password, mfaKey);
+            await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub1");
             ReportUtil.Info("Selected Sales Hub application");

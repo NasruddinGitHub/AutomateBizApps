@@ -65,19 +65,24 @@ namespace AutomateCe.Tests
         }
 
         [TearDown]
-        public async Task AfterTestAsync()
+        public async Task AfterTest()
         {
             string projectRoot = TestContextUtil.GetProjectRootDir();
             string screenshotsFolderPath = Path.Combine(projectRoot, TestContext.Parameters[Property.ScreenshotsFolderPath]);
             string testCaseName = TestContext.CurrentContext.Test.Name;
             string screenshotPath = Path.Combine(screenshotsFolderPath, testCaseName + _timestamp + ".png");
-            await new BaseModule(page).PageScreenshotAsync(screenshotPath);
+
             var status = TestContext.CurrentContext.Result.Outcome.Status;
             if (status == NUnit.Framework.Interfaces.TestStatus.Failed)
             {
                 ReportUtil.FailTest("Test failed");
-                bool needScreenshotForFailedTests = bool.Parse(TestContext.Parameters[Property.ScreenshotsForFailedTestsInExtentReport]);
+
+                bool needScreenshotForFailedTests = bool.Parse(TestContext.Parameters[Property.TakeScreenshotsForFailedTests]);
                 if (needScreenshotForFailedTests)
+                    await new BaseModule(page).PageScreenshotAsync(screenshotPath);
+
+                bool needScreenshotForFailedTestsInReport = bool.Parse(TestContext.Parameters[Property.ScreenshotsForFailedTestsInExtentReport]);
+                if (needScreenshotForFailedTestsInReport)
                     ReportUtil.AddScreenCaptureFromPath(screenshotPath);
             }
             else if (status == NUnit.Framework.Interfaces.TestStatus.Skipped)
@@ -87,8 +92,11 @@ namespace AutomateCe.Tests
             else if (status == NUnit.Framework.Interfaces.TestStatus.Passed)
             {
                 ReportUtil.PassTest("Test passed");
-                bool needScreenshotForPassedTests = bool.Parse(TestContext.Parameters[Property.ScreenshotsForPassedTestsInExtentReport]);
+                bool needScreenshotForPassedTests = bool.Parse(TestContext.Parameters[Property.TakeScreenshotsForPassedTests]);
                 if (needScreenshotForPassedTests)
+                    await new BaseModule(page).PageScreenshotAsync(screenshotPath);
+                bool needScreenshotForPassedTestsInReport = bool.Parse(TestContext.Parameters[Property.ScreenshotsForPassedTestsInExtentReport]);
+                if (needScreenshotForPassedTestsInReport)
                     ReportUtil.AddScreenCaptureFromPath(screenshotPath);
             }
         }
