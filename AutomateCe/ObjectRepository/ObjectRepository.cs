@@ -103,7 +103,7 @@ namespace AutomateCe.ObjectRepository
             public static string ColumnWidthInput = "//*[@aria-labelledby='column-width-dialog-title']/descendant::input[contains(@id,'input')]";
             public static string ColumnWidthUpArrow = "//span[contains(@class,'arrowButtonsContainer')]/button[contains(@class,'UpButton')]";
             public static string ColumnWidthDownArrow = "//span[contains(@class,'arrowButtonsContainer')]/button[contains(@class,'DownButton')]";
-            public static string RowSelector = "//input[@aria-label='select or deselect the row']/parent::div[contains(@class,'ms-Checkbox')]";
+            public static string RowSelector = "//div[@role='treegrid']/descendant::div[@class='ag-center-cols-container' and @role='rowgroup']/div[@row-index='[Index]']/descendant::div[contains(@class,'checkMark')]";
             public static string Row = "//div[@class='ag-center-cols-container']/div[@row-index='[Index]']";
             public static string RowLink = ".//a[@role='link' and @aria-label='[Name]']";
             public static string FirstCell = "//div[@role='treegrid']/descendant::div[@class='ag-center-cols-container' and @role='rowgroup']/div[@row-index='[Index]']/div[@role='gridcell'][2]";
@@ -114,6 +114,8 @@ namespace AutomateCe.ObjectRepository
             public static string DisplayedRowsCount = "//span[contains(text(),'Rows:')]";
             public static string SelectedRowsCount = "//span[contains(text(),'Selected:')]";
             public static string Grid = "//div[@data-id='grid-container']/descendant::div[@class='ag-center-cols-container' and @role='rowgroup']";
+            public static string LoadedRows = "//div[@role='row']";
+            public static string Cell = "//div[@role='treegrid']/descendant::div[@class='ag-center-cols-container' and @role='rowgroup']/div[@row-index='[RowIndex]']/div[@role='gridcell'][[ColumnIndex]]";
         }
 
         public static class CommonLocators
@@ -124,6 +126,7 @@ namespace AutomateCe.ObjectRepository
             public static string FieldContainerBySchema = "//*[contains(@data-id, '[Name]-FieldSectionItemContainer')]";
             public static string Button = "//*[text()='[Name]']";
             public static string LookupResults = "//ul[@aria-label='Lookup results']";
+            public static string NoLookupResults = "//*[contains(@data-id,'No_Records_Text')]";
             public static string CloseIconLookupValue = "descendant::button[contains(@aria-label,'Delete')]";
             public static string LookupValue = "descendant::div[contains(@id,'selected_tag_text')]";
             public static string DropdownOpener = "descendant::*[@role='combobox']";

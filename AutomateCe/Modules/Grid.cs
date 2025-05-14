@@ -234,7 +234,13 @@ namespace AutomateCe.Modules
 
         public async Task SelectRecordAsync(int index)
         {
-            var rowSelectorLocator = Locator(GridLocators.RowSelector).Nth(index);
+            ArgumentOutOfRangeException.ThrowIfNegative(index);
+            int numberOfRows = await GetDisplayedRowsCountAsync();
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, numberOfRows);
+            var rowSelectorLocator = Locator(GridLocators.RowSelector.Replace("[Index]", index.ToString()));
+
+            await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, GridLocators.Grid));
+            await ScrollUsingMouseUntilElementIsVisibleAsync(rowSelectorLocator, 0, 100, 300);
             await ClickAsync(rowSelectorLocator);
         }
 
@@ -244,9 +250,53 @@ namespace AutomateCe.Modules
             await ClickAsync(rowLinkLocator);
         }
 
+        public async Task<int> GetRowIndex(Dictionary<string, string> record)
+        {
+            int rows = await GetDisplayedRowsCountAsync();
+            List<string> columns = record.Keys.ToList();
+            int rowIndex = 0;
+            bool isMatchedRowShown = false;
+            for (int i = 0; i < rows; i++)
+            {
+                int counter = 0;
+                for (int j = 0; j < columns.Count; j++)
+                {
+                    string cellValue = await GetCellValue(i, columns[j]);
+                    if (record[columns[j]].Equals(cellValue))
+                    {
+                        counter++;
+                    }
+                }
+                if (counter == columns.Count)
+                {
+                    isMatchedRowShown = true;
+                    break;
+                }
+                rowIndex++;
+            }
+            if (!isMatchedRowShown)
+            {
+                throw new ArgumentException("Not able to find row with the given data.");
+            }
+            return rowIndex;
+        }
+
+        public async Task OpenRecordAsync(Dictionary<string, string> record)
+        {
+            int index = await GetRowIndex(record);
+            await OpenRecordAsync(index);
+        }
+
         public async Task OpenRecordAsync(int index)
         {
+            ArgumentOutOfRangeException.ThrowIfNegative(index);
+            int numberOfRows = await GetDisplayedRowsCountAsync();
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, numberOfRows);
             var cellLocatorToOpenRecord = LocatorWithXpath(GridLocators.FirstCell.Replace("[Index]", index.ToString()));
+
+            await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, GridLocators.Grid));
+            await ScrollUsingMouseUntilElementIsVisibleAsync(cellLocatorToOpenRecord, 0, 100, 300);
+
             await DoubleClickAsync(cellLocatorToOpenRecord);
         }
 
@@ -354,14 +404,14 @@ namespace AutomateCe.Modules
             List<string> cellValuesAfterTrimming = new List<string>();
             foreach (string cell in cellsValues)
             {
-                cellValuesAfterTrimming.Add(cell.Substring(0, (cell.Length/2)));
+                cellValuesAfterTrimming.Add(cell.Substring(0, (cell.Length / 2)));
             }
             return cellValuesAfterTrimming;
         }
 
         public async Task<List<List<string>>> GetRowValuesAsListAsync(int startIndex, int endIndex)
         {
-            List<List<string> > rowValues = new List<List<string>> ();
+            List<List<string>> rowValues = new List<List<string>>();
             for (int i = startIndex; i <= endIndex; i++)
             {
                 rowValues.Add(await GetRowValuesAsListAsync(i));
@@ -380,7 +430,7 @@ namespace AutomateCe.Modules
         {
             List<Dictionary<string, string>> allRowValuesWithHeaders = new List<Dictionary<string, string>>();
 
-            List <List<string>> allRowValues = await GetRowValuesAsListAsync(startIndex, endIndex);
+            List<List<string>> allRowValues = await GetRowValuesAsListAsync(startIndex, endIndex);
             List<string> headerValues = await GetAllDisplayedColumnNamesAsync();
             foreach (List<string> eachRowValues in allRowValues)
             {
@@ -388,6 +438,36 @@ namespace AutomateCe.Modules
             }
             return allRowValuesWithHeaders;
         }
-        
+
+        public async Task<int> GetColumnIndex(string columnName)
+        {
+            List<string> columns = await GetAllDisplayedColumnNamesAsync();
+            int number = 0;
+            bool isColumExisted = false;
+            foreach (var item in columns)
+            {
+                if (item.Equals(columnName))
+                {
+                    isColumExisted = true;
+                    break;
+                }
+                number++;
+            }
+            if (!isColumExisted)
+            {
+                throw new ArgumentException($"{columnName} is not available in the grid.");
+            }
+            return number;
+        }
+
+        public async Task<string> GetCellValue(int rowIndex, string columnName)
+        {
+            int columnIndex = await GetColumnIndex(columnName) + 2;
+            ILocator cellLocator = Locator(GridLocators.Cell.Replace("[RowIndex]", rowIndex.ToString()).Replace("[ColumnIndex]", columnIndex.ToString()));
+            await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, GridLocators.Grid));
+            await ScrollUsingMouseUntilElementIsVisibleAsync(cellLocator, 0, 100, 300);
+            return await InnerTextAsync(cellLocator);
+        }
+
     }
 }

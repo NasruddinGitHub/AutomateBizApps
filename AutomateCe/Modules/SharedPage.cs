@@ -141,6 +141,11 @@ namespace AutomateCe.Modules
             int index = lookupItem.Index;
             string value = lookupItem.Value;
             await SetValueByLabelNameAsync(field, value, dynamicallyLoaded, formContextType, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+            await WaitUntilAppIsIdleAsync();
+            ILocator noLookUpItemsLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.NoLookupResults);
+            if (await IsVisibleAsyncWithWaiting(noLookUpItemsLocator, 0, 1000)) {
+                throw new ArgumentException($"Given {value} is not available in {field} lookup.");
+            }
             ILocator lookUpItemsLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.LookupResults);
             lookUpItemsLocator = LocatorWithXpath(lookUpItemsLocator, "li");
             await SelectOptionAsync(lookUpItemsLocator, index);

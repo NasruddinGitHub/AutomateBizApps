@@ -31,6 +31,8 @@ namespace AutomateCe.Tests
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
             await ceApp.SiteMapPanel.OpenSubAreaAsync("Customers", "Contacts");
             await ceApp.Complementary.OpenOrCloseTabAsync("Copilot");
+            await ceApp.Grid.SelectRecordAsync(29);
+            await ceApp.Grid.OpenRecordAsync(1);
             await ceApp.CommandBar.ClickCommandAsync("New");
 
             await ceApp.Entity.SetValueByLabelNameAsync("First Name", "Nasruddin " + DateUtil.GetTimeStamp("yyyyMMddHHmmss"));
