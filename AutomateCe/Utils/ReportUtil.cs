@@ -4,6 +4,7 @@ using AventStack.ExtentReports.Reporter;
 using AventStack.ExtentReports.Reporter.Config;
 using NUnit.Framework;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,9 @@ namespace AutomateCe.Utils
     {
         private static ExtentSparkReporter _sparkReport;
         private static ExtentReports _extentReports;
-        private static ExtentTest _extentTest;
+        // Thread-safe per-test ExtentTest
+        private static readonly ConcurrentDictionary<string, ExtentTest> _testMap
+        = new ConcurrentDictionary<string, ExtentTest>();
 
         public static ExtentReports GetInstance(string reportPath)
         {
@@ -71,94 +74,99 @@ namespace AutomateCe.Utils
 
         public static ExtentTest CreateTest(string testName)
         {
-            _extentTest = _extentReports.CreateTest(testName);
-            return _extentTest;
+            var test = _extentReports.CreateTest(testName);  // create ExtentTest
+            string id = TestId();
+            _testMap[id] = test;   // store test safely for parallel runs
+            return test;
         }
 
         public static ExtentTest CreateTest(string testName, string description)
         {
-            _extentTest = _extentReports.CreateTest(testName, description);
-            return _extentTest;
+            var test = _extentReports.CreateTest(testName, description);  // create ExtentTest
+            string id = TestId();
+            _testMap[id] = test;   // store test safely for parallel runs
+            return test;
         }
 
         public static ExtentTest GetTest()
         {
-            return _extentTest;
+            string id = TestId();
+            return _testMap.TryGetValue(id, out var test) ? test : null;
         }
 
         public static ExtentTest Log(Status status, Media media)
         {
-           return _extentTest.Log(status, media);
+           return GetTest().Log(status, media);
         }
 
         public static ExtentTest Log(Status status, string details)
         {
-            return _extentTest.Log(status, details);
+            return GetTest().Log(status, details);
         }
 
         public static ExtentTest AssignAuthor(params string[] author)
         {
-            return _extentTest.AssignAuthor(author);
+            return GetTest().AssignAuthor(author);
         }
 
         public static ExtentTest AssignCategory(params string[] category)
         {
-            return _extentTest.AssignCategory(category);
+            return GetTest().AssignCategory(category);
         }
 
         public static ExtentTest AssignDevice(params string[] device)
         {
-            return _extentTest.AssignDevice(device);
+            return GetTest().AssignDevice(device);
         }
 
         public static ExtentTest CreateNode(string name)
         {
-            return _extentTest.CreateNode(name);
+            return GetTest().CreateNode(name);
         }
 
         public static ExtentTest CreateNode(string name, string description)
         {
-            return _extentTest.CreateNode(name, description);
+            return GetTest().CreateNode(name, description);
         }
 
         public static ExtentTest FailTest(string details)
         {
-            return _extentTest.Fail(details);
+            return GetTest().Fail(details);
         }
 
         public static ExtentTest PassTest(string details)
         {
-            return _extentTest.Pass(details);
+            return GetTest().Pass(details);
         }
 
         public static ExtentTest Info(string details)
         {
-            return _extentTest.Info(details);
+            return GetTest().Info(details);
         }
 
         public static Status GetStatus()
         {
-            return _extentTest.Status;
+            return GetTest().Status;
         }
 
         public static ExtentTest SkipTest(string details)
         {
-            return _extentTest.Skip(details);
+            return GetTest().Skip(details);
         }
 
         public static ExtentTest WarningTest(string details)
         {
-            return _extentTest.Warning(details);
+            return GetTest().Warning(details);
         }
 
         public static ExtentTest AddScreenCaptureFromPath(string path, string title=null)
         {
-            return _extentTest.AddScreenCaptureFromPath(path, title);
+            return GetTest().AddScreenCaptureFromPath(path, title);
         }
 
         public static ExtentTest AddScreenCaptureFromBase64String(string path, string title = null)
         {
-            return _extentTest.AddScreenCaptureFromBase64String(path, title);
+            return GetTest().AddScreenCaptureFromBase64String(path, title);
         }
 
         public static void Flush()
@@ -219,6 +227,14 @@ namespace AutomateCe.Utils
         public static Report GetReport()
         {
             return _sparkReport.Report;
+        }
+
+        /// <summary>
+        /// Key for identifying thread-safe test storage
+        /// </summary>
+        private static string TestId()
+        {
+            return NUnit.Framework.TestContext.CurrentContext.Test.ID;
         }
     }
 }

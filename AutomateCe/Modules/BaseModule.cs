@@ -1,4 +1,5 @@
-﻿using AutomateCe.Controls;
+﻿using AutomateCe.Assertions;
+using AutomateCe.Controls;
 using AutomateCe.Enums;
 using Microsoft.Playwright;
 using OtpNet;
@@ -255,6 +256,11 @@ namespace AutomateCe.Pages
         protected async Task FillAsync(ILocator locator, string value, LocatorFillOptions? options = default)
         {
             await locator.FillAsync(value, options);
+        }
+
+        protected async Task PressSequentiallyAsync(ILocator locator, string value, LocatorPressSequentiallyOptions? options = default)
+        {
+            await locator.PressSequentiallyAsync(value, options);
         }
 
         protected async Task UploadFileAsync(ILocator locator, string filePath)
@@ -571,7 +577,7 @@ namespace AutomateCe.Pages
         protected async Task<List<string>> GetAllElementsTextAfterWaitingAsync(ILocator locator, int waitTime = 10000)
         {
             var allElementsText = new List<string?>();
-            await ToBeVisibleAsync(locator, 0, waitTime);
+            await IsVisibleAsyncWithWaiting(locator, 0, waitTime);
             var allElementsCount = await CountAsync(locator);
             for (int i = 0; i < allElementsCount; i++)
             {
@@ -586,7 +592,7 @@ namespace AutomateCe.Pages
         protected async Task<List<string>> GetAllElementsInnerTextAfterWaitingAsync(ILocator locator, int waitTime = 10000)
         {
             var allElementsText = new List<string?>();
-            await ToBeVisibleAsync(locator, 0, waitTime);
+            await IsVisibleAsyncWithWaiting(locator, 0, waitTime);
             var allElementsCount = await CountAsync(locator);
             for (int i = 0; i < allElementsCount; i++)
             {
@@ -1200,6 +1206,16 @@ namespace AutomateCe.Pages
 
             var testModeUri = previousUrl + queryParams;
             await GotoAsync(testModeUri);
+        }
+
+        protected async Task AssertElementVisible(ILocator locator, LocatorAssertionsToBeVisibleOptions? options = default, string message = null)
+        {
+            await PlaywrightAssertionHelper.ShouldBeVisible(locator, options, message);
+        }
+
+        protected async Task AssertElementNotVisible(ILocator locator, LocatorAssertionsToBeVisibleOptions? options = default, string message = null)
+        {
+            await PlaywrightAssertionHelper.ShouldNotBeVisible(locator, options, message);
         }
     }
 

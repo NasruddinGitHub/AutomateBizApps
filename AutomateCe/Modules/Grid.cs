@@ -218,7 +218,7 @@ namespace AutomateCe.Modules
         public async Task ApplyFilterAsync()
         {
             var applyFilterLocator = Locator(GridLocators.ApplyFilter);
-            await ClickAsync(applyFilterLocator);
+            await ClickAndWaitUntilLoadedAsync(applyFilterLocator);
         }
 
         public async Task ClearFilterValueAsync()

@@ -25,7 +25,7 @@ namespace AutomateCe.Tests
             ReportUtil.AssignAuthor("Nasruddin Shaik");
             ReportUtil.AssignCategory("Smoke");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
 
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
@@ -60,7 +60,7 @@ namespace AutomateCe.Tests
         {
             ReportUtil.CreateTest("Create Contact");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
 
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
@@ -93,7 +93,7 @@ namespace AutomateCe.Tests
         {
             ReportUtil.CreateTest("Field Requirement Test");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
 
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
@@ -117,7 +117,7 @@ namespace AutomateCe.Tests
         {
             ReportUtil.CreateTest("Form Details Test");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
 
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
@@ -144,7 +144,7 @@ namespace AutomateCe.Tests
         {
             ReportUtil.CreateTest("Validate header control values");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
 
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
@@ -164,7 +164,7 @@ namespace AutomateCe.Tests
         {
             ReportUtil.CreateTest("Validate setting header values1");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
 
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
@@ -181,7 +181,7 @@ namespace AutomateCe.Tests
         {
             ReportUtil.CreateTest("Validate setting header values1");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
 
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
@@ -203,7 +203,7 @@ namespace AutomateCe.Tests
         {
             ReportUtil.CreateTest("Validate header field requirement test");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
 
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
@@ -230,7 +230,7 @@ namespace AutomateCe.Tests
         {
             ReportUtil.CreateTest("Validate entity in the test mode.");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
 
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
@@ -249,7 +249,7 @@ namespace AutomateCe.Tests
         {
             ReportUtil.CreateTest("Validate entity in the test mode.");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
 
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");

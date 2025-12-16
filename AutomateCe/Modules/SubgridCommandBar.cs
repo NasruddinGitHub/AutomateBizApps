@@ -31,19 +31,19 @@ namespace AutomateCe.Modules
             catch (TimeoutException ex)
             {
                 await ClickMoreCommandEllipsisAsync(subgridName, timeToCheckIfFrameExists);
-                var subNameLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.CommandItem.Replace("[Name]", name), timeToCheckIfFrameExists);
+                var subNameLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, SubgridLocators.CommandItem.Replace("[Name]", name), timeToCheckIfFrameExists);
                 await ClickAsync(subNameLocator);
             }
 
             if (!string.IsNullOrEmpty(subName))
             {
-                var subNameLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.CommandItem.Replace("[Name]", subName), timeToCheckIfFrameExists);
+                var subNameLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, SubgridLocators.CommandItem.Replace("[Name]", subName), timeToCheckIfFrameExists);
                 await ClickAsync(subNameLocator);
             }
 
             if (!string.IsNullOrEmpty(subSecondName))
             {
-                var secondSubNameLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommandBarLocators.CommandItem.Replace("[Name]", subSecondName), timeToCheckIfFrameExists);
+                var secondSubNameLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, SubgridLocators.CommandItem.Replace("[Name]", subSecondName), timeToCheckIfFrameExists);
                 await ClickAsync(secondSubNameLocator);
             }
 

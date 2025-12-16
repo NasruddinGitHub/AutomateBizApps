@@ -38,6 +38,10 @@ namespace AutomateCe.Modules
 
         public SubgridCommandBar SubgridCommandBar => this.GetElement<SubgridCommandBar>(_page);
 
+        public Dialog Dialog => this.GetElement<Dialog>(_page);
+
+        public LookupDialogModule LookupDialogModule => this.GetElement<LookupDialogModule>(_page);
+
         public CeApp(IPage page)
         {
             this._page = page;

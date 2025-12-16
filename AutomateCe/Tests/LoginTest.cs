@@ -34,7 +34,7 @@ namespace AutomateCe.Tests
             string? password = TestContext.Parameters[Property.Password];
             string? mfaKey = TestContext.Parameters[Property.MfaKey];
             
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Field Service");
@@ -54,7 +54,7 @@ namespace AutomateCe.Tests
             string? email = TestContext.Parameters[Property.Email];
             string? password = TestContext.Parameters[Property.Password];
             string? mfaKey = TestContext.Parameters[Property.MfaKey];
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Customer Service Hub");
@@ -73,7 +73,7 @@ namespace AutomateCe.Tests
             string? email = TestContext.Parameters[Property.Email];
             string? password = TestContext.Parameters[Property.Password];
             string? mfaKey = TestContext.Parameters[Property.MfaKey];
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub1");

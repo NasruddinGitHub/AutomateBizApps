@@ -27,7 +27,8 @@ namespace AutomateCe.Settings
             return new BrowserNewContextOptions
             {
                 ViewportSize = ViewportSize.NoViewport,
-                RecordVideoDir = TestContextUtil.GetVideoRecordingDir()
+                RecordVideoDir = TestContextUtil.GetVideoRecordingDir(),
+                Permissions = new[] { "microphone"}
             };
         }
     }

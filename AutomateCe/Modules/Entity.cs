@@ -271,6 +271,26 @@ namespace AutomateCe.Modules
             await SetValueBySchemaNameAsync(lookupItem, false, FormContextType.Entity, timeToCheckIfFrameExists);
         }
 
+        public async Task ClickLookUpSearchIconBySchemaAsync(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            await ClickLookUpSearchIconBySchemaAsync(lookupItem, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task ClickLookUpSearchIconBySchemaAsync(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
+        {
+            await ClickLookUpSearchIconBySchemaAsync(lookupItem, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task ClickLookUpSearchIconByLabelAsync(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            await ClickLookUpSearchIconByLabelAsync(lookupItem, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task ClickLookUpSearchIconByLabelAsync(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
+        {
+            await ClickLookUpSearchIconByLabelAsync(lookupItem, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
         public async Task SetValueBySchemaNameAsync(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             await SetValueBySchemaNameAsync(lookupItem, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
@@ -406,7 +426,7 @@ namespace AutomateCe.Modules
         {
             string title = await TextContentAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, EntityLocators.FormHeaderTitle));
             String[] splitString = title.Split("-");
-            return string.Equals(splitString[splitString.Length-1].Trim(), "Saved", StringComparison.OrdinalIgnoreCase);
+            return string.Equals(splitString[splitString.Length - 1].Trim(), "Saved", StringComparison.OrdinalIgnoreCase);
         }
 
         public async Task<bool> IsWarningNotificationShownAsync()
@@ -1093,6 +1113,125 @@ namespace AutomateCe.Modules
             if (closeHeaderFlyout)
                 await CloseHeaderFlyoutAsync();
             return isLocked;
+        }
+
+        public async Task<bool> IsBooleanFieldToggledOnBySchemaAsync(String field, int timeToCheckIfFrameExists = 1000)
+        {
+            return await IsBooleanFieldToggledOnBySchemaAsync(field, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task<bool> IsBooleanFieldToggledOnBySchemaAsync(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            return await IsBooleanFieldToggledOnBySchemaAsync(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task ToggleBooleanFieldOnBySchemaAsync(String field, int timeToCheckIfFrameExists = 1000)
+        {
+            await ToggleBooleanFieldOnBySchemaAsync(field, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task ToggleBooleanFieldOnBySchemaAsync(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            await ToggleBooleanFieldOnBySchemaAsync(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task ToggleBooleanFieldOffBySchemaAsync(String field, int timeToCheckIfFrameExists = 1000)
+        {
+            await ToggleBooleanFieldOffBySchemaAsync(field, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task ToggleBooleanFieldOffBySchemaAsync(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            await ToggleBooleanFieldOffBySchemaAsync(field, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task<List<string>> GetAllAvailableValuesBySchemaNameAsync(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            return await GetAllAvailableValuesBySchemaNameAsync(lookupItem, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task<List<string>> GetAllAvailableValuesBySchemaNameAsync(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetAllAvailableValuesBySchemaNameAsync(lookupItem, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task AssertFieldToBeVisibleBySchemaAsync(string fieldContainer, int timeToCheckIfFrameExists = 1000)
+        {
+            await AssertElementToBeVisibleBySchemaAsync(fieldContainer, false, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task AssertFieldNotToBeVisibleBySchemaAsync(string fieldContainer, int timeToCheckIfFrameExists = 1000)
+        {
+            await AssertElementNotToBeVisibleBySchemaAsync(fieldContainer, false, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task<List<string>> GetAllAvailableValuesBySchemaNameAsync(MultiSelectOptionSet multiSelectOptionSet, int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetAllAvailableValuesBySchemaNameAsync(multiSelectOptionSet, false, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task<List<string>> GetAllAvailableValuesBySchemaNameAsync(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            return await GetAllAvailableValuesBySchemaNameAsync(multiSelectOptionSet, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task<bool> IsLookupValueEmptyBySchemaAsync(LookupItem lookupItem, int timeToCheckIfFrameExists = 1000)
+        {
+            return await IsLookupValueEmptyBySchemaAsync(lookupItem, false, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task<bool> IsLookupValueEmptyBySchemaAsync(LookupItem lookupItem, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            return await IsLookupValueEmptyBySchemaAsync(lookupItem, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldNameInScroller, maxNumberOfScrolls);
+        }
+        public async Task<List<string>> GetAllNotificationsAsync(int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetAllNotificationsAsync(FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task<List<string>> GetAllNotificationsAsync(bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            return await GetAllNotificationsAsync(dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task<int> GetNumberOfNotificationsAsync(int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetNumberOfNotificationsAsync(FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task<int> GetNumberOfNotificationsAsync(bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            return await GetNumberOfNotificationsAsync(dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task<string> GetNotificationTextAsync(int index, int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetNotificationTextAsync(index, FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task<string> GetNotificationTextAsync(int index, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            return await GetNotificationTextAsync(index, dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task ExpandNotificationAsync(int timeToCheckIfFrameExists = 1000)
+        {
+             await ExpandNotificationAsync(FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task ExpandNotificationAsync(bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+             await ExpandNotificationAsync(dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldInScroller, maxNumberOfScrolls);
+        }
+
+        public async Task ContractNotificationAsync(int timeToCheckIfFrameExists = 1000)
+        {
+            await ContractNotificationAsync(FormContextType.Entity, timeToCheckIfFrameExists);
+        }
+
+        public async Task ContractNotificationAsync(bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            await ContractNotificationAsync(dynamicallyLoaded, FormContextType.Entity, timeToCheckIfFrameExists, anyFieldInScroller, maxNumberOfScrolls);
         }
     }
 }

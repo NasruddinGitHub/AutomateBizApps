@@ -23,7 +23,7 @@ namespace AutomateCe.Tests
         {
             ReportUtil.CreateTest("Validate is the user is able to select a MDA app from the landing page");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");

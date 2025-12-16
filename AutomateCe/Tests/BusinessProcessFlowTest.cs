@@ -21,7 +21,7 @@ namespace AutomateCe.Tests
         public async Task ValidateIfUserIsAbleToHandleLookupField()
         {
             ReportUtil.CreateTest("Validate if the user is able to handle the lookup field in BPF");
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Field Service");
@@ -51,7 +51,7 @@ namespace AutomateCe.Tests
         // Other Methods in BPF
         public async Task OtherMethodsInBpf()
         {
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
 
             // To clear, set and get the lookup value
             LookupItem serviceAccount = new LookupItem { Name = "Service Account", Value = "Alpine Ski House", Index = 0 };

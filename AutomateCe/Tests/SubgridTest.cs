@@ -30,7 +30,7 @@ namespace AutomateCe.Tests
             ReportUtil.AssignAuthor("Nasruddin Shaik");
             ReportUtil.AssignCategory("Smoke");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
@@ -70,7 +70,7 @@ namespace AutomateCe.Tests
             ReportUtil.AssignAuthor("Nasruddin Shaik");
             ReportUtil.AssignCategory("Smoke");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");
@@ -97,7 +97,7 @@ namespace AutomateCe.Tests
             ReportUtil.AssignAuthor("Nasruddin Shaik");
             ReportUtil.AssignCategory("Smoke");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.OpenAppAsync("Sales Hub");

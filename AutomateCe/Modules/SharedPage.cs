@@ -1,8 +1,11 @@
-﻿using AutomateCe.Controls;
+﻿using AutomateCe.Assertions;
+using AutomateCe.Controls;
 using AutomateCe.Enums;
 using AutomateCe.Modules;
 using AutomateCe.Pages;
+using Microsoft.CodeAnalysis;
 using Microsoft.Playwright;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -450,6 +453,32 @@ namespace AutomateCe.Modules
             return fieldLocator;
         }
 
+        protected async Task<ILocator> ReturnFormBySchemaNameAsync(FormContextType formContextType, int timeToCheckIfFrameExists)
+        {
+            ILocator formContainerLocator = null;
+            if (formContextType == FormContextType.QuickCreate)
+            {
+                 formContainerLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, QuickCreateLocators.FormContainer, timeToCheckIfFrameExists);
+            }
+            else if (formContextType == FormContextType.Entity)
+            {
+                 formContainerLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, EntityLocators.FormContainer, timeToCheckIfFrameExists);
+            }
+            else if (formContextType == FormContextType.BusinessProcessFlow)
+            {
+                 formContainerLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, BusinessProcessFlowLocators.FormContainer, timeToCheckIfFrameExists);
+            }
+            else if (formContextType == FormContextType.Header)
+            {
+                 formContainerLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, HeaderLocators.FormContainer, timeToCheckIfFrameExists);
+            }
+            else if (formContextType == FormContextType.Dialog)
+            {
+                 formContainerLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, DialogLocators.FormContainer, timeToCheckIfFrameExists);
+            }
+            return formContainerLocator;
+        }
+
         protected async Task SetValueBySchemaNameAsync(string field, string input, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
             await SetValueBySchemaNameAsync(field, input, false, formContextType, timeToCheckIfFrameExists);
@@ -468,7 +497,20 @@ namespace AutomateCe.Modules
             bool isInputTagElementDisplayed = await IsVisibleAsyncWithWaiting(inputTagLocator, 0);
             if (isInputTagElementDisplayed)
             {
-                await FillAsync(inputTagLocator, input);
+                await ClickAsync(inputTagLocator);
+                await ClearAsnyc(inputTagLocator);
+                await PressSequentiallyAsync(inputTagLocator, input, new() { Delay = 100 });
+                isValueSet = true;
+                return;
+            }
+
+            var customControlInputTagLocator = Locator(completeFieldLocator, CommonLocators.CustomTextBoxControl);
+            bool customControlInputTagLocatorDisplayed = await IsVisibleAsyncWithWaiting(customControlInputTagLocator, 0);
+            if (customControlInputTagLocatorDisplayed)
+            {
+                await ClickAsync(customControlInputTagLocator);
+                await ClearAsnyc(customControlInputTagLocator);
+                await PressSequentiallyAsync(customControlInputTagLocator, input, new() { Delay = 100 });
                 isValueSet = true;
                 return;
             }
@@ -476,7 +518,9 @@ namespace AutomateCe.Modules
             bool isTextareaTagElementDisplayed = await IsVisibleAsyncWithWaiting(textareaTagLocator, 0, 1000);
             if (isTextareaTagElementDisplayed)
             {
-                await FillAsync(textareaTagLocator, input);
+                await ClickAsync(textareaTagLocator);
+                await ClearAsnyc(textareaTagLocator);
+                await PressSequentiallyAsync(textareaTagLocator, input, new() { Delay = 100 });
                 isValueSet = true;
                 return;
             }
@@ -484,7 +528,9 @@ namespace AutomateCe.Modules
             bool isRichTextLocatorDisplayed = await IsVisibleAsyncWithWaiting(richTextLocator, 0, 1000);
             if (isRichTextLocatorDisplayed)
             {
-                await FillAsync(richTextLocator, input);
+                await ClickAsync(richTextLocator);
+                await ClearAsnyc(richTextLocator);
+                await PressSequentiallyAsync(richTextLocator, input, new() { Delay = 100 });
                 isValueSet = true;
                 return;
             }
@@ -575,6 +621,24 @@ namespace AutomateCe.Modules
         protected async Task<string> GetValueBySchemaNameAsync(LookupItem lookupItem, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
         {
             return await GetValueBySchemaNameAsync(lookupItem, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<bool> IsLookupValueEmptyBySchemaAsync(LookupItem lookupItem, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await IsLookupValueEmptyBySchemaAsync(lookupItem, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<bool> IsLookupValueEmptyBySchemaAsync(LookupItem lookupItem, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            string field = lookupItem.Name;
+            ILocator completeFieldLocator = await ValidateFormContextBySchemaNameAsync(formContextType, field, timeToCheckIfFrameExists);
+            ILocator locator = LocatorWithXpath(completeFieldLocator, CommonLocators.LookupInputBox);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
+            }
+            return (await TextContentAsync(locator))?.Length == 0;
         }
 
         protected async Task<string> GetValueBySchemaNameAsync(LookupItem lookupItem, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
@@ -715,6 +779,27 @@ namespace AutomateCe.Modules
             return outputValues;
         }
 
+        protected async Task<List<string>> GetAllAvailableValuesBySchemaNameAsync(MultiSelectOptionSet multiSelectOptionSet, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetAllAvailableValuesBySchemaNameAsync(multiSelectOptionSet, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<List<string>> GetAllAvailableValuesBySchemaNameAsync(MultiSelectOptionSet multiSelectOptionSet, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            string field = multiSelectOptionSet.Name;
+            ILocator completeFieldLocator = await ValidateFormContextBySchemaNameAsync(formContextType, field, timeToCheckIfFrameExists);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(completeFieldLocator, 0, 100, maxNumberOfScrolls);
+            }
+
+            ILocator dropdownOptionsOpenerLocator = LocatorWithXpath(completeFieldLocator, CommonLocators.MultiSelectOptionSetOpener);
+            await ClickAndWaitUntilLoadedAsync(dropdownOptionsOpenerLocator);
+            return await GetAllElementsTextAfterWaitingAsync(Locator(CommonLocators.MultiSelectOptionsByName.Replace("[Name]", field)));
+            await ClickAndWaitUntilLoadedAsync(dropdownOptionsOpenerLocator);
+        }
+
         private async Task<int> GetFieldRequirementBySchemaNameAsync(string field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             ILocator FieldContainerBylabel = await ValidateFormContextBySchemaNameAsync(formContextType, field, timeToCheckIfFrameExists);
@@ -789,6 +874,258 @@ namespace AutomateCe.Modules
                 await ScrollUsingMouseUntilElementIsVisibleAsync(fieldContainer, 0, 100, maxNumberOfScrolls);
             }
             return await IsVisibleAsyncWithWaiting(LocatorWithXpath(fieldContainer, CommonLocators.LockedIcon), 0);
+        }
+
+        protected async Task ClickLookUpSearchIconBySchemaAsync(LookupItem lookup, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+           await ClickLookUpSearchIconBySchemaAsync(lookup, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task ClickLookUpSearchIconBySchemaAsync(LookupItem lookup, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            string name = lookup.Name;
+            ILocator completeFieldLocator = await ValidateFormContextBySchemaNameAsync(formContextType, name, timeToCheckIfFrameExists);
+            ILocator lookupSearchIconLocator = Locator(completeFieldLocator, CommonLocators.LookupSearchIcon);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(lookupSearchIconLocator, 0, 100, maxNumberOfScrolls);
+            }
+            await ClickAsync(lookupSearchIconLocator);
+        }
+
+        protected async Task ClickLookUpSearchIconByLabelAsync(LookupItem lookup, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            await ClickLookUpSearchIconByLabelAsync(lookup, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task ClickLookUpSearchIconByLabelAsync(LookupItem lookup, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            string name = lookup.Name;
+            ILocator completeFieldLocator = await ValidateFormContextByLabelNameAsync(formContextType, name, timeToCheckIfFrameExists);
+            ILocator lookupSearchIconLocator = Locator(completeFieldLocator, CommonLocators.LookupSearchIcon);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerByLabel.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(lookupSearchIconLocator, 0, 100, maxNumberOfScrolls);
+            }
+            await ClickAsync(lookupSearchIconLocator);
+        }
+
+        public async Task ClickLookUpAddNewBtnAsync()
+        {
+            ILocator lookupAddNewButtonLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.LookupAddNewButton);
+            await ClickAsync(lookupAddNewButtonLocator);
+        }
+
+        public async Task ClickLookupRecordTypeAsync(string recordType)
+        {
+            ILocator lookupRecordTypeLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.LookupRecordType.Replace("[Name]", recordType));
+            await ClickAsync(lookupRecordTypeLocator);
+        }
+
+        public async Task ClickSelectedRecordInLookupBySchemaAysnc(LookupItem lookupItem)
+        {
+            ILocator fieldContainer = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", lookupItem.Name));
+            ILocator selectedLookupLocator = Locator(fieldContainer, CommonLocators.SelectedRecordType);
+            await ClickAsync(selectedLookupLocator);
+        }
+
+        protected async Task<bool> IsBooleanFieldToggledOnBySchemaAsync(String field, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await IsBooleanFieldToggledOnBySchemaAsync(field, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<bool> IsBooleanFieldToggledOnBySchemaAsync(String field, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            ILocator FieldContainerBylabel = await ValidateFormContextBySchemaNameAsync(formContextType, field, timeToCheckIfFrameExists);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldNameInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(FieldContainerBylabel, 0, 100, maxNumberOfScrolls);
+            }
+            return await IsVisibleAsyncWithWaiting(LocatorWithXpath(FieldContainerBylabel, CommonLocators.ToggledCheckbox), 0);
+        }
+
+        protected async Task ToggleBooleanFieldOnBySchemaAsync(string schemaName, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            await ToggleBooleanFieldOnBySchemaAsync(schemaName, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task ToggleBooleanFieldOnBySchemaAsync(string schemaName, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            ILocator completeFieldLocator = await ValidateFormContextBySchemaNameAsync(formContextType, schemaName, timeToCheckIfFrameExists);
+            ILocator locator = LocatorWithXpath(completeFieldLocator, CommonLocators.UntoggledCheckbox);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
+            }
+            await ClickAsync(locator);
+        }
+
+        protected async Task ToggleBooleanFieldOffBySchemaAsync(string schemaName, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            await ToggleBooleanFieldOffBySchemaAsync(schemaName, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task ToggleBooleanFieldOffBySchemaAsync(string schemaName, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            ILocator completeFieldLocator = await ValidateFormContextBySchemaNameAsync(formContextType, schemaName, timeToCheckIfFrameExists);
+            ILocator locator = LocatorWithXpath(completeFieldLocator, CommonLocators.ToggledCheckbox);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(locator, 0, 100, maxNumberOfScrolls);
+            }
+            await ClickAsync(locator);
+        }
+
+        protected async Task<List<string>> GetAllAvailableValuesBySchemaNameAsync(LookupItem lookupItem, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            string schemaName = lookupItem.Name;
+            string optionName = lookupItem.OptionName;
+            ILocator completeFieldLocator = await ValidateFormContextBySchemaNameAsync(formContextType, schemaName, timeToCheckIfFrameExists);
+            ILocator searchIcon = LocatorWithXpath(completeFieldLocator, CommonLocators.LookupSearchIcon);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(searchIcon, 0, 100, maxNumberOfScrolls);
+            }
+            await ClickAndWaitUntilLoadedAsync(searchIcon);
+            ILocator lookUpItemsLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.LookupResults);
+            lookUpItemsLocator = LocatorWithXpath(lookUpItemsLocator, CommonLocators.AllLookupValuesByTable.Replace("[Name]", optionName));
+            return await GetAllElementsTextAfterWaitingAsync(lookUpItemsLocator);
+        }
+
+        protected async Task<List<string>> GetAllAvailableValuesBySchemaNameAsync(LookupItem lookupItem, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetAllAvailableValuesBySchemaNameAsync(lookupItem, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task AssertElementToBeVisibleBySchemaAsync(string fieldContainer, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            ILocator completeFieldLocator = await ValidateFormContextBySchemaNameAsync(formContextType, fieldContainer, timeToCheckIfFrameExists);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(completeFieldLocator, 0, 100, maxNumberOfScrolls);
+            }
+            await AssertElementVisible(completeFieldLocator);
+        }
+
+        protected async Task AssertElementToBeVisibleBySchemaAsync(string fieldContainer, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            await AssertElementToBeVisibleBySchemaAsync(fieldContainer, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task AssertElementNotToBeVisibleBySchemaAsync(string fieldContainer, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            ILocator completeFieldLocator = await ValidateFormContextBySchemaNameAsync(formContextType, fieldContainer, timeToCheckIfFrameExists);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(completeFieldLocator, 0, 100, maxNumberOfScrolls);
+            }
+            await AssertElementNotVisible(completeFieldLocator);
+        }
+
+        protected async Task AssertElementNotToBeVisibleBySchemaAsync(string fieldContainer, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            await AssertElementNotToBeVisibleBySchemaAsync(fieldContainer, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<List<string>> GetAllNotificationsAsync(FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetAllNotificationsAsync(false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<List<string>> GetAllNotificationsAsync(bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            ILocator formLocator = await ReturnFormBySchemaNameAsync(formContextType, timeToCheckIfFrameExists);
+            ILocator allNotificationsTextLocator = LocatorWithXpath(formLocator, NotificationLocators.AllNotificationText);
+            ILocator notificationExpandIconLocator = LocatorWithXpath(formLocator, NotificationLocators.ExpandIcon);
+            ILocator notificationContractIconLocator = LocatorWithXpath(formLocator, NotificationLocators.ContractIcon);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(allNotificationsTextLocator, 0, 100, maxNumberOfScrolls);
+            }
+
+            if(await IsVisibleAsyncWithWaiting(notificationExpandIconLocator, 0, 2000) || await IsVisibleAsyncWithWaiting(notificationContractIconLocator, 0, 2000))
+            {
+                allNotificationsTextLocator = LocatorWithXpath(formLocator, NotificationLocators.AllNotificationWithFormAfterExpanding);
+            }
+            bool isNotificationPanelExpanded = false;
+            if (await IsVisibleAsyncWithWaiting(notificationExpandIconLocator, 0))
+            {
+                isNotificationPanelExpanded = true;
+                await ExpandNotificationAsync(formContextType, timeToCheckIfFrameExists);
+            }
+            List<string> allNotificationsText = await GetAllElementsTextAfterWaitingAsync(allNotificationsTextLocator);
+            if (isNotificationPanelExpanded)
+            {
+                await ContractNotificationAsync(formContextType, timeToCheckIfFrameExists);
+            }
+            return allNotificationsText;
+        }
+
+        protected async Task<int> GetNumberOfNotificationsAsync(FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetNumberOfNotificationsAsync(false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<int> GetNumberOfNotificationsAsync(bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            List<string> notifications = await GetAllNotificationsAsync(dynamicallyLoaded, formContextType, timeToCheckIfFrameExists, anyFieldInScroller, maxNumberOfScrolls);
+            return notifications.Count;
+        }
+
+        protected async Task<string> GetNotificationTextAsync(int index, FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            return await GetNotificationTextAsync(index, false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task<string> GetNotificationTextAsync(int index, bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            List<string> notifications = await GetAllNotificationsAsync(dynamicallyLoaded, formContextType, timeToCheckIfFrameExists, anyFieldInScroller, maxNumberOfScrolls);
+            return notifications[index];
+        }
+
+        protected async Task ExpandNotificationAsync(FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            await ExpandNotificationAsync(false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task ExpandNotificationAsync(bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            ILocator formLocator = await ReturnFormBySchemaNameAsync(formContextType, timeToCheckIfFrameExists);
+            ILocator expandNotificationIcon = LocatorWithXpath(formLocator, NotificationLocators.ExpandIcon);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(expandNotificationIcon, 0, 100, maxNumberOfScrolls);
+            }
+
+            await ClickAsync(expandNotificationIcon);
+        }
+
+        protected async Task ContractNotificationAsync(FormContextType formContextType, int timeToCheckIfFrameExists = 1000)
+        {
+            await ContractNotificationAsync(false, formContextType, timeToCheckIfFrameExists);
+        }
+
+        protected async Task ContractNotificationAsync(bool dynamicallyLoaded, FormContextType formContextType, int timeToCheckIfFrameExists = 1000, string? anyFieldInScroller = null, int maxNumberOfScrolls = 0)
+        {
+            ILocator formLocator = await ReturnFormBySchemaNameAsync(formContextType, timeToCheckIfFrameExists);
+            ILocator contractNotificationIcon = LocatorWithXpath(formLocator, NotificationLocators.ContractIcon);
+            if (dynamicallyLoaded)
+            {
+                await HoverAsync(await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, CommonLocators.FieldContainerBySchema.Replace("[Name]", anyFieldInScroller)));
+                await ScrollUsingMouseUntilElementIsVisibleAsync(contractNotificationIcon, 0, 100, maxNumberOfScrolls);
+            }
+
+            await ClickAsync(contractNotificationIcon);
         }
 
     }

@@ -5,9 +5,11 @@ using AutomateCe.Settings;
 using AutomateCe.Utils;
 using AventStack.ExtentReports;
 using AventStack.ExtentReports.Model;
+using Azure;
 using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollection;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -19,15 +21,34 @@ namespace AutomateCe.Tests
     
     public class BaseTest
     {
-        public IBrowser browser;
-
-        protected IPage page;
 
         private ExtentReports _extentReports;
 
         private string _timestamp;
 
-        private IBrowserContext _browserContext;
+        public static ConcurrentDictionary<string, IBrowser> Browser
+     = new ConcurrentDictionary<string, IBrowser>();
+
+        public static ConcurrentDictionary<string, IBrowserContext> BrowserContext
+            = new ConcurrentDictionary<string, IBrowserContext>();
+
+        public static ConcurrentDictionary<string, IPage> Page
+            = new ConcurrentDictionary<string, IPage>();
+
+        public static ConcurrentDictionary<string, ExtentTest> ExtentTest
+            = new ConcurrentDictionary<string, ExtentTest>();
+
+        private string GetTestId() => TestContext.CurrentContext.Test.ID;
+
+
+        // ---------------------------
+        // GETTER FUNCTIONS (Use these in tests!)
+        // ---------------------------
+        public IBrowser GetBrowser() => Browser[GetTestId()];
+        public IBrowserContext GetBrowserContext() => BrowserContext[GetTestId()];
+        public IPage GetPage() => Page[GetTestId()];
+        public ExtentTest GetExtentTest() => ExtentTest[GetTestId()];
+
 
         [OneTimeSetUp]
         public void InitializeExtentReport()
@@ -40,33 +61,38 @@ namespace AutomateCe.Tests
         }
 
         [SetUp]
-        public async Task SetUpBrowserAsync()
+        public async Task SetUpBrowserAndNavigateToUrlAsync()
         {
+            string testId = GetTestId();
             _timestamp = DateUtil.GetTimeStamp("yyyyMMddHHmmss");
-            browser = await OpenBrowserAsync(TestContextUtil.GetBrowser());
+            var browser = await OpenBrowserAsync(TestContextUtil.GetBrowser());
 
-            _browserContext = await browser.NewContextAsync(TestSettings.BrowserNewContextOptions()).ConfigureAwait(false);
-            page = await _browserContext.NewPageAsync().ConfigureAwait(false);
+            var context = await browser.NewContextAsync(TestSettings.BrowserNewContextOptions()).ConfigureAwait(false);
+            var page = await context.NewPageAsync().ConfigureAwait(false);
+            Browser[testId] = browser;
+            BrowserContext[testId] = context;
+            Page[testId] = page;
+            await GoToUrlAsync();
         }
 
-        [SetUp]
         public async Task GoToUrlAsync()
         {
             string? url = TestContext.Parameters[Property.Url];
-            await page.GotoAsync(url);
+            await GetPage().GotoAsync(url);
         }
 
-        [TearDown]
+        // [TearDown]
         public async Task CloseBrowserInstanceAsync()
         {
-            await page.CloseAsync();
-            await _browserContext.CloseAsync();
-            await browser.CloseAsync();
+            await GetPage().CloseAsync();
+            await GetBrowserContext().CloseAsync();
+            await GetBrowser().CloseAsync();
         }
 
         [TearDown]
         public async Task AfterTest()
         {
+            ReportUtil.PassTest("Test passed");
             string projectRoot = TestContextUtil.GetProjectRootDir();
             string screenshotsFolderPath = Path.Combine(projectRoot, TestContext.Parameters[Property.ScreenshotsFolderPath]);
             string testCaseName = TestContext.CurrentContext.Test.Name;
@@ -79,7 +105,7 @@ namespace AutomateCe.Tests
 
                 bool needScreenshotForFailedTests = bool.Parse(TestContext.Parameters[Property.TakeScreenshotsForFailedTests]);
                 if (needScreenshotForFailedTests)
-                    await new BaseModule(page).PageScreenshotAsync(screenshotPath);
+                    await new BaseModule(GetPage()).PageScreenshotAsync(screenshotPath);
 
                 bool needScreenshotForFailedTestsInReport = bool.Parse(TestContext.Parameters[Property.ScreenshotsForFailedTestsInExtentReport]);
                 if (needScreenshotForFailedTestsInReport)
@@ -94,11 +120,12 @@ namespace AutomateCe.Tests
                 ReportUtil.PassTest("Test passed");
                 bool needScreenshotForPassedTests = bool.Parse(TestContext.Parameters[Property.TakeScreenshotsForPassedTests]);
                 if (needScreenshotForPassedTests)
-                    await new BaseModule(page).PageScreenshotAsync(screenshotPath);
+                    await new BaseModule(GetPage()).PageScreenshotAsync(screenshotPath);
                 bool needScreenshotForPassedTestsInReport = bool.Parse(TestContext.Parameters[Property.ScreenshotsForPassedTestsInExtentReport]);
                 if (needScreenshotForPassedTestsInReport)
                     ReportUtil.AddScreenCaptureFromPath(screenshotPath);
             }
+            await CloseBrowserInstanceAsync();
         }
 
         [OneTimeTearDown]

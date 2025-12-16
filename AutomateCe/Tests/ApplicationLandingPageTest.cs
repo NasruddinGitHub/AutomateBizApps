@@ -26,7 +26,7 @@ namespace AutomateCe.Tests
             ReportUtil.AssignCategory("Smoke");
             ReportUtil.AssignDevice("Desktop - 1280x720");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.OpenAppAsync(appToSelect);
@@ -43,7 +43,7 @@ namespace AutomateCe.Tests
             ReportUtil.AssignCategory("E2E");
             ReportUtil.AssignDevice("Mobile - 300x450");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.LogoutAsync();
@@ -59,7 +59,7 @@ namespace AutomateCe.Tests
             ReportUtil.AssignCategory("Regression");
             ReportUtil.AssignDevice("Tab - 600x350");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.SearchAsync(appToSearch);
@@ -74,7 +74,7 @@ namespace AutomateCe.Tests
             ReportUtil.AssignCategory("Sanity");
             ReportUtil.AssignDevice("Tab - 600x350");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             await ceApp.ApplicationLandingPageModule.RefreshAsync();
@@ -89,7 +89,7 @@ namespace AutomateCe.Tests
             ReportUtil.AssignCategory("Functional");
             ReportUtil.AssignDevice("Tab - 600x350");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             Console.WriteLine(await ceApp.ApplicationLandingPageModule.GetNumberOfPublishedAppsAsync());
@@ -104,7 +104,7 @@ namespace AutomateCe.Tests
             ReportUtil.AssignCategory("Functional");
             ReportUtil.AssignDevice("Tab - 600x350");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             List<string> allAppNames = await ceApp.ApplicationLandingPageModule.GetAllAvailableAppNamesAsync();
@@ -125,7 +125,7 @@ namespace AutomateCe.Tests
             ReportUtil.AssignCategory("Functional");
             ReportUtil.AssignDevice("Tab - 600x350");
 
-            CeApp ceApp = new CeApp(page);
+            CeApp ceApp = new CeApp(GetPage());
             await ceApp.LoginModule.LoginAsync(email, password, mfaKey);
             ReportUtil.Info("Logged into customer engagement application");
             bool isAppAvailable = await ceApp.ApplicationLandingPageModule.IsMdaAppAvailableAsync(appName);

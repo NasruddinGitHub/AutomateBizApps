@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Playwright;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,9 +63,9 @@ namespace AutomateCe.ObjectRepository
 
         public static class CommandBarLocators
         {
-            public static string CommandItem = "//button//span[text()='[Name]']";
+            public static string CommandItem = "//ul[@data-id='CommandBar' and @aria-label='Commands']//button//span[text()='[Name]']";
             public static string AllShownCommands = "//ul[@data-id='CommandBar' and contains(@aria-label,'Commands')]/child::li[not(contains(@id,'Overflow'))]/descendant::button[not(contains(@aria-describedby,'flyoutButton'))]";
-            public static string MoreCommandsEllipsis = "//button[contains(@aria-label,'More commands for')]";
+            public static string MoreCommandsEllipsis = "//ul[@aria-label='Commands' and @data-id='CommandBar']//button[contains(@aria-label,'More commands for')]";
             public static string AllMoreCommands = "//ul[contains(@id,'MenuSectionItemsOverflowButton')]/li/descendant::button[1]";
             public static string OpenInNewWindow = "//*[@aria-label='Open in new window']";
             public static string RecordSetNavigator = "//*[@aria-label='Record set navigator']";
@@ -79,7 +80,7 @@ namespace AutomateCe.ObjectRepository
             public static string DefaultViewName = "//label[text()='Default']/preceding-sibling::label";
             public static string CurrentlySelectedViewName = "//button[contains(@id,'ViewSelector')]/descendant::span[contains(@class,'label')]";
             public static string ViewOpener = "//button[contains(@id,'ViewSelector')]/descendant::*[@data-icon-name='ChevronDown']";
-            public static string ViewName = "//label[contains(@class,'viewName') and text()='[Name]']";
+            public static string ViewName = "//button[@title='[Name]']";
             public static string Spinner = "//span[contains(@class,'spinnerTail')]";
             public static string SetDefaultView = "//label[text()='Set as default view']";
             public static string SaveChangesToCurrentView = "//label[text()='Save changes to current view']";
@@ -122,16 +123,23 @@ namespace AutomateCe.ObjectRepository
         {
             public static string FieldContainerByLabel = "//label[text()='[Name]']/ancestor::div[contains(@data-id,'FieldSectionItemContainer')]";
             public static string TextBoxControl = "//input[contains(@data-id,'fieldControl') and contains(@data-id,'text')]";
+            public static string CustomTextBoxControl = "//input[@id='inputField' and @type='text']";
             public static string TextAreaControl = "//textarea[contains(@data-id,'fieldControl') and contains(@data-id,'text-box-text')]";
-            public static string FieldContainerBySchema = "//*[contains(@data-id, '[Name]-FieldSectionItemContainer')]";
+            public static string FieldContainerBySchema = "//*[@data-id='[Name]-FieldSectionItemContainer']";
             public static string Button = "//*[text()='[Name]']";
             public static string LookupResults = "//ul[@aria-label='Lookup results']";
             public static string NoLookupResults = "//*[contains(@data-id,'No_Records_Text')]";
+            public static string LookupSearchIcon = "//*[contains(@data-id,'searchButton')]";
+            public static string LookupInputBox = "//input[contains(@id,'textInputBox') and contains(@aria-label,'Lookup')]";
+            public static string LookupAddNewButton = "//ul[contains(@data-id,'fieldControl-LookupResultsDropdown') and contains(@data-id,'buttonPanelList')]/descendant::button[contains(@id,'addNewBtnContainer')]";
+            public static string LookupRecordType = "//ul[@aria-label='Lookup results']/child::li[@aria-label='[Name]']";
+            public static string SelectedRecordType = "//div[contains(@data-id,'LookupResultsDropdown') and contains (@data-id,'selected_tag_text')]";
             public static string CloseIconLookupValue = "descendant::button[contains(@aria-label,'Delete')]";
             public static string LookupValue = "descendant::div[contains(@id,'selected_tag_text')]";
             public static string DropdownOpener = "descendant::*[@role='combobox']";
             public static string DropdownValues = "//div[@role='listbox']/descendant::div[@role='option']";
             public static string MultiSelectOptionSetOpener = "descendant::div[contains(@class,'msos-caret-container')]";
+            public static string MultiSelectOptionsByName = "//ul[@role='listbox']//label[contains(@name,'[Name]')]//div[contains(@class,'msos-optionitem-text')]";
             public static string MultiSelectOptions = "//div[@class='msos-selection-container']/descendant::label/descendant::div[contains(@class,'msos-optionitem-text')]";
             public static string RemoveOptionInMultiSelectOptionSet = "descendant::span[contains(@class,'selected') and text()='[Name]']/following-sibling::button[contains(@class,'msos-quick-delete')]";
             public static string SelectedOptionsTextInMultiSelectOptionSet = "descendant::div[@class='msos-viewmode-text']";
@@ -142,6 +150,9 @@ namespace AutomateCe.ObjectRepository
             public static string OptionalIcon = ".//span[contains(@data-id,'required-icon')]";
             public static string LockedIcon = ".//div[contains(@data-id,'locked-iconWrapper')]";
             public static string CompletedIcon = ".//div[contains(@id,'completed-iconWrapper')]";
+            public static string UntoggledCheckbox = "//input[@type='checkbox' and contains(@aria-label,'No')]";
+            public static string ToggledCheckbox = "//input[@type='checkbox' and contains(@aria-label,'Yes')]";
+            public static string AllLookupValuesByTable = "//li//*[contains(@data-id,'fieldControl-[Name]')]"; 
         }
 
         public static class EntityLocators
@@ -185,7 +196,10 @@ namespace AutomateCe.ObjectRepository
 
         public static class DialogLocators
         {
-            public static string FormContainer = "//div[contains(@role, 'dialog')]";
+            public static string FormContainer = "//*[contains(@role, 'dialog')]";
+            public static string Header = "//div[contains(@id,'modalDialogContentContainer')]//div[contains(@id,'modalDialogHeader')]";
+            public static string Message = "//div[contains(@id,'modalDialogContentContainer')]//*[@data-id='dialogMessageText']";
+            public static string CloseIcon = "//div[contains(@id,'modalDialogContentContainer')]//*[@data-id='dialogCloseIconButton']";
         }
 
         public static class HeaderLocators
@@ -236,9 +250,9 @@ namespace AutomateCe.ObjectRepository
             public static string ClearFilterValue = ".//span[text()='Clear']";
             public static string CloseFilterByDialog = "//button[@title='Close']";
             public static string CommandItem = ".//button//span[text()='[Name]']";
-            public static string MoreCommandsEllipsis = ".//button[contains(@aria-label,'More commands for')]";
-            public static string AllShownCommands = ".//ul[@data-id='CommandBar' and contains(@aria-label,'Commands')]/child::li[not(contains(@id,'Overflow'))]/descendant::button[not(contains(@aria-describedby,'flyoutButton'))]";
-            public static string AllMoreCommands = ".//ul[contains(@id,'MenuSectionItemsOverflowButton')]/li/descendant::button[1]";
+            public static string MoreCommandsEllipsis = "//button[contains(@aria-label,'More commands for')]";
+            public static string AllShownCommands = "//ul[@data-id='CommandBar' and contains(@aria-label,'Commands')]/child::li[not(contains(@id,'Overflow'))]/descendant::button[not(contains(@aria-describedby,'flyoutButton'))]";
+            public static string AllMoreCommands = "//ul[contains(@id,'MenuSectionItemsOverflowButton')]/li/descendant::button[1]";
         }
 
         // Timeline
@@ -259,5 +273,25 @@ namespace AutomateCe.ObjectRepository
             public static string OpenRecord = "//*[@aria-label='Open Record']";
         }
 
+        public static class NotificationLocators
+        {
+            public static string AllNotificationText = "//ul[@data-id='notificationList']//li//span[@data-id='warningNotification']";
+            public static string AllNotificationWithFormAfterExpanding = "following::ul[@data-id='notificationList']//li//span[@data-id='warningNotification']";
+            public static string ExpandIcon = "//*[@id='notificationExpandIcon' and contains(@class,'ChevronDown')]";
+            public static string ContractIcon = "//*[@id='notificationExpandIcon' and contains(@class,'ChevronUp')]";
+        }
+
+        public static class LookupDialogLocators
+        {
+            public static string Root = "//section[@id='lookupDialogRoot']";
+            public static string LookupDialogContainer = "//div[@id='lookupDialogContainer']";
+            public static string CloseButton = "//button[@data-id='lookupDialogCancelBtn']";
+            public static string NewButton = "//button[@aria-label='New']";
+            public static string SearchBox = "//input[@role='searchbox']";
+            public static string SearchIcon = "//button[contains(@id,'search')]";
+            public static string SelectedLookupValues = "//div[contains(@id,'RecordList') and contains(@id,'lookup')]//div[contains(@data-id,'selected_tag_text')]";
+            public static string SelectedLookupValuesCrossIcon = "//div[contains(@id,'RecordList') and contains(@id,'lookup')]//button[contains(@data-id,'selected_tag_delete')]";
+            public static string AllDialogLookupValues = "//li//*[contains(@data-id,'MscrmControls.FieldControls.SimpleLookupControl-[Name]')]";
+        }
     }
 }

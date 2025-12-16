@@ -64,6 +64,30 @@ namespace AutomateCe.Utils
 
             return new string(result);
         }
+
+        public static double ConvertObjectToDouble(object input)
+        {
+            if (input == null)
+                return 0.00;
+
+            // Convert to string
+            string value = input.ToString().Trim();
+
+            if (string.IsNullOrWhiteSpace(value))
+                return 0.00;
+
+            // Remove currency symbols or non-numeric characters
+            value = new string(value.Where(c => char.IsDigit(c) || c == '.' || c == '-').ToArray());
+
+            return double.TryParse(
+                value,
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out double result
+            )
+            ? result
+            : 0.00;
+        }
     }
 }
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static AutomateCe.ObjectRepository.ObjectRepository;
 
 namespace AutomateCe.Modules
 {
@@ -337,6 +338,26 @@ namespace AutomateCe.Modules
         protected async Task<bool> IsFieldLockedBySchemaNameAsync(String field, bool dynamicallyLoaded, int timeToCheckIfFrameExists = 1000, string? anyFieldNameInScroller = null, int maxNumberOfScrolls = 0)
         {
             return await IsFieldLockedBySchemaNameAsync(field, dynamicallyLoaded, FormContextType.Dialog, timeToCheckIfFrameExists);
+        }
+
+        public async new Task ClickButtonAsync(string buttonName)
+        {
+            await base.ClickButtonAsync(buttonName);
+        }
+
+        public async Task<string> GetHeaderAsync()
+        {
+            return await InnerTextAsync(Locator(DialogLocators.Header));
+        }
+
+        public async Task<string> GetMessageAsync()
+        {
+            return await InnerTextAsync(Locator(DialogLocators.Message));
+        }
+
+        public async Task CloseDialogAsync()
+        {
+            await ClickAndWaitUntilLoadedAsync(Locator(DialogLocators.CloseIcon));
         }
     }
 }

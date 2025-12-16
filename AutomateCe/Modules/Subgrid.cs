@@ -235,12 +235,12 @@ namespace AutomateCe.Modules
             await ClickAsync(Locator(SubgridLocators.CloseFilterByDialog));
         }
 
-        public async Task<List<string>> GetRowValuesAsListAsync(string subgridName, int rowIndex)
+        public async Task<List<object>> GetRowValuesAsListAsync(string subgridName, int rowIndex)
         {
             ILocator gridLocator = await GetLocatorWhenInFramesNotInFramesAsync(CommonLocators.FocusedViewFrame, SubgridLocators.SubgridRootContainer.Replace("[Name]", subgridName));
             var rowLocator = LocatorWithXpath(gridLocator, SubgridLocators.Row.Replace("[Index]", rowIndex.ToString()));
             List<string> cellsValues = await GetAllElementsTextAfterWaitingAsync(LocatorWithXpath(rowLocator, GridLocators.RowCells));
-            List<string> cellValuesAfterTrimming = new List<string>();
+            List<object> cellValuesAfterTrimming = new List<object>();
             foreach (string cell in cellsValues)
             {
                 cellValuesAfterTrimming.Add(cell.Substring(0, (cell.Length / 2)));
@@ -249,9 +249,9 @@ namespace AutomateCe.Modules
         }
 
 
-        public async Task<List<List<string>>> GetRowValuesAsListAsync(string subgridName, int startIndex, int endIndex)
+        public async Task<List<List<object>>> GetRowValuesAsListAsync(string subgridName, int startIndex, int endIndex)
         {
-            List<List<string>> rowValues = new List<List<string>>();
+            List<List<object>> rowValues = new List<List<object>>();
             for (int i = startIndex; i <= endIndex; i++)
             {
                 rowValues.Add(await GetRowValuesAsListAsync(subgridName, i));
@@ -259,21 +259,34 @@ namespace AutomateCe.Modules
             return rowValues;
         }
 
-        public async Task<Dictionary<string, string>> GetRowValuesAsDictAsync(string subgridName, int rowIndex)
+        public async Task<int> GetRowIndex(string subgridName, string column, string value)
         {
-            List<string> rowValues = await GetRowValuesAsListAsync(subgridName, rowIndex);
+           int noOfRows = await GetDisplayedRowsCountAsync(subgridName);
+            for(int i = 0; i < noOfRows; i++)
+            {
+                var colRows =  await GetRowValuesAsDictAsync(subgridName, i);
+                if (string.Equals(colRows[column].ToString().Trim(), value?.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public async Task<Dictionary<string, object>> GetRowValuesAsDictAsync(string subgridName, int rowIndex)
+        {
+            List<object> rowValues = await GetRowValuesAsListAsync(subgridName, rowIndex);
             List<string> headerValues = await GetAllDisplayedColumnNamesAsync(subgridName);
             return headerValues.Zip(rowValues).ToDictionary(x => x.First, x => x.Second);
         }
 
-
-        public async Task<List<Dictionary<string, string>>> GetRowValuesAsDictAsync(string subgridName, int startIndex, int endIndex)
+        public async Task<List<Dictionary<string, object>>> GetRowValuesAsDictAsync(string subgridName, int startIndex, int endIndex)
         {
-            List<Dictionary<string, string>> allRowValuesWithHeaders = new List<Dictionary<string, string>>();
+            List<Dictionary<string, object>> allRowValuesWithHeaders = new List<Dictionary<string, object>>();
 
-            List<List<string>> allRowValues = await GetRowValuesAsListAsync(subgridName, startIndex, endIndex);
+            List<List<object>> allRowValues = await GetRowValuesAsListAsync(subgridName, startIndex, endIndex);
             List<string> headerValues = await GetAllDisplayedColumnNamesAsync(subgridName);
-            foreach (List<string> eachRowValues in allRowValues)
+            foreach (List<object> eachRowValues in allRowValues)
             {
                 allRowValuesWithHeaders.Add(headerValues.Zip(eachRowValues).ToDictionary(x => x.First, x => x.Second));
             }

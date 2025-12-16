@@ -10,15 +10,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Communication.CallAutomation" Version="1.4.0" />
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="ExtentReports" Version="5.0.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Microsoft.Playwright" Version="1.51.0" />
     <PackageReference Include="Microsoft.Playwright.NUnit" Version="1.51.0" />
-    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="NUnit" Version="4.4.0" />
     <PackageReference Include="NUnit.Analyzers" Version="3.9.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageReference Include="Otp.NET" Version="1.4.0" />
+    <PackageReference Include="RestSharp" Version="112.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +35,10 @@
     <Folder Include="Output\TestExecutionRecordingVideo\" />
     <Folder Include="Output\TestExecutionReports\" />
     <Folder Include="Output\Screenshots\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApiAutomation.RestSharp\ApiAutomation.RestSharp.csproj" />
   </ItemGroup>
 
 </Project>

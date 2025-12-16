@@ -9,7 +9,12 @@ namespace AutomateCe.Controls
     public class LookupItem
     {
         public string Name { get; set; }
+
+        public string OptionName { get; set; }
         public string Value { get; set; }
         public int Index { get; set; } = 0;
+
+        public string[] Values { get; set; }
+
     }
 }
